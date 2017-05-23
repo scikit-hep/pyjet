@@ -144,7 +144,6 @@ def cluster(np.ndarray vectors, float R, int p, bool ep=False, bool return_array
         py_jets = []
         for jet in pseudojets:
             py_jets.append(PyPseudoJet.wrap(jet))
-        # the jets own the ClusterSequence through a shared_ptr
         sequence.delete_self_when_unused()
         return py_jets
 
