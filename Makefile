@@ -22,3 +22,6 @@ inplace:
 
 test: inplace
 	@$(NOSETESTS) -s -v pyjet
+
+sdist: clean
+	@$(PYTHON) setup.py sdist
