@@ -71,7 +71,7 @@ setup(
     version='0.0.1',
     maintainer='Noel Dawe',
     maintainer_email='noel@dawe.me',
-    license='new BSD',
+    license='GPLv3',
     packages=[
         'pyjet',
         'pyjet.tests',

@@ -1,4 +1,4 @@
 recursive-include pyjet *.h *.cpp *.pyx *.pxi *.dat
 include *.py
 include README.rst
-include LICENSE
+include COPYING
