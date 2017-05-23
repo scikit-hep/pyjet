@@ -3,8 +3,6 @@
 pyjet: The interface between FastJet and NumPy
 ==============================================
 
-WORK IN PROGESS
-
 pyjet allows you to perform jet clustering with `FastJet <http://fastjet.fr/>`_
 on `NumPy <http://www.numpy.org/>`_ arrays.
 
