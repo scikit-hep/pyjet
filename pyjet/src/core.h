@@ -12,8 +12,12 @@ namespace fastjet = fjcore;
 #include <vector>
 
 
+void silence() {
+    fastjet::ClusterSequence::set_fastjet_banner_stream(NULL);
+}
+
+
 fastjet::ClusterSequence* cluster_genkt(std::vector<fastjet::PseudoJet>& inputs, double R, int p) {
-  fastjet::ClusterSequence::set_fastjet_banner_stream(NULL);
   // Run Fastjet algorithm and sort jets in pT order
   fastjet::JetDefinition def(fastjet::JetDefinition(fastjet::genkt_algorithm, R, p));
   fastjet::ClusterSequence* sequence = new fastjet::ClusterSequence(inputs, def);

@@ -1,7 +1,7 @@
 import os
 from pkg_resources import resource_filename
 from numpy import genfromtxt
-from .. import VECTOR_DTYPE
+from .. import DTYPE_EP
 
 
 __all__ = [
@@ -11,4 +11,4 @@ __all__ = [
 
 def get_event(name='single-event.dat'):
     filepath = resource_filename('pyjet', os.path.join('testdata', name))
-    return genfromtxt(filepath, dtype=VECTOR_DTYPE)
+    return genfromtxt(filepath, dtype=DTYPE_EP)

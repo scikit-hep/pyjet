@@ -1,5 +1,8 @@
 include "FastJet.pxi"
 
+# hide the FastJet banner
+silence()
+
 
 cdef class PyPseudoJet:
     """ Python wrapper class for fastjet::PseudoJet
@@ -36,9 +39,9 @@ cdef class PyPseudoJet:
         # convert pseudojets into numpy array
         cdef np.ndarray jets
         if ep:
-            jets = np.empty(self.constits.size(), dtype=dtype_fourvect)
+            jets = np.empty(self.constits.size(), dtype=DTYPE_EP)
         else:
-            jets = np.empty(self.constits.size(), dtype=dtype_jet)
+            jets = np.empty(self.constits.size(), dtype=DTYPE_PTEPM)
         cdef DTYPE_t* data = <DTYPE_t *> jets.data
         cdef PseudoJet jet
         cdef unsigned int ijet
@@ -151,9 +154,9 @@ def cluster(np.ndarray vectors, float R, int p, bool ep=False, bool return_array
     # convert pseudojets into numpy array
     cdef np.ndarray jets
     if ep:
-        jets = np.empty(pseudojets.size(), dtype=dtype_fourvect)
+        jets = np.empty(pseudojets.size(), dtype=DTYPE_EP)
     else:
-        jets = np.empty(pseudojets.size(), dtype=dtype_jet)
+        jets = np.empty(pseudojets.size(), dtype=DTYPE_PTEPM)
     cdef DTYPE_t* data = <DTYPE_t *> jets.data
     cdef unsigned int ijet;
     cdef PseudoJet pseudojet

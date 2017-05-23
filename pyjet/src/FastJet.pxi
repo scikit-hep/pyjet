@@ -33,5 +33,6 @@ cdef extern from "core.h" namespace "fastjet":
 
 
 cdef extern from "core.h":
+    void silence()
     ClusterSequence* cluster_genkt(vector[PseudoJet]&, double, int)
     void array_to_pseudojets(unsigned int size, unsigned int fields, double* array, vector[PseudoJet]& output, double eta_max, bool convert_from_ptetaphim)
