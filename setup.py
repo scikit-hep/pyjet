@@ -69,9 +69,12 @@ libpyjet = Extension(
 setup(
     name='pyjet',
     version='0.0.2',
+    description='The interface between FastJet and NumPy',
+    long_description=''.join(open('README.rst').readlines()),
     maintainer='Noel Dawe',
     maintainer_email='noel@dawe.me',
     license='GPLv3',
+    url='http://github.com/ndawe/pyjet',
     packages=[
         'pyjet',
         'pyjet.tests',
