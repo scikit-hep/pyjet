@@ -3465,7 +3465,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  *         py_jets = []
  *         for jet in pseudojets:             # <<<<<<<<<<<<<<
  *             py_jets.append(PyPseudoJet.wrap(jet))
- *         # the jets own the ClusterSequence through a shared_ptr
+ *         sequence.delete_self_when_unused()
  */
     __pyx_t_5 = __pyx_v_pseudojets.begin();
     for (;;) {
@@ -3478,8 +3478,8 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  *         py_jets = []
  *         for jet in pseudojets:
  *             py_jets.append(PyPseudoJet.wrap(jet))             # <<<<<<<<<<<<<<
- *         # the jets own the ClusterSequence through a shared_ptr
  *         sequence.delete_self_when_unused()
+ *         return py_jets
  */
       __pyx_t_2 = __pyx_f_9_libpyjet_11PyPseudoJet_wrap(__pyx_v_jet); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
@@ -3491,21 +3491,21 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  *         py_jets = []
  *         for jet in pseudojets:             # <<<<<<<<<<<<<<
  *             py_jets.append(PyPseudoJet.wrap(jet))
- *         # the jets own the ClusterSequence through a shared_ptr
+ *         sequence.delete_self_when_unused()
  */
     }
 
-    /* "pyjet/src/FastJet.pyx":148
+    /* "pyjet/src/FastJet.pyx":147
+ *         for jet in pseudojets:
  *             py_jets.append(PyPseudoJet.wrap(jet))
- *         # the jets own the ClusterSequence through a shared_ptr
  *         sequence.delete_self_when_unused()             # <<<<<<<<<<<<<<
  *         return py_jets
  * 
  */
     __pyx_v_sequence->delete_self_when_unused();
 
-    /* "pyjet/src/FastJet.pyx":149
- *         # the jets own the ClusterSequence through a shared_ptr
+    /* "pyjet/src/FastJet.pyx":148
+ *             py_jets.append(PyPseudoJet.wrap(jet))
  *         sequence.delete_self_when_unused()
  *         return py_jets             # <<<<<<<<<<<<<<
  * 
@@ -3525,7 +3525,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
   }
 
-  /* "pyjet/src/FastJet.pyx":152
+  /* "pyjet/src/FastJet.pyx":151
  * 
  *     # no need to keep sequence when returning array
  *     del sequence             # <<<<<<<<<<<<<<
@@ -3534,7 +3534,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
   delete __pyx_v_sequence;
 
-  /* "pyjet/src/FastJet.pyx":156
+  /* "pyjet/src/FastJet.pyx":155
  *     # convert pseudojets into numpy array
  *     cdef np.ndarray jets
  *     if ep:             # <<<<<<<<<<<<<<
@@ -3544,41 +3544,41 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_4 = (__pyx_v_ep != 0);
   if (__pyx_t_4) {
 
-    /* "pyjet/src/FastJet.pyx":157
+    /* "pyjet/src/FastJet.pyx":156
  *     cdef np.ndarray jets
  *     if ep:
  *         jets = np.empty(pseudojets.size(), dtype=DTYPE_EP)             # <<<<<<<<<<<<<<
  *     else:
  *         jets = np.empty(pseudojets.size(), dtype=DTYPE_PTEPM)
  */
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_empty); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_empty); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_pseudojets.size()); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_pseudojets.size()); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_DTYPE_EP); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_DTYPE_EP); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_9) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_9) < 0) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (!(likely(((__pyx_t_9) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_9, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 157, __pyx_L1_error)
+    if (!(likely(((__pyx_t_9) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_9, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 156, __pyx_L1_error)
     __pyx_v_jets = ((PyArrayObject *)__pyx_t_9);
     __pyx_t_9 = 0;
 
-    /* "pyjet/src/FastJet.pyx":156
+    /* "pyjet/src/FastJet.pyx":155
  *     # convert pseudojets into numpy array
  *     cdef np.ndarray jets
  *     if ep:             # <<<<<<<<<<<<<<
@@ -3588,7 +3588,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
     goto __pyx_L6;
   }
 
-  /* "pyjet/src/FastJet.pyx":159
+  /* "pyjet/src/FastJet.pyx":158
  *         jets = np.empty(pseudojets.size(), dtype=DTYPE_EP)
  *     else:
  *         jets = np.empty(pseudojets.size(), dtype=DTYPE_PTEPM)             # <<<<<<<<<<<<<<
@@ -3596,36 +3596,36 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  *     cdef unsigned int ijet;
  */
   /*else*/ {
-    __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_empty); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_empty); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = __Pyx_PyInt_FromSize_t(__pyx_v_pseudojets.size()); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyInt_FromSize_t(__pyx_v_pseudojets.size()); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_9);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_9);
     __pyx_t_9 = 0;
-    __pyx_t_9 = PyDict_New(); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_9 = PyDict_New(); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_DTYPE_PTEPM); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_DTYPE_PTEPM); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_dtype, __pyx_t_1) < 0) __PYX_ERR(0, 159, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_dtype, __pyx_t_1) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 159, __pyx_L1_error)
+    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 158, __pyx_L1_error)
     __pyx_v_jets = ((PyArrayObject *)__pyx_t_1);
     __pyx_t_1 = 0;
   }
   __pyx_L6:;
 
-  /* "pyjet/src/FastJet.pyx":160
+  /* "pyjet/src/FastJet.pyx":159
  *     else:
  *         jets = np.empty(pseudojets.size(), dtype=DTYPE_PTEPM)
  *     cdef DTYPE_t* data = <DTYPE_t *> jets.data             # <<<<<<<<<<<<<<
@@ -3634,7 +3634,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
   __pyx_v_data = ((__pyx_t_9_libpyjet_DTYPE_t *)__pyx_v_jets->data);
 
-  /* "pyjet/src/FastJet.pyx":163
+  /* "pyjet/src/FastJet.pyx":162
  *     cdef unsigned int ijet;
  *     cdef PseudoJet pseudojet
  *     if ep:             # <<<<<<<<<<<<<<
@@ -3644,7 +3644,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_t_4 = (__pyx_v_ep != 0);
   if (__pyx_t_4) {
 
-    /* "pyjet/src/FastJet.pyx":164
+    /* "pyjet/src/FastJet.pyx":163
  *     cdef PseudoJet pseudojet
  *     if ep:
  *         for ijet in range(pseudojets.size()):             # <<<<<<<<<<<<<<
@@ -3655,7 +3655,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_ijet = __pyx_t_11;
 
-      /* "pyjet/src/FastJet.pyx":165
+      /* "pyjet/src/FastJet.pyx":164
  *     if ep:
  *         for ijet in range(pseudojets.size()):
  *             pseudojet = pseudojets[ijet]             # <<<<<<<<<<<<<<
@@ -3664,7 +3664,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
       __pyx_v_pseudojet = (__pyx_v_pseudojets[__pyx_v_ijet]);
 
-      /* "pyjet/src/FastJet.pyx":166
+      /* "pyjet/src/FastJet.pyx":165
  *         for ijet in range(pseudojets.size()):
  *             pseudojet = pseudojets[ijet]
  *             data[ijet * 4 + 0] = pseudojet.e()             # <<<<<<<<<<<<<<
@@ -3673,7 +3673,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
       (__pyx_v_data[((__pyx_v_ijet * 4) + 0)]) = __pyx_v_pseudojet.e();
 
-      /* "pyjet/src/FastJet.pyx":167
+      /* "pyjet/src/FastJet.pyx":166
  *             pseudojet = pseudojets[ijet]
  *             data[ijet * 4 + 0] = pseudojet.e()
  *             data[ijet * 4 + 1] = pseudojet.px()             # <<<<<<<<<<<<<<
@@ -3682,7 +3682,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
       (__pyx_v_data[((__pyx_v_ijet * 4) + 1)]) = __pyx_v_pseudojet.px();
 
-      /* "pyjet/src/FastJet.pyx":168
+      /* "pyjet/src/FastJet.pyx":167
  *             data[ijet * 4 + 0] = pseudojet.e()
  *             data[ijet * 4 + 1] = pseudojet.px()
  *             data[ijet * 4 + 2] = pseudojet.py()             # <<<<<<<<<<<<<<
@@ -3691,7 +3691,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
       (__pyx_v_data[((__pyx_v_ijet * 4) + 2)]) = __pyx_v_pseudojet.py();
 
-      /* "pyjet/src/FastJet.pyx":169
+      /* "pyjet/src/FastJet.pyx":168
  *             data[ijet * 4 + 1] = pseudojet.px()
  *             data[ijet * 4 + 2] = pseudojet.py()
  *             data[ijet * 4 + 3] = pseudojet.pz()             # <<<<<<<<<<<<<<
@@ -3701,7 +3701,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
       (__pyx_v_data[((__pyx_v_ijet * 4) + 3)]) = __pyx_v_pseudojet.pz();
     }
 
-    /* "pyjet/src/FastJet.pyx":163
+    /* "pyjet/src/FastJet.pyx":162
  *     cdef unsigned int ijet;
  *     cdef PseudoJet pseudojet
  *     if ep:             # <<<<<<<<<<<<<<
@@ -3711,7 +3711,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
     goto __pyx_L7;
   }
 
-  /* "pyjet/src/FastJet.pyx":171
+  /* "pyjet/src/FastJet.pyx":170
  *             data[ijet * 4 + 3] = pseudojet.pz()
  *     else:
  *         for ijet in range(pseudojets.size()):             # <<<<<<<<<<<<<<
@@ -3723,7 +3723,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_ijet = __pyx_t_11;
 
-      /* "pyjet/src/FastJet.pyx":172
+      /* "pyjet/src/FastJet.pyx":171
  *     else:
  *         for ijet in range(pseudojets.size()):
  *             pseudojet = pseudojets[ijet]             # <<<<<<<<<<<<<<
@@ -3732,7 +3732,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
       __pyx_v_pseudojet = (__pyx_v_pseudojets[__pyx_v_ijet]);
 
-      /* "pyjet/src/FastJet.pyx":173
+      /* "pyjet/src/FastJet.pyx":172
  *         for ijet in range(pseudojets.size()):
  *             pseudojet = pseudojets[ijet]
  *             data[ijet * 4 + 0] = pseudojet.perp()             # <<<<<<<<<<<<<<
@@ -3741,7 +3741,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
       (__pyx_v_data[((__pyx_v_ijet * 4) + 0)]) = __pyx_v_pseudojet.perp();
 
-      /* "pyjet/src/FastJet.pyx":174
+      /* "pyjet/src/FastJet.pyx":173
  *             pseudojet = pseudojets[ijet]
  *             data[ijet * 4 + 0] = pseudojet.perp()
  *             data[ijet * 4 + 1] = pseudojet.pseudorapidity()             # <<<<<<<<<<<<<<
@@ -3750,7 +3750,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
       (__pyx_v_data[((__pyx_v_ijet * 4) + 1)]) = __pyx_v_pseudojet.pseudorapidity();
 
-      /* "pyjet/src/FastJet.pyx":175
+      /* "pyjet/src/FastJet.pyx":174
  *             data[ijet * 4 + 0] = pseudojet.perp()
  *             data[ijet * 4 + 1] = pseudojet.pseudorapidity()
  *             data[ijet * 4 + 2] = pseudojet.phi_std()             # <<<<<<<<<<<<<<
@@ -3759,7 +3759,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
  */
       (__pyx_v_data[((__pyx_v_ijet * 4) + 2)]) = __pyx_v_pseudojet.phi_std();
 
-      /* "pyjet/src/FastJet.pyx":176
+      /* "pyjet/src/FastJet.pyx":175
  *             data[ijet * 4 + 1] = pseudojet.pseudorapidity()
  *             data[ijet * 4 + 2] = pseudojet.phi_std()
  *             data[ijet * 4 + 3] = pseudojet.m()             # <<<<<<<<<<<<<<
@@ -3770,7 +3770,7 @@ static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self,
   }
   __pyx_L7:;
 
-  /* "pyjet/src/FastJet.pyx":177
+  /* "pyjet/src/FastJet.pyx":176
  *             data[ijet * 4 + 2] = pseudojet.phi_std()
  *             data[ijet * 4 + 3] = pseudojet.m()
  *     return jets             # <<<<<<<<<<<<<<
