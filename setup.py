@@ -44,7 +44,7 @@ sys.path.insert(0, local_path)
 
 libpyjet = Extension(
     'pyjet._libpyjet',
-    sources=['pyjet/src/_libpyjet.pyx'] + glob('pyjet/src/*.cpp'),
+    sources=['pyjet/src/_libpyjet.pyx', 'pyjet/src/fjcore.cpp'],
     depends=glob('pyjet/src/*.h'),
     language='c++',
     include_dirs=[
@@ -70,6 +70,13 @@ setup(
     maintainer='Noel Dawe',
     maintainer_email='noel@dawe.me',
     license='new BSD',
-    packages=['pyjet'],
+    packages=[
+        'pyjet',
+        'pyjet.tests',
+        'pyjet.testdata',
+    ],
+    package_data={
+        'pyjet': ['testdata/*.dat'],
+    },
     ext_modules=cythonize([libpyjet]),
 )

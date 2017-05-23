@@ -1,5 +1,4 @@
-recursive-include pyjet *.h *.cpp *.pyx *.pxi
-recursive-include examples *.py
+recursive-include pyjet *.h *.cpp *.pyx *.pxi *.dat
 include *.py
 include README.rst
 include LICENSE
