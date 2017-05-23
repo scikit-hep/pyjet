@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
-
 try:
     import numpy as np
 except ImportError:
@@ -25,7 +23,13 @@ import os
 import sys
 import subprocess
 from glob import glob
-from Cython.Build import cythonize
+
+try:
+    from Cython.Build import cythonize
+    src = 'pyjet/src/_libpyjet.pyx'
+except ImportError:
+    src = 'pyjet/src/_libpyjet.cpp'
+    cythonize = lambda x: x
 
 # Prevent setup from trying to create hard links
 # which are not allowed on AFS between directories.
@@ -44,18 +48,16 @@ sys.path.insert(0, local_path)
 
 libpyjet = Extension(
     'pyjet._libpyjet',
-    sources=['pyjet/src/_libpyjet.pyx', 'pyjet/src/fjcore.cpp'],
+    sources=[src, 'pyjet/src/fjcore.cpp'],
     depends=glob('pyjet/src/*.h'),
     language='c++',
     include_dirs=[
         np.get_include(),
         'pyjet/src',
         #'/usr/local/include',
-        #os.path.join(DEEPJETS_SFT_DIR, 'include'),
     ],
     #library_dirs=[
     #    '/usr/local/lib',
-    #    os.path.join(DEEPJETS_SFT_DIR, 'lib'),
     #],
     #libraries='fastjetcontribfragile fastjettools fastjet CGAL'.split(),
     define_macros=[('PYJET_STANDALONE', None)] if standalone else [],
