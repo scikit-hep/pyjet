@@ -11,8 +11,13 @@ on `NumPy <http://www.numpy.org/>`_ arrays.
 By default pyjet only depends on NumPy and internally uses FastJet's standalone
 fjcore release.
 
-See example.py and run it::
+Installation::
 
+   pip install --user pyjet
+
+Get example.py and run it::
+
+	curl -O https://raw.githubusercontent.com/ndawe/pyjet/master/example.py
 	python example.py
 	jet#          pT        eta        phi       mass
 	0        983.280     -0.868      2.905     36.457
