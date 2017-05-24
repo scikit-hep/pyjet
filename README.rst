@@ -32,7 +32,7 @@ Get example.py and run it::
 	5          6.498     -1.828     -2.248      3.309          6
 
 
-Using and External FastJet Installation
+Using an External FastJet Installation
 ---------------------------------------
 
 To take advantage of the full FastJet library and optimized O(NlnN) kt and
