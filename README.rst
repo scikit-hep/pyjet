@@ -10,8 +10,8 @@ By default pyjet only depends on NumPy and internally uses FastJet's standalone
 fjcore release.
 
 
-Installation
-------------
+Standalone Installation
+-----------------------
 
 To simply use the built-in FastJet source::
 
@@ -31,11 +31,15 @@ Get example.py and run it::
 	4          6.568     -2.629      1.133      2.099          9
 	5          6.498     -1.828     -2.248      3.309          6
 
+
+Using and External FastJet Installation
+---------------------------------------
+
 To take advantage of the full FastJet library and optimized O(NlnN) kt and
 anti-kt algorithms, first install FastJet and then install pyjet with the
 ``--external-fastjet`` flag.
 
-First install `CGAL <http://www.cgal.org/>`_ and `GMP <https://gmplib.org/>`_.
+First install `CGAL <http://www.cgal.org/>`_ and `GMP <https://gmplib.org/>`_:
 
 On a Debian-based system (Ubuntu)::
 
