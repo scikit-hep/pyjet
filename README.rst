@@ -64,9 +64,3 @@ Now install pyjet like::
    pip install --user pyjet --install-option="--external-fastjet"
 
 pyjet will now use the external FastJet installation on your system.
-
-
-Why does pyjet use the GPL license?
------------------------------------
-
-Because FastJet is GPL'd.
