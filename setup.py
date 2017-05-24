@@ -87,7 +87,7 @@ class build_ext(_build_ext):
         if external_fastjet or self.external_fastjet:
             libpyjet.include_dirs += ['/usr/local/include']
             libpyjet.library_dirs = ['/usr/local/lib']
-            libpyjet.libraries = 'fastjetcontribfragile fastjettools fastjet CGAL'.split()
+            libpyjet.libraries = 'fastjetcontribfragile fastjettools fastjet CGAL gmp'.split()
         else:
             libpyjet.sources.append('pyjet/src/fjcore.cpp')
             libpyjet.depends.append('pyjet/src/fjcore.h')
