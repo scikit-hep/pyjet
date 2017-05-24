@@ -35,8 +35,7 @@ To take advantage of the full FastJet library and optimized O(NlnN) kt and
 anti-kt algorithms, first install FastJet and then install pyjet with the
 ``--external-fastjet`` flag.
 
-First install boost, `CGAL <http://www.cgal.org/>`_ and `GMP
-<https://gmplib.org/>`_.
+First install `CGAL <http://www.cgal.org/>`_ and `GMP <https://gmplib.org/>`_.
 
 On a Debian-based system (Ubuntu)::
 
@@ -48,7 +47,7 @@ On an RPM-based system (Fedora)::
 
 On Mac OS::
 
-   brew install cgal gmp boost wget
+   brew install cgal gmp wget
 
 Then run pyjet's ``install-fastjet.sh`` script::
 
