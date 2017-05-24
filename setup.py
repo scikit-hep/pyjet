@@ -1,35 +1,39 @@
 #!/usr/bin/env python
 
-try:
-    import numpy as np
-except ImportError:
-    raise RuntimeError(
-        "numpy cannot be imported. numpy must be installed "
-        "prior to installing pyjet")
+import sys
+
+# Check Python version
+if sys.version_info < (2, 6):
+    sys.exit("pyjet only supports python 2.6 and above")
+
+if sys.version_info[0] < 3:
+    import __builtin__ as builtins
+else:
+    import builtins
 
 try:
-    # try to use setuptools if installed
-    from pkg_resources import parse_version, get_distribution
+    # Try to use setuptools if installed
     from setuptools import setup, Extension
+    from pkg_resources import parse_version, get_distribution
+
     if get_distribution('setuptools').parsed_version < parse_version('0.7'):
-        # before merge with distribute
+        # setuptools is too old (before merge with distribute)
         raise ImportError
+
+    from setuptools.command.build_ext import build_ext as _build_ext
+    from setuptools.command.install import install as _install
+    use_setuptools = True
+
 except ImportError:
-    # fall back on distutils
-    from distutils.core import setup
-    from distutils.extension import Extension
+    # Use distutils instead
+    from distutils.core import setup, Extension
+    from distutils.command.build_ext import build_ext as _build_ext
+    from distutils.command.install import install as _install
+    use_setuptools = False
 
 import os
-import sys
 import subprocess
 from glob import glob
-
-try:
-    from Cython.Build import cythonize
-    src = 'pyjet/src/_libpyjet.pyx'
-except ImportError:
-    src = 'pyjet/src/_libpyjet.cpp'
-    cythonize = lambda x: x
 
 # Prevent setup from trying to create hard links
 # which are not allowed on AFS between directories.
@@ -39,8 +43,6 @@ try:
 except AttributeError:
     pass
 
-standalone = True
-
 local_path = os.path.dirname(os.path.abspath(__file__))
 # setup.py can be called from outside the source directory
 os.chdir(local_path)
@@ -48,23 +50,86 @@ sys.path.insert(0, local_path)
 
 libpyjet = Extension(
     'pyjet._libpyjet',
-    sources=[src, 'pyjet/src/fjcore.cpp'],
-    depends=glob('pyjet/src/*.h'),
+    sources=['pyjet/src/_libpyjet.cpp'],
+    depends=['pyjet/src/core.h'],
     language='c++',
     include_dirs=[
-        np.get_include(),
         'pyjet/src',
-        #'/usr/local/include',
     ],
-    #library_dirs=[
-    #    '/usr/local/lib',
-    #],
-    #libraries='fastjetcontribfragile fastjettools fastjet CGAL'.split(),
-    define_macros=[('PYJET_STANDALONE', None)] if standalone else [],
     extra_compile_args=[
         '-Wno-unused-function',
         '-Wno-write-strings',
     ])
+
+external_fastjet = False
+
+
+class build_ext(_build_ext):
+    user_options = _build_ext.user_options + [
+        ('external-fastjet', None, None),
+    ]
+
+    def initialize_options(self):
+        _build_ext.initialize_options(self)
+        self.external_fastjet = False
+
+    def finalize_options(self):
+        global libpyjet
+        global external_fastjet
+        _build_ext.finalize_options(self)
+        # Prevent numpy from thinking it is still in its setup process
+        try:
+            del builtins.__NUMPY_SETUP__
+        except AttributeError:
+            pass
+        import numpy
+        libpyjet.include_dirs.append(numpy.get_include())
+        if external_fastjet or self.external_fastjet:
+            libpyjet.include_dirs += ['/usr/local/include']
+            libpyjet.library_dirs = ['/usr/local/lib']
+            libpyjet.libraries = 'fastjetcontribfragile fastjettools fastjet CGAL'.split()
+        else:
+            libpyjet.sources.append('pyjet/src/fjcore.cpp')
+            libpyjet.depends.append('pyjet/src/fjcore.h')
+            libpyjet.define_macros = [('PYJET_STANDALONE', None)]
+
+
+class install(_install):
+    user_options = _install.user_options + [
+        ('external-fastjet', None, None),
+    ]
+
+    def initialize_options(self):
+        _install.initialize_options(self)
+        self.external_fastjet = False
+
+    def finalize_options(self):
+        global external_fastjet
+        if self.external_fastjet:
+            external_fastjet = True
+        _install.finalize_options(self)
+
+
+# Only add numpy to *_requires lists if not already installed to prevent
+# pip from trying to upgrade an existing numpy and failing.
+try:
+    import numpy
+except ImportError:
+    build_requires = ['numpy']
+else:
+    build_requires = []
+
+if use_setuptools:
+    setuptools_options = dict(
+        setup_requires=build_requires,
+        install_requires=build_requires,
+        extras_require={
+            'with-numpy': ('numpy',),
+        },
+        zip_safe=False,
+    )
+else:
+    setuptools_options = dict()
 
 setup(
     name='pyjet',
@@ -83,7 +148,11 @@ setup(
     package_data={
         'pyjet': ['testdata/*.dat'],
     },
-    ext_modules=cythonize([libpyjet]),
+    ext_modules=[libpyjet],
+    cmdclass={
+        'build_ext': build_ext,
+        'install': install,
+    },
     classifiers=[
         'Intended Audience :: Science/Research',
         'Intended Audience :: Developers',
@@ -100,4 +169,5 @@ setup(
         'Programming Language :: Cython',
         'Development Status :: 3 - Alpha',
     ],
+    **setuptools_options
 )

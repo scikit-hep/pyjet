@@ -9,9 +9,15 @@ on `NumPy <http://www.numpy.org/>`_ arrays.
 By default pyjet only depends on NumPy and internally uses FastJet's standalone
 fjcore release.
 
-Installation::
+
+Installation
+------------
+
+To simply use the built-in FastJet source::
 
    pip install --user pyjet
+
+And you're good to go!
 
 Get example.py and run it::
 
@@ -24,3 +30,40 @@ Get example.py and run it::
 	3         12.465      0.433      0.673      5.461         13
 	4          6.568     -2.629      1.133      2.099          9
 	5          6.498     -1.828     -2.248      3.309          6
+
+To take advantage of the full FastJet library and optimized O(NlnN) kt and
+anti-kt algorithms, first install FastJet and then install pyjet with the
+``--external-fastjet`` flag.
+
+First install boost, `CGAL <http://www.cgal.org/>`_ and `GMP
+<https://gmplib.org/>`_.
+
+On a Debian-based system (Ubuntu)::
+
+   sudo apt-get install libcgal-dev libcgal11v5 libgmp-dev libgmp10
+
+On an RPM-based system (Fedora)::
+
+   sudo dnf install gmp.x86_64 gmp-devel.x86_64 CGAL.x86_64 CGAL-devel.x86_64
+
+On Mac OS::
+
+   brew install cgal gmp boost wget
+
+Then run pyjet's ``install-fastjet.sh`` script::
+
+   curl -O https://raw.githubusercontent.com/ndawe/pyjet/master/install-fastjet.sh
+   chmod +x install-fastjet.sh
+   sudo ./install-fastjet.sh
+
+Now install pyjet like::
+
+   pip install --user pyjet --install-option="--external-fastjet"
+
+pyjet will now use the external FastJet installation on your system.
+
+
+Why does pyjet use the GPL license?
+-----------------------------------
+
+Because FastJet is GPL'd.
