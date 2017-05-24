@@ -35,7 +35,7 @@ Get example.py and run it::
 Using an External FastJet Installation
 ---------------------------------------
 
-To take advantage of the full FastJet library and optimized :math:`O(N\lnN)` kt
+To take advantage of the full FastJet library and optimized O(NlnN) kt
 and anti-kt algorithms, first install FastJet and then install pyjet with the
 ``--external-fastjet`` flag.
 
