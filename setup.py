@@ -32,6 +32,7 @@ except ImportError:
     use_setuptools = False
 
 import os
+import platform
 import subprocess
 from glob import glob
 
@@ -47,6 +48,19 @@ local_path = os.path.dirname(os.path.abspath(__file__))
 # setup.py can be called from outside the source directory
 os.chdir(local_path)
 sys.path.insert(0, local_path)
+
+
+def fastjet_prefix(fastjet_config='fastjet-config'):
+    try:
+        prefix = subprocess.Popen(
+            [fastjet_config, '--prefix'],
+            stdout=subprocess.PIPE).communicate()[0].strip()
+    except IOError:
+        sys.exit("unable to locate fastjet-config. Is it in your $PATH?")
+    if sys.version > '3':
+        prefix = prefix.decode('utf-8')
+    return prefix
+
 
 libpyjet = Extension(
     'pyjet._libpyjet',
@@ -85,9 +99,14 @@ class build_ext(_build_ext):
         import numpy
         libpyjet.include_dirs.append(numpy.get_include())
         if external_fastjet or self.external_fastjet:
-            libpyjet.include_dirs += ['/usr/local/include']
-            libpyjet.library_dirs = ['/usr/local/lib']
+            prefix = fastjet_prefix()
+            libpyjet.include_dirs += [os.path.join(prefix, 'include')]
+            libpyjet.library_dirs = [os.path.join(prefix, 'lib')]
+            libpyjet.runtime_library_dirs = libpyjet.library_dirs
             libpyjet.libraries = 'fastjettools fastjet CGAL gmp'.split()
+            if platform.system() == 'Darwin':
+                libpyjet.extra_link_args.append(
+                    '-Wl,-rpath,' + os.path.join(prefix, 'lib'))
         else:
             libpyjet.sources.append('pyjet/src/fjcore.cpp')
             libpyjet.depends.append('pyjet/src/fjcore.h')
