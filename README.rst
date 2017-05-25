@@ -53,7 +53,7 @@ Get example.py and run it::
 	PyPseudoJet(pt=1.478, eta=-1.738, phi=-2.343, mass=0.940)
 	PyPseudoJet(pt=0.894, eta=-1.527, phi=-2.250, mass=0.140)
 
-	Get the constitents as an array (pT, eta, phi, mass):
+	Get the constituents as an array (pT, eta, phi, mass):
 	[( 0.09551261, -2.16560157, -2.27109083,   4.89091390e-06)
 	 ( 2.19975694, -1.74672746, -1.97178728,   1.39570000e-01)
 	 ( 1.71301882, -2.03656511, -2.46861524,   9.39570000e-01)
