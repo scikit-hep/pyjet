@@ -11,11 +11,15 @@ fjcore release.
 
 pyjet provides the ``cluster()`` function that takes a NumPy array as input
 and returns the jets as lists of ``PyPseudoJet`` or an array of four-momenta.
-The dtype of the input array can be either::
+The dtype of the input array can be either:
+
+.. code-block:: python
 
    np.dtype([('pT', 'f8'), ('eta', 'f8'), ('phi', 'f8'), ('mass', 'f8')])
 
-or if ``cluster(..., ep=True)``::
+or if ``cluster(..., ep=True)``:
+
+.. code-block:: python
 
    np.dtype([('E', 'f8'), ('px', 'f8'), ('py', 'f8'), ('pz', 'f8')])
 
