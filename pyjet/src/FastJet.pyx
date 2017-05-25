@@ -98,7 +98,7 @@ cdef class PyPseudoJet:
         return self.jet.pz()
 
     def __repr__(self):
-        return "PyPseudoJet(pt={0}, eta={1}, phi={2}, mass={3})".format(
+        return "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})".format(
             self.pt, self.eta, self.phi, self.mass)
 
 

@@ -38,12 +38,20 @@ Get example.py and run it::
 	curl -O https://raw.githubusercontent.com/ndawe/pyjet/master/example.py
 	python example.py
 	jet#          pT        eta        phi       mass  #constit.
-	0        983.280     -0.868      2.905     36.457         34
-	1        901.745      0.221     -0.252     51.850         34
-	2         67.994     -1.194     -0.200     11.984         32
-	3         12.465      0.433      0.673      5.461         13
-	4          6.568     -2.629      1.133      2.099          9
-	5          6.498     -1.828     -2.248      3.309          6
+	1        983.280     -0.868      2.905     36.457         34
+	2        901.745      0.221     -0.252     51.850         34
+	3         67.994     -1.194     -0.200     11.984         32
+	4         12.465      0.433      0.673      5.461         13
+	5          6.568     -2.629      1.133      2.099          9
+	6          6.498     -1.828     -2.248      3.309          6
+
+	The 6th jet has the following constituents:
+	PyPseudoJet(pt=0.096, eta=-2.166, phi=-2.271, mass=0.000)
+	PyPseudoJet(pt=2.200, eta=-1.747, phi=-1.972, mass=0.140)
+	PyPseudoJet(pt=1.713, eta=-2.037, phi=-2.469, mass=0.940)
+	PyPseudoJet(pt=0.263, eta=-1.682, phi=-2.564, mass=0.140)
+	PyPseudoJet(pt=1.478, eta=-1.738, phi=-2.343, mass=0.940)
+	PyPseudoJet(pt=0.894, eta=-1.527, phi=-2.250, mass=0.140)
 
 
 Using an External FastJet Installation

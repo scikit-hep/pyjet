@@ -1722,7 +1722,7 @@ static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multia
 static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
 static const char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
-static const char __pyx_k_PyPseudoJet_pt_0_eta_1_phi_2_mas[] = "PyPseudoJet(pt={0}, eta={1}, phi={2}, mass={3})";
+static const char __pyx_k_PyPseudoJet_pt_0_3f_eta_1_3f_phi[] = "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})";
 static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not Fortran contiguous";
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
 static const char __pyx_k_object_must_be_of_type_PyPseudoJ[] = "object must be of type PyPseudoJet";
@@ -1736,7 +1736,7 @@ static PyObject *__pyx_kp_u_Format_string_allocated_too_shor_2;
 static PyObject *__pyx_n_s_ImportError;
 static PyObject *__pyx_kp_u_Non_native_byte_order_not_suppor;
 static PyObject *__pyx_n_s_PyPseudoJet___iter;
-static PyObject *__pyx_kp_s_PyPseudoJet_pt_0_eta_1_phi_2_mas;
+static PyObject *__pyx_kp_s_PyPseudoJet_pt_0_3f_eta_1_3f_phi;
 static PyObject *__pyx_n_s_R;
 static PyObject *__pyx_n_s_RuntimeError;
 static PyObject *__pyx_n_s_TypeError;
@@ -4693,7 +4693,7 @@ static PyObject *__pyx_pf_9_libpyjet_11PyPseudoJet_2pz___get__(struct __pyx_obj_
  *         return self.jet.pz()
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
- *         return "PyPseudoJet(pt={0}, eta={1}, phi={2}, mass={3})".format(
+ *         return "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})".format(
  *             self.pt, self.eta, self.phi, self.mass)
  */
 
@@ -4781,7 +4781,7 @@ static PyObject *__pyx_pf_9_libpyjet_11PyPseudoJet_11__repr__(struct __pyx_obj_9
   /* "pyjet/src/FastJet.pyx":101
  * 
  *     def __repr__(self):
- *         return "PyPseudoJet(pt={0}, eta={1}, phi={2}, mass={3})".format(             # <<<<<<<<<<<<<<
+ *         return "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})".format(             # <<<<<<<<<<<<<<
  *             self.pt, self.eta, self.phi, self.mass)
  * 
  */
@@ -4790,14 +4790,14 @@ static PyObject *__pyx_pf_9_libpyjet_11PyPseudoJet_11__repr__(struct __pyx_obj_9
   __Pyx_XDECREF(__pyx_r);
 
 #line 101 "pyjet/src/FastJet.pyx"
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_PyPseudoJet_pt_0_eta_1_phi_2_mas, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_PyPseudoJet_pt_0_3f_eta_1_3f_phi, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
 
 #line 101 "pyjet/src/FastJet.pyx"
   __Pyx_GOTREF(__pyx_t_2);
 
   /* "pyjet/src/FastJet.pyx":102
  *     def __repr__(self):
- *         return "PyPseudoJet(pt={0}, eta={1}, phi={2}, mass={3})".format(
+ *         return "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})".format(
  *             self.pt, self.eta, self.phi, self.mass)             # <<<<<<<<<<<<<<
  * 
  * 
@@ -5017,7 +5017,7 @@ static PyObject *__pyx_pf_9_libpyjet_11PyPseudoJet_11__repr__(struct __pyx_obj_9
  *         return self.jet.pz()
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
- *         return "PyPseudoJet(pt={0}, eta={1}, phi={2}, mass={3})".format(
+ *         return "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})".format(
  *             self.pt, self.eta, self.phi, self.mass)
  */
 
@@ -11640,7 +11640,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
   {&__pyx_kp_u_Non_native_byte_order_not_suppor, __pyx_k_Non_native_byte_order_not_suppor, sizeof(__pyx_k_Non_native_byte_order_not_suppor), 0, 1, 0, 0},
   {&__pyx_n_s_PyPseudoJet___iter, __pyx_k_PyPseudoJet___iter, sizeof(__pyx_k_PyPseudoJet___iter), 0, 0, 1, 1},
-  {&__pyx_kp_s_PyPseudoJet_pt_0_eta_1_phi_2_mas, __pyx_k_PyPseudoJet_pt_0_eta_1_phi_2_mas, sizeof(__pyx_k_PyPseudoJet_pt_0_eta_1_phi_2_mas), 0, 0, 1, 0},
+  {&__pyx_kp_s_PyPseudoJet_pt_0_3f_eta_1_3f_phi, __pyx_k_PyPseudoJet_pt_0_3f_eta_1_3f_phi, sizeof(__pyx_k_PyPseudoJet_pt_0_3f_eta_1_3f_phi), 0, 0, 1, 0},
   {&__pyx_n_s_R, __pyx_k_R, sizeof(__pyx_k_R), 0, 0, 1, 1},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
