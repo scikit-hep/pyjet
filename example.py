@@ -12,3 +12,7 @@ for i, jet in enumerate(jets[:6]):
 print("\nThe 6th jet has the following constituents:")
 for constit in jets[5]:
     print(constit)
+print("\nGet the constitents as an array (pT, eta, phi, mass):")
+print(jets[5].constituents_array())
+print("\nor (E, px, py, pz):")
+print(jets[5].constituents_array(ep=True))
