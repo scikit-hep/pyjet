@@ -1,6 +1,33 @@
 include "FastJet.pxi"
 
 
+cdef np.ndarray vector_to_array(vector[PseudoJet]& jets, ep=False):
+    # convert vector of pseudojets into numpy array
+    cdef np.ndarray np_jets
+    if ep:
+        np_jets = np.empty(jets.size(), dtype=DTYPE_EP)
+    else:
+        np_jets = np.empty(jets.size(), dtype=DTYPE_PTEPM)
+    cdef DTYPE_t* data = <DTYPE_t *> np_jets.data
+    cdef PseudoJet jet
+    cdef unsigned int ijet
+    if ep:
+        for ijet in range(jets.size()):
+            jet = jets[ijet]
+            data[ijet * 4 + 0] = jet.e()
+            data[ijet * 4 + 1] = jet.px()
+            data[ijet * 4 + 2] = jet.py()
+            data[ijet * 4 + 3] = jet.pz()
+    else:
+        for ijet in range(jets.size()):
+            jet = jets[ijet]
+            data[ijet * 4 + 0] = jet.perp()
+            data[ijet * 4 + 1] = jet.pseudorapidity()
+            data[ijet * 4 + 2] = jet.phi_std()
+            data[ijet * 4 + 3] = jet.m()
+    return np_jets
+
+
 cdef object vector_to_list(vector[PseudoJet]& jets):
     py_jets = []
     for jet in jets:
@@ -12,6 +39,9 @@ cdef class PyClusterSequence:
     """ Python wrapper class for fastjet::ClusterSequence
     """
     cdef ClusterSequence* sequence
+
+    def __dealloc__(self):
+        del self.sequence
 
     @staticmethod
     cdef wrap(ClusterSequence* sequence):
@@ -60,30 +90,7 @@ cdef class PyPseudoJet:
         return list(self)
 
     def constituents_array(self, bool ep=False):
-        # convert pseudojets into numpy array
-        cdef np.ndarray jets
-        if ep:
-            jets = np.empty(self.constits.size(), dtype=DTYPE_EP)
-        else:
-            jets = np.empty(self.constits.size(), dtype=DTYPE_PTEPM)
-        cdef DTYPE_t* data = <DTYPE_t *> jets.data
-        cdef PseudoJet jet
-        cdef unsigned int ijet
-        if ep:
-            for ijet in range(self.constits.size()):
-                jet = self.constits[ijet]
-                data[ijet * 4 + 0] = jet.e()
-                data[ijet * 4 + 1] = jet.px()
-                data[ijet * 4 + 2] = jet.py()
-                data[ijet * 4 + 3] = jet.pz()
-        else:
-            for ijet in range(self.constits.size()):
-                jet = self.constits[ijet]
-                data[ijet * 4 + 0] = jet.perp()
-                data[ijet * 4 + 1] = jet.pseudorapidity()
-                data[ijet * 4 + 2] = jet.phi_std()
-                data[ijet * 4 + 3] = jet.m()
-        return jets
+        return vector_to_array(self.constits, ep)
 
     @property
     def pt(self):
@@ -128,9 +135,10 @@ cdef class PyPseudoJet:
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-def cluster(np.ndarray vectors, float R, int p, bool ep=False, bool return_array=False):
+def cluster(np.ndarray vectors, float R, int p, bool ep=False):
     """
-    Perform jet clustering on a numpy array of 4-vectors in (pT, eta, phi, mass) representation, otherwise (E, px, py, pz) representation if ep=True
+    Perform jet clustering on a numpy array of 4-vectors in (pT, eta, phi,
+    mass) representation, otherwise (E, px, py, pz) representation if ep=True
 
     Parameters
     ----------
@@ -145,60 +153,19 @@ def cluster(np.ndarray vectors, float R, int p, bool ep=False, bool return_array
     Returns
     -------
 
-    jets : list or np.ndarray
-        If return_array=False then return list of PyPseudoJets.
-        Otherwise return array of (pT, eta, phi, mass) or (E, px, py, pz) if ep=True.
+    sequence : PyClusterSequence
+        A wrapped ClusterSequence.
 
     """
     cdef vector[PseudoJet] pseudojets
-    cdef PseudoJet jet
     cdef ClusterSequence* sequence
+
     # convert numpy array into vector of pseudojets
     array_to_pseudojets(
         vectors.shape[0], len(vectors.dtype.names),
         <DTYPE_t*> vectors.data,
         pseudojets, -1, ep)
 
-    # cluster and sort by decreasing pt
+    # cluster and return PyClusterSequence
     sequence = cluster_genkt(pseudojets, R, p)
     return PyClusterSequence.wrap(sequence)
-
-    """
-    pseudojets = sorted_by_pt(sequence.inclusive_jets())
-
-    if not return_array:
-        # return pseudojets
-        py_jets = []
-        for jet in pseudojets:
-            py_jets.append(pypseudojet.wrap(jet))
-        sequence.delete_self_when_unused()
-        return py_jets
-
-    # no need to keep sequence when returning array
-    del sequence
-
-    # convert pseudojets into numpy array
-    cdef np.ndarray jets
-    if ep:
-        jets = np.empty(pseudojets.size(), dtype=DTYPE_EP)
-    else:
-        jets = np.empty(pseudojets.size(), dtype=DTYPE_PTEPM)
-    cdef DTYPE_t* data = <DTYPE_t *> jets.data
-    cdef unsigned int ijet;
-    cdef PseudoJet pseudojet
-    if ep:
-        for ijet in range(pseudojets.size()):
-            pseudojet = pseudojets[ijet]
-            data[ijet * 4 + 0] = pseudojet.e()
-            data[ijet * 4 + 1] = pseudojet.px()
-            data[ijet * 4 + 2] = pseudojet.py()
-            data[ijet * 4 + 3] = pseudojet.pz()
-    else:
-        for ijet in range(pseudojets.size()):
-            pseudojet = pseudojets[ijet]
-            data[ijet * 4 + 0] = pseudojet.perp()
-            data[ijet * 4 + 1] = pseudojet.pseudorapidity()
-            data[ijet * 4 + 2] = pseudojet.phi_std()
-            data[ijet * 4 + 3] = pseudojet.m()
-    return jets
-    """
