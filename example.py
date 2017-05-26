@@ -1,7 +1,8 @@
 from pyjet import cluster
 from pyjet.testdata import get_event
 
-jets = cluster(get_event(), R=0.6, p=-1, ep=True)
+sequence = cluster(get_event(), R=0.6, p=-1, ep=True)
+jets = sequence.inclusive_jets()
 
 print("{0: <5} {1: >10} {2: >10} {3: >10} {4: >10} {5: >10}".format(
     "jet#", "pT", "eta", "phi", "mass", "#constit."))

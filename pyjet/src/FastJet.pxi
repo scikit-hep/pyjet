@@ -28,8 +28,16 @@ cdef extern from "core.h" namespace "fastjet":
     vector[PseudoJet] sorted_by_pt(vector[PseudoJet]& jets)
 
     cdef cppclass ClusterSequence:
-        vector[PseudoJet] inclusive_jets()
+        vector[PseudoJet] inclusive_jets(double ptmin)
         void delete_self_when_unused()
+
+    cdef cppclass SharedPtr[T]:
+        pass
+
+
+cdef extern from "core.h" namespace "fastjet::PseudoJet":
+    cdef cppclass UserInfoBase:
+        pass
 
 
 cdef extern from "core.h":

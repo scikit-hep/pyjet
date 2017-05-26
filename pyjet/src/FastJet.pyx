@@ -1,7 +1,31 @@
 include "FastJet.pxi"
 
-# hide the FastJet banner
-silence()
+
+cdef object vector_to_list(vector[PseudoJet]& jets):
+    py_jets = []
+    for jet in jets:
+        py_jets.append(PyPseudoJet.wrap(jet))
+    return py_jets
+
+
+cdef class PyClusterSequence:
+    """ Python wrapper class for fastjet::ClusterSequence
+    """
+    cdef ClusterSequence* sequence
+
+    @staticmethod
+    cdef wrap(ClusterSequence* sequence):
+        wrapped_sequence = PyClusterSequence()
+        wrapped_sequence.sequence = sequence
+        return wrapped_sequence
+
+    def inclusive_jets(self, double ptmin=0.0, bool sort=True):
+        """ return a vector of all jets (in the sense of the inclusive algorithm) with pt >= ptmin.
+        """
+        cdef vector[PseudoJet] jets = self.sequence.inclusive_jets(ptmin)
+        if sort:
+            jets = sorted_by_pt(jets)
+        return vector_to_list(jets)
 
 
 cdef class PyPseudoJet:
@@ -137,13 +161,16 @@ def cluster(np.ndarray vectors, float R, int p, bool ep=False, bool return_array
 
     # cluster and sort by decreasing pt
     sequence = cluster_genkt(pseudojets, R, p)
+    return PyClusterSequence.wrap(sequence)
+
+    """
     pseudojets = sorted_by_pt(sequence.inclusive_jets())
 
     if not return_array:
         # return pseudojets
         py_jets = []
         for jet in pseudojets:
-            py_jets.append(PyPseudoJet.wrap(jet))
+            py_jets.append(pypseudojet.wrap(jet))
         sequence.delete_self_when_unused()
         return py_jets
 
@@ -174,3 +201,4 @@ def cluster(np.ndarray vectors, float R, int p, bool ep=False, bool return_array
             data[ijet * 4 + 2] = pseudojet.phi_std()
             data[ijet * 4 + 3] = pseudojet.m()
     return jets
+    """
