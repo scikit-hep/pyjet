@@ -27,7 +27,7 @@ event = np.concatenate([event, ghosts], axis=0)
 fig = plt.figure(figsize=(9, 3))
 
 ax = None
-for p in (-1, 0, 1):
+for p, label in zip((-1, 0, 1), (r'anti-$k_t$', 'Cam/Aachen', '$k_t$')):
     # cluster
     sequence = cluster(event, R=1.0, p=p)
     # plot jet areas
@@ -54,6 +54,11 @@ for p in (-1, 0, 1):
     if p == -1:
         ax.set_ylabel(r'$\phi$')
         ax.set_xlabel(r'$\eta$')
+
+    ax.text(0.95, 0.05, label,
+        verticalalignment='bottom', horizontalalignment='right',
+        transform=ax.transAxes,
+        fontsize=12)
 
 fig.subplots_adjust(hspace=0)
 plt.setp([a.get_yticklabels() for a in fig.axes[1:]], visible=False)
