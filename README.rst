@@ -36,7 +36,7 @@ And you're good to go!
 
 Get example.py and run it::
 
-	curl -O https://raw.githubusercontent.com/ndawe/pyjet/master/example.py
+	curl -O https://raw.githubusercontent.com/ndawe/pyjet/master/examples/example.py
 	python example.py
 	jet#          pT        eta        phi       mass  #constit.
 	1        983.280     -0.868      2.905     36.457         34

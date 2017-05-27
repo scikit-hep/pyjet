@@ -2,38 +2,20 @@ import numpy as np
 from pyjet import cluster, DTYPE_PTEPM
 from pyjet.utils import ep2ptepm
 from pyjet.testdata import get_event
-
-sequence = cluster(get_event(), R=0.6, p=-1, ep=True)
-jets = sequence.inclusive_jets()
-
-print("{0: <5} {1: >10} {2: >10} {3: >10} {4: >10} {5: >10}".format(
-    "jet#", "pT", "eta", "phi", "mass", "#constit."))
-for i, jet in enumerate(jets[:6]):
-    print("{0: <5} {1: 10.3f} {2: 10.3f} {3: 10.3f} {4: 10.3f} {5: 10}".format(
-        i + 1, jet.pt, jet.eta, jet.phi, jet.mass, len(jet)))
-
-print("\nThe 6th jet has the following constituents:")
-for constit in jets[5]:
-    print(constit)
-print("\nGet the constituents as an array (pT, eta, phi, mass):")
-print(jets[5].constituents_array())
-print("\nor (E, px, py, pz):")
-print(jets[5].constituents_array(ep=True))
-
-# plot the jet areas
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import cm
-from matplotlib.colors import LinearSegmentedColormap, LogNorm
+from matplotlib.colors import LinearSegmentedColormap
 
 eta_min, eta_max = -4., 4.
 extent = eta_min, eta_max, -np.pi, np.pi
+bins = 200
 
 event = ep2ptepm(get_event())
 # create regular grid of ghosts
-eta_edges = np.linspace(eta_min, eta_max, 101)
-phi_edges = np.linspace(-np.pi, np.pi, 101)
-eta = np.linspace(eta_min, eta_max, 101)[:-1] + (eta_max - eta_min) / 200
-phi = np.linspace(-np.pi, np.pi, 101)[:-1] + (2*np.pi / 200)
+eta_edges = np.linspace(eta_min, eta_max, bins + 1)
+phi_edges = np.linspace(-np.pi, np.pi, bins + 1)
+eta = np.linspace(eta_min, eta_max, bins + 1)[:-1] + (eta_max - eta_min) / (2 * bins)
+phi = np.linspace(-np.pi, np.pi, bins + 1)[:-1] + (np.pi / bins)
 X, Y = np.meshgrid(eta, phi)
 ghosts = np.zeros(eta.shape[0] * phi.shape[0], dtype=DTYPE_PTEPM)
 ghosts['pT'] = 1e-8

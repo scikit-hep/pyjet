@@ -1,4 +1,5 @@
 recursive-include pyjet *.h *.cpp *.pyx *.pxi *.dat
+recursive-include examples *.py
 include *.py
 include README.rst
 include COPYING
