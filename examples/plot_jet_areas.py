@@ -26,6 +26,7 @@ event = np.concatenate([event, ghosts], axis=0)
 
 fig = plt.figure(figsize=(9, 3))
 
+ax = None
 for p in (-1, 0, 1):
     # cluster
     sequence = cluster(event, R=1.0, p=p)
@@ -33,7 +34,7 @@ for p in (-1, 0, 1):
     jets = sequence.inclusive_jets(ptmin=10)
     colors = cm.rainbow(np.linspace(0, 1, len(jets)))
     cmap = LinearSegmentedColormap.from_list('cmap', colors, len(colors))
-    ax = fig.add_subplot(1, 3, p + 2)
+    ax = fig.add_subplot(1, 3, p + 2, sharey=ax)
     area = np.zeros((eta_edges.shape[0] - 1, phi_edges.shape[0] - 1),
                     dtype=np.float64)
     for ijet, jet in enumerate(jets):
@@ -50,5 +51,11 @@ for p in (-1, 0, 1):
                s=30 * particles['pT'] / particles['pT'].max())
     ax.set_xlim(extent[:2])
     ax.set_ylim(extent[2:])
+    if p == -1:
+        ax.set_ylabel(r'$\phi$')
+        ax.set_xlabel(r'$\eta$')
+
+fig.subplots_adjust(hspace=0)
+plt.setp([a.get_yticklabels() for a in fig.axes[1:]], visible=False)
 fig.tight_layout()
 fig.savefig('jets.png')
