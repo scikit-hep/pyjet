@@ -63,4 +63,4 @@ for p, label in zip((-1, 0, 1), (r'anti-$k_t$', 'Cam/Aachen', '$k_t$')):
 fig.subplots_adjust(hspace=0)
 plt.setp([a.get_yticklabels() for a in fig.axes[1:]], visible=False)
 fig.tight_layout()
-fig.savefig('jets.png')
+fig.savefig('jet_areas.png')
