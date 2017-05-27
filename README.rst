@@ -11,7 +11,7 @@ fjcore release. The interface code is written in Cython that then becomes
 compiled C++, so it's fast.
 
 pyjet provides the ``cluster()`` function that takes a NumPy array as input
-and returns the jets as lists of ``PyPseudoJet`` or an array of four-momenta.
+and returns a ``PyClusterSequence`` from which you can access the jets.
 The dtype of the input array can be either:
 
 .. code-block:: python
