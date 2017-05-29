@@ -8,7 +8,6 @@ namespace fastjet = fjcore;
 #include "fastjet/ClusterSequence.hh"
 #endif
 
-#include <cmath>
 #include <vector>
 
 

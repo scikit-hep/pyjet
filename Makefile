@@ -23,7 +23,7 @@ clean: clean-build clean-pyc clean-so
 .SECONDEXPANSION:
 %.cpp: %.pyx $$(filter-out $$@,$$(wildcard $$(@D)/*))
 	@echo "compiling $< ..."
-	$(CYTHON) --cplus --fast-fail --line-directives $<
+	$(CYTHON) -a --cplus --fast-fail --line-directives $<
 
 cython: $(CYTHON_CPP)
 
