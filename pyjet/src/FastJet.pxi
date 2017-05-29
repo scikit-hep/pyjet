@@ -35,6 +35,8 @@ cdef extern from "core.h" namespace "fastjet":
     cdef cppclass ClusterSequence:
         vector[PseudoJet] inclusive_jets(double ptmin)
         void delete_self_when_unused()
+        vector[PseudoJet] unclustered_particles()
+        vector[PseudoJet] childless_pseudojets()
 
     cdef cppclass SharedPtr[T]:
         pass

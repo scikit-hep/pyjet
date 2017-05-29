@@ -23,6 +23,14 @@ cdef class PyClusterSequence:
             jets = sorted_by_pt(jets)
         return vector_to_list(jets)
 
+    def unclustered_particles(self):
+        cdef vector[PseudoJet] jets = self.sequence.unclustered_particles()
+        return vector_to_list(jets)
+
+    def childless_pseudojets(self):
+        cdef vector[PseudoJet] jets = self.sequence.childless_pseudojets()
+        return vector_to_list(jets)
+
 
 # This class allows us to attach arbitrary info to PseudoJets in python objects
 # (e.g. a dict)
