@@ -69,7 +69,8 @@ cdef class PyPseudoJet:
                 return userinfo_dict[attr]
             except KeyError:
                 pass
-        return self.__getattribute__(attr)
+        raise AttributeError("%r object has no attribute %r" %
+                             (self.__class__.__name__, attr))
 
     def __contains__(self, other):
         cdef PseudoJet* jet = <PseudoJet*> PyCObject_AsVoidPtr(other.jet)
