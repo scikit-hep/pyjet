@@ -8,6 +8,8 @@ np.import_array()
 
 cimport cython
 
+from libc.math cimport sin, cos, sinh, sqrt
+
 from libcpp cimport bool
 from libcpp.vector cimport vector
 from libcpp.string cimport string, const_char

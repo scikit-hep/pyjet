@@ -1,6 +1,8 @@
 
 cdef extern from "core.h" namespace "fastjet":
     cdef cppclass PseudoJet:
+        PseudoJet(const double, const double, const double, const double)
+        PseudoJet()
         vector[PseudoJet] constituents()
         double E()
         double Et()
@@ -43,4 +45,3 @@ cdef extern from "core.h" namespace "fastjet::PseudoJet":
 cdef extern from "core.h":
     void silence()
     ClusterSequence* cluster_genkt(vector[PseudoJet]&, double, int)
-    void array_to_pseudojets(unsigned int size, unsigned int fields, double* array, vector[PseudoJet]& output, double eta_max, bool convert_from_ptetaphim)

@@ -35,6 +35,27 @@ cdef object vector_to_list(vector[PseudoJet]& jets):
     return py_jets
 
 
+cdef void array_to_pseudojets(unsigned int size, unsigned int fields, double* array,
+                              vector[PseudoJet]& output, bool ep):
+    output.clear()
+    cdef PseudoJet pseudojet
+    cdef double* fourvect
+    cdef double E, px, py, pz
+    cdef unsigned int i
+    for i in range(size):
+        fourvect = &array[i * fields]
+        # Note the constructor argument order is px, py, pz, E
+        if ep:
+            pseudojet = PseudoJet(fourvect[1], fourvect[2], fourvect[3], fourvect[0])
+        else:
+            px = fourvect[0] * cos(fourvect[2]) # pt cos(phi)
+            py = fourvect[0] * sin(fourvect[2]) # pt sin(phi)
+            pz = fourvect[0] * sinh(fourvect[1]) # pt sinh(eta)
+            E = sqrt(px*px + py*py + pz*pz + fourvect[3] * fourvect[3])
+            pseudojet = PseudoJet(px, py, pz, E)
+        output.push_back(pseudojet)
+
+
 cdef class PyClusterSequence:
     """ Python wrapper class for fastjet::ClusterSequence
     """
@@ -176,8 +197,7 @@ def cluster(np.ndarray vectors, float R, int p, bool ep=False):
     # convert numpy array into vector of pseudojets
     array_to_pseudojets(
         vectors.shape[0], len(vectors.dtype.names),
-        <DTYPE_t*> vectors.data,
-        pseudojets, -1, ep)
+        <DTYPE_t*> vectors.data, pseudojets, ep)
 
     # cluster and return PyClusterSequence
     sequence = cluster_genkt(pseudojets, R, p)
