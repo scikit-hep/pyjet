@@ -24,6 +24,9 @@ or if ``cluster(..., ep=True)``:
 
    np.dtype([('E', 'f8'), ('px', 'f8'), ('py', 'f8'), ('pz', 'f8')])
 
+The input array may have additional fields of any type and this data can be
+accessed as attributes of the ``PyPseudoJet`` objects.
+
 
 Standalone Installation
 -----------------------
