@@ -26,6 +26,9 @@ cdef extern from "core.h" namespace "fastjet":
         bool has_valid_cluster_sequence()
         ClusterSequence* associated_cluster_sequence()
         bool has_constituents()
+        void set_user_info(UserInfoBase*)
+        bool has_user_info()
+        UserInfoBase* user_info_ptr()
 
     vector[PseudoJet] sorted_by_pt(vector[PseudoJet]& jets)
 

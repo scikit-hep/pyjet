@@ -1,63 +1,6 @@
 include "FastJet.pxi"
 
 
-cdef np.ndarray vector_to_array(vector[PseudoJet]& jets, ep=False):
-    # convert vector of pseudojets into numpy array
-    cdef np.ndarray np_jets
-    if ep:
-        np_jets = np.empty(jets.size(), dtype=DTYPE_EP)
-    else:
-        np_jets = np.empty(jets.size(), dtype=DTYPE_PTEPM)
-    cdef DTYPE_t* data = <DTYPE_t *> np_jets.data
-    cdef PseudoJet jet
-    cdef unsigned int ijet
-    if ep:
-        for ijet in range(jets.size()):
-            jet = jets[ijet]
-            data[ijet * 4 + 0] = jet.e()
-            data[ijet * 4 + 1] = jet.px()
-            data[ijet * 4 + 2] = jet.py()
-            data[ijet * 4 + 3] = jet.pz()
-    else:
-        for ijet in range(jets.size()):
-            jet = jets[ijet]
-            data[ijet * 4 + 0] = jet.perp()
-            data[ijet * 4 + 1] = jet.pseudorapidity()
-            data[ijet * 4 + 2] = jet.phi_std()
-            data[ijet * 4 + 3] = jet.m()
-    return np_jets
-
-
-cdef object vector_to_list(vector[PseudoJet]& jets):
-    py_jets = []
-    for jet in jets:
-        py_jets.append(PyPseudoJet.wrap(jet))
-    return py_jets
-
-
-cdef void array_to_pseudojets(np.ndarray vectors, vector[PseudoJet]& output, bool ep):
-    cdef PseudoJet pseudojet
-    cdef unsigned int i
-    cdef unsigned int size = vectors.shape[0]
-    cdef unsigned int fields = len(vectors.dtype.names)
-    cdef DTYPE_t* fourvect
-    cdef DTYPE_t* array = <DTYPE_t*> vectors.data
-    cdef DTYPE_t E, px, py, pz
-    output.clear()
-    for i in range(size):
-        fourvect = &array[i * fields]
-        # Note the constructor argument order is px, py, pz, E
-        if ep:
-            pseudojet = PseudoJet(fourvect[1], fourvect[2], fourvect[3], fourvect[0])
-        else:
-            px = fourvect[0] * cos(fourvect[2]) # pt cos(phi)
-            py = fourvect[0] * sin(fourvect[2]) # pt sin(phi)
-            pz = fourvect[0] * sinh(fourvect[1]) # pt sinh(eta)
-            E = sqrt(px*px + py*py + pz*pz + fourvect[3] * fourvect[3])
-            pseudojet = PseudoJet(px, py, pz, E)
-        output.push_back(pseudojet)
-
-
 cdef class PyClusterSequence:
     """ Python wrapper class for fastjet::ClusterSequence
     """
@@ -99,6 +42,7 @@ cdef class PyPseudoJet:
     """
     cdef PseudoJet jet
     cdef vector[PseudoJet] constits
+    cdef PseudoJetUserInfo* userinfo
 
     @staticmethod
     cdef inline PyPseudoJet wrap(PseudoJet& jet):
@@ -106,7 +50,26 @@ cdef class PyPseudoJet:
         wrapped_jet.jet = jet
         if jet.has_valid_cluster_sequence() and jet.has_constituents():
             wrapped_jet.constits = jet.constituents()
+        if jet.has_user_info():
+            wrapped_jet.userinfo = <PseudoJetUserInfo*> jet.user_info_ptr()
+        else:
+            wrapped_jet.userinfo = NULL
         return wrapped_jet
+
+    @property
+    def info(self):
+        if self.userinfo != NULL:
+            return <object> self.userinfo.info
+        return None
+
+    def __getattr__(self, attr):
+        userinfo_dict = self.info
+        if userinfo_dict:
+            try:
+                return userinfo_dict[attr]
+            except KeyError:
+                pass
+        return self.__getattribute__(attr)
 
     def __contains__(self, other):
         cdef PseudoJet* jet = <PseudoJet*> PyCObject_AsVoidPtr(other.jet)
@@ -167,6 +130,83 @@ cdef class PyPseudoJet:
     def __repr__(self):
         return "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})".format(
             self.pt, self.eta, self.phi, self.mass)
+
+
+cdef np.ndarray vector_to_array(vector[PseudoJet]& jets, ep=False):
+    # convert vector of pseudojets into numpy array
+    cdef np.ndarray np_jets
+    if ep:
+        np_jets = np.empty(jets.size(), dtype=DTYPE_EP)
+    else:
+        np_jets = np.empty(jets.size(), dtype=DTYPE_PTEPM)
+    cdef DTYPE_t* data = <DTYPE_t *> np_jets.data
+    cdef PseudoJet jet
+    cdef unsigned int ijet
+    if ep:
+        for ijet in range(jets.size()):
+            jet = jets[ijet]
+            data[ijet * 4 + 0] = jet.e()
+            data[ijet * 4 + 1] = jet.px()
+            data[ijet * 4 + 2] = jet.py()
+            data[ijet * 4 + 3] = jet.pz()
+    else:
+        for ijet in range(jets.size()):
+            jet = jets[ijet]
+            data[ijet * 4 + 0] = jet.perp()
+            data[ijet * 4 + 1] = jet.pseudorapidity()
+            data[ijet * 4 + 2] = jet.phi_std()
+            data[ijet * 4 + 3] = jet.m()
+    return np_jets
+
+
+cdef object vector_to_list(vector[PseudoJet]& jets):
+    py_jets = []
+    for jet in jets:
+        py_jets.append(PyPseudoJet.wrap(jet))
+    return py_jets
+
+
+cdef void array_to_pseudojets(np.ndarray vectors, vector[PseudoJet]& output, bool ep):
+    """
+    The dtype ``vectors`` array can be either::
+
+        np.dtype([('pT', 'f8'), ('eta', 'f8'), ('phi', 'f8'), ('mass', 'f8')])
+
+    or if ``ep=True``::
+
+        np.dtype([('E', 'f8'), ('px', 'f8'), ('py', 'f8'), ('pz', 'f8')])
+
+    """
+    cdef char* array = <char*> vectors.data
+    cdef DTYPE_t* fourvect
+    cdef DTYPE_t E, px, py, pz
+    cdef PseudoJet pseudojet
+    fields = vectors.dtype.names
+    cdef unsigned int num_fields = len(fields)
+    cdef unsigned int size = vectors.shape[0], i
+    cdef unsigned int rowbytes = vectors.itemsize
+    cdef bool handle_userinfo = num_fields > 4
+    cdef PseudoJetUserInfo* userinfo
+    output.clear()
+    for i in range(size):
+        # shift
+        fourvect = <DTYPE_t*> &array[i * rowbytes]
+        # Note the constructor argument order is px, py, pz, E
+        if ep:
+            pseudojet = PseudoJet(fourvect[1], fourvect[2], fourvect[3], fourvect[0])
+        else:
+            px = fourvect[0] * cos(fourvect[2]) # pt cos(phi)
+            py = fourvect[0] * sin(fourvect[2]) # pt sin(phi)
+            pz = fourvect[0] * sinh(fourvect[1]) # pt sinh(eta)
+            E = sqrt(px*px + py*py + pz*pz + fourvect[3] * fourvect[3])
+            pseudojet = PseudoJet(px, py, pz, E)
+        if handle_userinfo:
+            userinfo_dict = {}
+            for field in fields[4:]:
+                userinfo_dict[field] = vectors[field][i]
+            userinfo = new PseudoJetUserInfo(<PyObject*> userinfo_dict)
+            pseudojet.set_user_info(userinfo)
+        output.push_back(pseudojet)
 
 
 @cython.boundscheck(False)
