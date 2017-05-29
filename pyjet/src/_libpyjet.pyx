@@ -1,7 +1,5 @@
 # cython: experimental_cpp_class_def=True, c_string_type=str, c_string_encoding=ascii
 
-from libc.stdlib cimport malloc, free
-
 import numpy as np
 cimport numpy as np
 np.import_array()
@@ -12,16 +10,12 @@ from libc.math cimport sin, cos, sinh, sqrt
 
 from libcpp cimport bool
 from libcpp.vector cimport vector
-from libcpp.string cimport string, const_char
 from cython.operator cimport dereference as deref
 
 from cpython cimport PyObject
 from cpython.ref cimport Py_INCREF, Py_XINCREF, Py_DECREF, Py_XDECREF
-from cpython.cobject cimport (PyCObject_AsVoidPtr,
-                              PyCObject_Check,
-                              PyCObject_FromVoidPtr)
+from cpython.cobject cimport PyCObject_AsVoidPtr
 
-from libcpp.memory cimport shared_ptr
 DTYPE = np.float64
 ctypedef np.float64_t DTYPE_t
 
