@@ -35,13 +35,15 @@ cdef object vector_to_list(vector[PseudoJet]& jets):
     return py_jets
 
 
-cdef void array_to_pseudojets(unsigned int size, unsigned int fields, double* array,
-                              vector[PseudoJet]& output, bool ep):
-    output.clear()
+cdef void array_to_pseudojets(np.ndarray vectors, vector[PseudoJet]& output, bool ep):
     cdef PseudoJet pseudojet
-    cdef double* fourvect
-    cdef double E, px, py, pz
     cdef unsigned int i
+    cdef unsigned int size = vectors.shape[0]
+    cdef unsigned int fields = len(vectors.dtype.names)
+    cdef DTYPE_t* fourvect
+    cdef DTYPE_t* array = <DTYPE_t*> vectors.data
+    cdef DTYPE_t E, px, py, pz
+    output.clear()
     for i in range(size):
         fourvect = &array[i * fields]
         # Note the constructor argument order is px, py, pz, E
@@ -195,9 +197,7 @@ def cluster(np.ndarray vectors, float R, int p, bool ep=False):
     cdef ClusterSequence* sequence
 
     # convert numpy array into vector of pseudojets
-    array_to_pseudojets(
-        vectors.shape[0], len(vectors.dtype.names),
-        <DTYPE_t*> vectors.data, pseudojets, ep)
+    array_to_pseudojets(vectors, pseudojets, ep)
 
     # cluster and return PyClusterSequence
     sequence = cluster_genkt(pseudojets, R, p)
