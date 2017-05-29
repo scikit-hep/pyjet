@@ -44,7 +44,7 @@ cdef class PyClusterSequence:
         del self.sequence
 
     @staticmethod
-    cdef wrap(ClusterSequence* sequence):
+    cdef inline PyClusterSequence wrap(ClusterSequence* sequence):
         wrapped_sequence = PyClusterSequence()
         wrapped_sequence.sequence = sequence
         return wrapped_sequence
@@ -58,6 +58,19 @@ cdef class PyClusterSequence:
         return vector_to_list(jets)
 
 
+# This class allows us to attach arbitrary info to PseudoJets in python objects
+# (e.g. a dict)
+cdef cppclass PseudoJetUserInfo(UserInfoBase):
+    PyObject* info
+
+    __init__(PyObject* info):
+        this.info = info
+        Py_XINCREF(this.info)
+
+    __dealloc__():
+        Py_XDECREF(this.info)
+
+
 cdef class PyPseudoJet:
     """ Python wrapper class for fastjet::PseudoJet
     """
@@ -65,7 +78,7 @@ cdef class PyPseudoJet:
     cdef vector[PseudoJet] constits
 
     @staticmethod
-    cdef wrap(PseudoJet& jet):
+    cdef inline PyPseudoJet wrap(PseudoJet& jet):
         wrapped_jet = PyPseudoJet()
         wrapped_jet.jet = jet
         if jet.has_valid_cluster_sequence() and jet.has_constituents():

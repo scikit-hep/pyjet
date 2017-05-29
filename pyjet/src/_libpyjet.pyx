@@ -14,7 +14,7 @@ from libcpp.string cimport string, const_char
 from cython.operator cimport dereference as deref
 
 from cpython cimport PyObject
-
+from cpython.ref cimport Py_INCREF, Py_XINCREF, Py_DECREF, Py_XDECREF
 from cpython.cobject cimport (PyCObject_AsVoidPtr,
                               PyCObject_Check,
                               PyCObject_FromVoidPtr)
