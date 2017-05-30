@@ -163,6 +163,29 @@ cdef class PyPseudoJet:
     def pz(self):
         return self.jet.pz()
 
+    @property
+    def child(self):
+        cdef PseudoJet child
+        if self.jet.has_child(child):
+            py_child = PyPseudoJet()
+            py_child.jet = child
+            return py_child
+        else:
+            return None
+
+    @property
+    def parents(self):
+        cdef PseudoJet p1
+        cdef PseudoJet p2
+        if self.jet.has_parents(p1, p2):
+            py_p1 = PyPseudoJet()
+            py_p2 = PyPseudoJet()
+            py_p1.jet = p1
+            py_p2.jet = p2
+            return py_p1, py_p2
+        else:
+            return None
+
     def __repr__(self):
         return "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})".format(
             self.pt, self.eta, self.phi, self.mass)
