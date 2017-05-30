@@ -91,6 +91,18 @@ cdef class PyPseudoJet:
             wrapped_jet.userinfo = NULL
         return wrapped_jet
 
+    def __richcmp__(PyPseudoJet self, PyPseudoJet other, int op):
+        # only implement eq (2) and ne (3) ops here
+        if op in (2, 3):
+            epsilon = 1e-5
+            equal = abs(self.e - other.e) < epsilon and \
+                    abs(self.px - other.px) < epsilon and \
+                    abs(self.py - other.py) < epsilon and \
+                    abs(self.pz - other.pz) < epsilon
+            return equal if op == 2 else not equal
+        else:
+            raise NotImplementedError("rich comparison operator %i not implemented" % op)
+
     @property
     def info(self):
         if self.userinfo != NULL:
