@@ -1705,6 +1705,7 @@ static PyTypeObject *__pyx_ptype_9_libpyjet___pyx_scope_struct____iter__ = 0;
 static PyArrayObject *__pyx_f_9_libpyjet_vector_to_array(std::vector<fastjet::PseudoJet>  &, struct __pyx_opt_args_9_libpyjet_vector_to_array *__pyx_optional_args); /*proto*/
 static PyObject *__pyx_f_9_libpyjet_vector_to_list(std::vector<fastjet::PseudoJet>  &); /*proto*/
 static void __pyx_f_9_libpyjet_array_to_pseudojets(PyArrayObject *, std::vector<fastjet::PseudoJet>  &, bool); /*proto*/
+static struct __pyx_obj_9_libpyjet_PyClusterSequence *__pyx_f_9_libpyjet_cluster_vector(std::vector<fastjet::PseudoJet>  &, float, int); /*proto*/
 #define __Pyx_MODULE_NAME "_libpyjet"
 int __pyx_module_is_main__libpyjet = 0;
 
@@ -1750,26 +1751,26 @@ static const char __pyx_k_range[] = "range";
 static const char __pyx_k_throw[] = "throw";
 static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
-static const char __pyx_k_cluster[] = "cluster";
 static const char __pyx_k_float64[] = "float64";
 static const char __pyx_k_vectors[] = "vectors";
 static const char __pyx_k_DTYPE_EP[] = "DTYPE_EP";
 static const char __pyx_k_KeyError[] = "KeyError";
 static const char __pyx_k_itemsize[] = "itemsize";
 static const char __pyx_k_libpyjet[] = "_libpyjet";
-static const char __pyx_k_sequence[] = "sequence";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_pseudojets[] = "pseudojets";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_DTYPE_PTEPM[] = "DTYPE_PTEPM";
 static const char __pyx_k_ImportError[] = "ImportError";
+static const char __pyx_k_cluster_jet[] = "cluster_jet";
 static const char __pyx_k_RuntimeError[] = "RuntimeError";
+static const char __pyx_k_cluster_array[] = "cluster_array";
 static const char __pyx_k_AttributeError[] = "AttributeError";
 static const char __pyx_k_PyPseudoJet___iter[] = "PyPseudoJet.__iter__";
 static const char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
 static const char __pyx_k_r_object_has_no_attribute_r[] = "%r object has no attribute %r";
-static const char __pyx_k_home_endw_workspace_pyjet_pyjet[] = "/home/endw/workspace/pyjet/pyjet/src/_libpyjet.pyx";
+static const char __pyx_k_home_edawe_workspace_pyjet_pyje[] = "/home/edawe/workspace/pyjet/pyjet/src/_libpyjet.pyx";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
@@ -1798,14 +1799,15 @@ static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_n_s_close;
-static PyObject *__pyx_n_s_cluster;
+static PyObject *__pyx_n_s_cluster_array;
+static PyObject *__pyx_n_s_cluster_jet;
 static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_empty;
 static PyObject *__pyx_n_s_ep;
 static PyObject *__pyx_n_s_eta;
 static PyObject *__pyx_n_s_float64;
 static PyObject *__pyx_n_s_format;
-static PyObject *__pyx_kp_s_home_endw_workspace_pyjet_pyjet;
+static PyObject *__pyx_kp_s_home_edawe_workspace_pyjet_pyje;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_info;
 static PyObject *__pyx_n_s_itemsize;
@@ -1836,7 +1838,6 @@ static PyObject *__pyx_n_s_pz;
 static PyObject *__pyx_kp_s_r_object_has_no_attribute_r;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_send;
-static PyObject *__pyx_n_s_sequence;
 static PyObject *__pyx_n_s_sort;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
@@ -1863,7 +1864,8 @@ static PyObject *__pyx_pf_9_libpyjet_11PyPseudoJet_2px___get__(struct __pyx_obj_
 static PyObject *__pyx_pf_9_libpyjet_11PyPseudoJet_2py___get__(struct __pyx_obj_9_libpyjet_PyPseudoJet *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_9_libpyjet_11PyPseudoJet_2pz___get__(struct __pyx_obj_9_libpyjet_PyPseudoJet *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_9_libpyjet_11PyPseudoJet_13__repr__(struct __pyx_obj_9_libpyjet_PyPseudoJet *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_vectors, float __pyx_v_R, int __pyx_v_p, bool __pyx_v_ep); /* proto */
+static PyObject *__pyx_pf_9_libpyjet_cluster_array(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_vectors, float __pyx_v_R, int __pyx_v_p, bool __pyx_v_ep); /* proto */
+static PyObject *__pyx_pf_9_libpyjet_2cluster_jet(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_9_libpyjet_PyPseudoJet *__pyx_v_jet, float __pyx_v_R, int __pyx_v_p); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_tp_new_9_libpyjet_PyClusterSequence(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -1880,7 +1882,9 @@ static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
+static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_codeobj__12;
+static PyObject *__pyx_codeobj__14;
 
 /* "_libpyjet.pyx":36
  *     cdef ClusterSequence* sequence
@@ -4715,26 +4719,82 @@ static void __pyx_f_9_libpyjet_array_to_pseudojets(PyArrayObject *__pyx_v_vector
   __Pyx_RefNannyFinishContext();
 }
 
-/* "_libpyjet.pyx":251
+/* "_libpyjet.pyx":249
+ * 
+ * 
+ * cdef PyClusterSequence cluster_vector(vector[PseudoJet]& pseudojets, float R, int p):             # <<<<<<<<<<<<<<
+ *     cdef ClusterSequence* sequence
+ *     # cluster and return PyClusterSequence
+ */
+
+static struct __pyx_obj_9_libpyjet_PyClusterSequence *__pyx_f_9_libpyjet_cluster_vector(std::vector<fastjet::PseudoJet>  &__pyx_v_pseudojets, float __pyx_v_R, int __pyx_v_p) {
+  fastjet::ClusterSequence *__pyx_v_sequence;
+  struct __pyx_obj_9_libpyjet_PyClusterSequence *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("cluster_vector", 0);
+
+  /* "_libpyjet.pyx":252
+ *     cdef ClusterSequence* sequence
+ *     # cluster and return PyClusterSequence
+ *     sequence = cluster_genkt(pseudojets, R, p)             # <<<<<<<<<<<<<<
+ *     return PyClusterSequence.wrap(sequence)
+ * 
+ */
+  __pyx_v_sequence = cluster_genkt(__pyx_v_pseudojets, __pyx_v_R, __pyx_v_p);
+
+  /* "_libpyjet.pyx":253
+ *     # cluster and return PyClusterSequence
+ *     sequence = cluster_genkt(pseudojets, R, p)
+ *     return PyClusterSequence.wrap(sequence)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(((PyObject *)__pyx_r));
+  __pyx_t_1 = ((PyObject *)__pyx_f_9_libpyjet_17PyClusterSequence_wrap(__pyx_v_sequence)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 253, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = ((struct __pyx_obj_9_libpyjet_PyClusterSequence *)__pyx_t_1);
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "_libpyjet.pyx":249
+ * 
+ * 
+ * cdef PyClusterSequence cluster_vector(vector[PseudoJet]& pseudojets, float R, int p):             # <<<<<<<<<<<<<<
+ *     cdef ClusterSequence* sequence
+ *     # cluster and return PyClusterSequence
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_libpyjet.cluster_vector", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF((PyObject *)__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_libpyjet.pyx":258
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def cluster(np.ndarray vectors, float R, int p, bool ep=False):             # <<<<<<<<<<<<<<
- *     """
- *     Perform jet clustering on a numpy array of 4-vectors in (pT, eta, phi,
+ * def cluster_array(np.ndarray vectors, float R, int p, bool ep=False):             # <<<<<<<<<<<<<<
+ *     cdef vector[PseudoJet] pseudojets
+ *     # convert numpy array into vector of pseudojets
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9_libpyjet_1cluster(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_9_libpyjet_cluster[] = "\n    Perform jet clustering on a numpy array of 4-vectors in (pT, eta, phi,\n    mass) representation, otherwise (E, px, py, pz) representation if ep=True\n\n    Parameters\n    ----------\n\n    vectors: np.ndarray\n        Array of 4-vectors as (pT, eta, phi, mass) or (E, px, py, pz) if ep=True\n    R : float\n        Clustering size parameter\n    p : int\n        Generalized kT clustering parameter (p=1 for kT, p=-1 for anti-kT, p=0 for C/A)\n\n    Returns\n    -------\n\n    sequence : PyClusterSequence\n        A wrapped ClusterSequence.\n\n    ";
-static PyMethodDef __pyx_mdef_9_libpyjet_1cluster = {"cluster", (PyCFunction)__pyx_pw_9_libpyjet_1cluster, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9_libpyjet_cluster};
-static PyObject *__pyx_pw_9_libpyjet_1cluster(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_9_libpyjet_1cluster_array(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_9_libpyjet_1cluster_array = {"cluster_array", (PyCFunction)__pyx_pw_9_libpyjet_1cluster_array, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_9_libpyjet_1cluster_array(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_vectors = 0;
   float __pyx_v_R;
   int __pyx_v_p;
   bool __pyx_v_ep;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("cluster (wrapper)", 0);
+  __Pyx_RefNannySetupContext("cluster_array (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_vectors,&__pyx_n_s_R,&__pyx_n_s_p,&__pyx_n_s_ep,0};
     PyObject* values[4] = {0,0,0,0};
@@ -4757,12 +4817,12 @@ static PyObject *__pyx_pw_9_libpyjet_1cluster(PyObject *__pyx_self, PyObject *__
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_R)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cluster", 0, 3, 4, 1); __PYX_ERR(0, 251, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cluster_array", 0, 3, 4, 1); __PYX_ERR(0, 258, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_p)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cluster", 0, 3, 4, 2); __PYX_ERR(0, 251, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cluster_array", 0, 3, 4, 2); __PYX_ERR(0, 258, __pyx_L3_error)
         }
         case  3:
         if (kw_args > 0) {
@@ -4771,7 +4831,7 @@ static PyObject *__pyx_pw_9_libpyjet_1cluster(PyObject *__pyx_self, PyObject *__
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cluster") < 0)) __PYX_ERR(0, 251, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cluster_array") < 0)) __PYX_ERR(0, 258, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4784,24 +4844,24 @@ static PyObject *__pyx_pw_9_libpyjet_1cluster(PyObject *__pyx_self, PyObject *__
       }
     }
     __pyx_v_vectors = ((PyArrayObject *)values[0]);
-    __pyx_v_R = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_R == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 251, __pyx_L3_error)
-    __pyx_v_p = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_p == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 251, __pyx_L3_error)
+    __pyx_v_R = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_R == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 258, __pyx_L3_error)
+    __pyx_v_p = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_p == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 258, __pyx_L3_error)
     if (values[3]) {
-      __pyx_v_ep = __Pyx_PyObject_IsTrue(values[3]); if (unlikely((__pyx_v_ep == ((bool)-1)) && PyErr_Occurred())) __PYX_ERR(0, 251, __pyx_L3_error)
+      __pyx_v_ep = __Pyx_PyObject_IsTrue(values[3]); if (unlikely((__pyx_v_ep == ((bool)-1)) && PyErr_Occurred())) __PYX_ERR(0, 258, __pyx_L3_error)
     } else {
       __pyx_v_ep = ((bool)0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("cluster", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 251, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("cluster_array", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 258, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("_libpyjet.cluster", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("_libpyjet.cluster_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vectors), __pyx_ptype_5numpy_ndarray, 1, "vectors", 0))) __PYX_ERR(0, 251, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9_libpyjet_cluster(__pyx_self, __pyx_v_vectors, __pyx_v_R, __pyx_v_p, __pyx_v_ep);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vectors), __pyx_ptype_5numpy_ndarray, 1, "vectors", 0))) __PYX_ERR(0, 258, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9_libpyjet_cluster_array(__pyx_self, __pyx_v_vectors, __pyx_v_R, __pyx_v_p, __pyx_v_ep);
 
   /* function exit code */
   goto __pyx_L0;
@@ -4812,55 +4872,177 @@ static PyObject *__pyx_pw_9_libpyjet_1cluster(PyObject *__pyx_self, PyObject *__
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9_libpyjet_cluster(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_vectors, float __pyx_v_R, int __pyx_v_p, bool __pyx_v_ep) {
+static PyObject *__pyx_pf_9_libpyjet_cluster_array(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_vectors, float __pyx_v_R, int __pyx_v_p, bool __pyx_v_ep) {
   std::vector<fastjet::PseudoJet>  __pyx_v_pseudojets;
-  fastjet::ClusterSequence *__pyx_v_sequence;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("cluster", 0);
+  __Pyx_RefNannySetupContext("cluster_array", 0);
 
-  /* "_libpyjet.pyx":277
- * 
+  /* "_libpyjet.pyx":261
+ *     cdef vector[PseudoJet] pseudojets
  *     # convert numpy array into vector of pseudojets
  *     array_to_pseudojets(vectors, pseudojets, ep)             # <<<<<<<<<<<<<<
+ *     return cluster_vector(pseudojets, R, p)
  * 
- *     # cluster and return PyClusterSequence
  */
   __pyx_f_9_libpyjet_array_to_pseudojets(__pyx_v_vectors, __pyx_v_pseudojets, __pyx_v_ep);
 
-  /* "_libpyjet.pyx":280
+  /* "_libpyjet.pyx":262
+ *     # convert numpy array into vector of pseudojets
+ *     array_to_pseudojets(vectors, pseudojets, ep)
+ *     return cluster_vector(pseudojets, R, p)             # <<<<<<<<<<<<<<
  * 
- *     # cluster and return PyClusterSequence
- *     sequence = cluster_genkt(pseudojets, R, p)             # <<<<<<<<<<<<<<
- *     return PyClusterSequence.wrap(sequence)
- */
-  __pyx_v_sequence = cluster_genkt(__pyx_v_pseudojets, __pyx_v_R, __pyx_v_p);
-
-  /* "_libpyjet.pyx":281
- *     # cluster and return PyClusterSequence
- *     sequence = cluster_genkt(pseudojets, R, p)
- *     return PyClusterSequence.wrap(sequence)             # <<<<<<<<<<<<<<
+ * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_9_libpyjet_17PyClusterSequence_wrap(__pyx_v_sequence)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_9_libpyjet_cluster_vector(__pyx_v_pseudojets, __pyx_v_R, __pyx_v_p)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "_libpyjet.pyx":251
+  /* "_libpyjet.pyx":258
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def cluster(np.ndarray vectors, float R, int p, bool ep=False):             # <<<<<<<<<<<<<<
- *     """
- *     Perform jet clustering on a numpy array of 4-vectors in (pT, eta, phi,
+ * def cluster_array(np.ndarray vectors, float R, int p, bool ep=False):             # <<<<<<<<<<<<<<
+ *     cdef vector[PseudoJet] pseudojets
+ *     # convert numpy array into vector of pseudojets
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("_libpyjet.cluster", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("_libpyjet.cluster_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_libpyjet.pyx":267
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def cluster_jet(PyPseudoJet jet, float R, int p):             # <<<<<<<<<<<<<<
+ *     cdef vector[PseudoJet] pseudojets = jet.constits
+ *     return cluster_vector(pseudojets, R, p)
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9_libpyjet_3cluster_jet(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_9_libpyjet_3cluster_jet = {"cluster_jet", (PyCFunction)__pyx_pw_9_libpyjet_3cluster_jet, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_9_libpyjet_3cluster_jet(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_9_libpyjet_PyPseudoJet *__pyx_v_jet = 0;
+  float __pyx_v_R;
+  int __pyx_v_p;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("cluster_jet (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_jet,&__pyx_n_s_R,&__pyx_n_s_p,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_jet)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_R)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("cluster_jet", 1, 3, 3, 1); __PYX_ERR(0, 267, __pyx_L3_error)
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_p)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("cluster_jet", 1, 3, 3, 2); __PYX_ERR(0, 267, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cluster_jet") < 0)) __PYX_ERR(0, 267, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+    }
+    __pyx_v_jet = ((struct __pyx_obj_9_libpyjet_PyPseudoJet *)values[0]);
+    __pyx_v_R = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_R == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 267, __pyx_L3_error)
+    __pyx_v_p = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_p == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 267, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("cluster_jet", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 267, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("_libpyjet.cluster_jet", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_jet), __pyx_ptype_9_libpyjet_PyPseudoJet, 1, "jet", 0))) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9_libpyjet_2cluster_jet(__pyx_self, __pyx_v_jet, __pyx_v_R, __pyx_v_p);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9_libpyjet_2cluster_jet(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_9_libpyjet_PyPseudoJet *__pyx_v_jet, float __pyx_v_R, int __pyx_v_p) {
+  std::vector<fastjet::PseudoJet>  __pyx_v_pseudojets;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  std::vector<fastjet::PseudoJet>  __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_RefNannySetupContext("cluster_jet", 0);
+
+  /* "_libpyjet.pyx":268
+ * @cython.wraparound(False)
+ * def cluster_jet(PyPseudoJet jet, float R, int p):
+ *     cdef vector[PseudoJet] pseudojets = jet.constits             # <<<<<<<<<<<<<<
+ *     return cluster_vector(pseudojets, R, p)
+ */
+  __pyx_t_1 = __pyx_v_jet->constits;
+  __pyx_v_pseudojets = __pyx_t_1;
+
+  /* "_libpyjet.pyx":269
+ * def cluster_jet(PyPseudoJet jet, float R, int p):
+ *     cdef vector[PseudoJet] pseudojets = jet.constits
+ *     return cluster_vector(pseudojets, R, p)             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2 = ((PyObject *)__pyx_f_9_libpyjet_cluster_vector(__pyx_v_pseudojets, __pyx_v_R, __pyx_v_p)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 269, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "_libpyjet.pyx":267
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def cluster_jet(PyPseudoJet jet, float R, int p):             # <<<<<<<<<<<<<<
+ *     cdef vector[PseudoJet] pseudojets = jet.constits
+ *     return cluster_vector(pseudojets, R, p)
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("_libpyjet.cluster_jet", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7807,14 +7989,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
-  {&__pyx_n_s_cluster, __pyx_k_cluster, sizeof(__pyx_k_cluster), 0, 0, 1, 1},
+  {&__pyx_n_s_cluster_array, __pyx_k_cluster_array, sizeof(__pyx_k_cluster_array), 0, 0, 1, 1},
+  {&__pyx_n_s_cluster_jet, __pyx_k_cluster_jet, sizeof(__pyx_k_cluster_jet), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_empty, __pyx_k_empty, sizeof(__pyx_k_empty), 0, 0, 1, 1},
   {&__pyx_n_s_ep, __pyx_k_ep, sizeof(__pyx_k_ep), 0, 0, 1, 1},
   {&__pyx_n_s_eta, __pyx_k_eta, sizeof(__pyx_k_eta), 0, 0, 1, 1},
   {&__pyx_n_s_float64, __pyx_k_float64, sizeof(__pyx_k_float64), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
-  {&__pyx_kp_s_home_endw_workspace_pyjet_pyjet, __pyx_k_home_endw_workspace_pyjet_pyjet, sizeof(__pyx_k_home_endw_workspace_pyjet_pyjet), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_edawe_workspace_pyjet_pyje, __pyx_k_home_edawe_workspace_pyjet_pyje, sizeof(__pyx_k_home_edawe_workspace_pyjet_pyje), 0, 0, 1, 0},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_info, __pyx_k_info, sizeof(__pyx_k_info), 0, 0, 1, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
@@ -7845,7 +8028,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_r_object_has_no_attribute_r, __pyx_k_r_object_has_no_attribute_r, sizeof(__pyx_k_r_object_has_no_attribute_r), 0, 0, 1, 0},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
-  {&__pyx_n_s_sequence, __pyx_k_sequence, sizeof(__pyx_k_sequence), 0, 0, 1, 1},
   {&__pyx_n_s_sort, __pyx_k_sort, sizeof(__pyx_k_sort), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
@@ -7978,17 +8160,29 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "_libpyjet.pyx":251
+  /* "_libpyjet.pyx":258
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def cluster(np.ndarray vectors, float R, int p, bool ep=False):             # <<<<<<<<<<<<<<
- *     """
- *     Perform jet clustering on a numpy array of 4-vectors in (pT, eta, phi,
+ * def cluster_array(np.ndarray vectors, float R, int p, bool ep=False):             # <<<<<<<<<<<<<<
+ *     cdef vector[PseudoJet] pseudojets
+ *     # convert numpy array into vector of pseudojets
  */
-  __pyx_tuple__11 = PyTuple_Pack(6, __pyx_n_s_vectors, __pyx_n_s_R, __pyx_n_s_p, __pyx_n_s_ep, __pyx_n_s_pseudojets, __pyx_n_s_sequence); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 251, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(5, __pyx_n_s_vectors, __pyx_n_s_R, __pyx_n_s_p, __pyx_n_s_ep, __pyx_n_s_pseudojets); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(4, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_endw_workspace_pyjet_pyjet, __pyx_n_s_cluster, 251, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 251, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_edawe_workspace_pyjet_pyje, __pyx_n_s_cluster_array, 258, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 258, __pyx_L1_error)
+
+  /* "_libpyjet.pyx":267
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def cluster_jet(PyPseudoJet jet, float R, int p):             # <<<<<<<<<<<<<<
+ *     cdef vector[PseudoJet] pseudojets = jet.constits
+ *     return cluster_vector(pseudojets, R, p)
+ */
+  __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_jet, __pyx_n_s_R, __pyx_n_s_p, __pyx_n_s_pseudojets); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_edawe_workspace_pyjet_pyje, __pyx_n_s_cluster_jet, 267, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -8320,16 +8514,28 @@ PyMODINIT_FUNC PyInit__libpyjet(void)
  */
   silence();
 
-  /* "_libpyjet.pyx":251
+  /* "_libpyjet.pyx":258
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def cluster(np.ndarray vectors, float R, int p, bool ep=False):             # <<<<<<<<<<<<<<
- *     """
- *     Perform jet clustering on a numpy array of 4-vectors in (pT, eta, phi,
+ * def cluster_array(np.ndarray vectors, float R, int p, bool ep=False):             # <<<<<<<<<<<<<<
+ *     cdef vector[PseudoJet] pseudojets
+ *     # convert numpy array into vector of pseudojets
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_9_libpyjet_1cluster, NULL, __pyx_n_s_libpyjet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_9_libpyjet_1cluster_array, NULL, __pyx_n_s_libpyjet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cluster, __pyx_t_3) < 0) __PYX_ERR(0, 251, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cluster_array, __pyx_t_3) < 0) __PYX_ERR(0, 258, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "_libpyjet.pyx":267
+ * @cython.boundscheck(False)
+ * @cython.wraparound(False)
+ * def cluster_jet(PyPseudoJet jet, float R, int p):             # <<<<<<<<<<<<<<
+ *     cdef vector[PseudoJet] pseudojets = jet.constits
+ *     return cluster_vector(pseudojets, R, p)
+ */
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_9_libpyjet_3cluster_jet, NULL, __pyx_n_s_libpyjet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cluster_jet, __pyx_t_3) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "_libpyjet.pyx":1

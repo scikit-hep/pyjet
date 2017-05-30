@@ -13,6 +13,12 @@ def test_cluster():
     assert_almost_equal(jets[0].pt, 983.28, 2)
 
 
+def test_recluster():
+    sequence = cluster(get_event(), R=0.6, p=-1, ep=True)
+    jets = sequence.inclusive_jets()
+    assert_equal(jets[0].pt, cluster(jets[0], R=0.6, p=-1).inclusive_jets()[0].pt)
+
+
 def test_userinfo():
     event = get_event()
     # add an 'id' field to each particle

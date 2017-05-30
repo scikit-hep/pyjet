@@ -246,36 +246,24 @@ cdef void array_to_pseudojets(np.ndarray vectors, vector[PseudoJet]& output, boo
         output.push_back(pseudojet)
 
 
-@cython.boundscheck(False)
-@cython.wraparound(False)
-def cluster(np.ndarray vectors, float R, int p, bool ep=False):
-    """
-    Perform jet clustering on a numpy array of 4-vectors in (pT, eta, phi,
-    mass) representation, otherwise (E, px, py, pz) representation if ep=True
-
-    Parameters
-    ----------
-
-    vectors: np.ndarray
-        Array of 4-vectors as (pT, eta, phi, mass) or (E, px, py, pz) if ep=True
-    R : float
-        Clustering size parameter
-    p : int
-        Generalized kT clustering parameter (p=1 for kT, p=-1 for anti-kT, p=0 for C/A)
-
-    Returns
-    -------
-
-    sequence : PyClusterSequence
-        A wrapped ClusterSequence.
-
-    """
-    cdef vector[PseudoJet] pseudojets
+cdef PyClusterSequence cluster_vector(vector[PseudoJet]& pseudojets, float R, int p):
     cdef ClusterSequence* sequence
-
-    # convert numpy array into vector of pseudojets
-    array_to_pseudojets(vectors, pseudojets, ep)
-
     # cluster and return PyClusterSequence
     sequence = cluster_genkt(pseudojets, R, p)
     return PyClusterSequence.wrap(sequence)
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def cluster_array(np.ndarray vectors, float R, int p, bool ep=False):
+    cdef vector[PseudoJet] pseudojets
+    # convert numpy array into vector of pseudojets
+    array_to_pseudojets(vectors, pseudojets, ep)
+    return cluster_vector(pseudojets, R, p)
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def cluster_jet(PyPseudoJet jet, float R, int p):
+    cdef vector[PseudoJet] pseudojets = jet.constits
+    return cluster_vector(pseudojets, R, p)
