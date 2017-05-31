@@ -11,6 +11,10 @@ def test_cluster():
     jets = sequence.inclusive_jets()
     assert_equal(len(jets), 91)
     assert_almost_equal(jets[0].pt, 983.28, 2)
+    assert_true(isinstance(jets[0].parents, tuple))
+    assert_equal(len(jets[0].parents), 2)
+    assert_equal(jets[0].parents[0].child.pt, jets[0].pt)
+    assert_equal(jets[0].parents[0].child, jets[0])
 
 
 def test_recluster():

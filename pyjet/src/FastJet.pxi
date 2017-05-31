@@ -28,6 +28,8 @@ cdef extern from "core.h" namespace "fastjet":
         bool has_constituents()
         void set_user_info(UserInfoBase*)
         bool has_user_info()
+        bool has_child(PseudoJet& child)
+        bool has_parents(PseudoJet& parent1, PseudoJet& parent2)
         UserInfoBase* user_info_ptr()
 
     vector[PseudoJet] sorted_by_pt(vector[PseudoJet]& jets)
