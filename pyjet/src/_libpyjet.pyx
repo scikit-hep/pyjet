@@ -5,12 +5,11 @@ cimport numpy as np
 np.import_array()
 
 cimport cython
-
-from libc.math cimport sin, cos, sinh, sqrt
+from cython.operator cimport dereference as deref
 
 from libcpp cimport bool
 from libcpp.vector cimport vector
-from cython.operator cimport dereference as deref
+from libc.math cimport sin, cos, sinh, sqrt
 
 from cpython cimport PyObject
 from cpython.ref cimport Py_INCREF, Py_XINCREF, Py_DECREF, Py_XDECREF
@@ -23,6 +22,8 @@ DTYPE_PTEPM = np.dtype([('pT', DTYPE), ('eta', DTYPE), ('phi', DTYPE), ('mass', 
 DTYPE_EP = np.dtype([('E', DTYPE), ('px', DTYPE), ('py', DTYPE), ('pz', DTYPE)])
 
 include "FastJet.pxi"
+
+USING_EXTERNAL_FASTJET = _USING_EXTERNAL_FASTJET
 
 # hide the FastJet banner
 silence()
@@ -91,6 +92,10 @@ cdef class PyPseudoJet:
             wrapped_jet.userinfo = NULL
         return wrapped_jet
 
+    def __repr__(self):
+        return "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})".format(
+            self.pt, self.eta, self.phi, self.mass)
+
     def __richcmp__(PyPseudoJet self, PyPseudoJet other, int op):
         # only implement eq (2) and ne (3) ops here
         if op in (2, 3):
@@ -100,8 +105,7 @@ cdef class PyPseudoJet:
                     abs(self.py - other.py) < epsilon and \
                     abs(self.pz - other.pz) < epsilon
             return equal if op == 2 else not equal
-        else:
-            raise NotImplementedError("rich comparison operator %i not implemented" % op)
+        raise NotImplementedError("rich comparison operator %i not implemented" % op)
 
     @property
     def info(self):
@@ -182,8 +186,7 @@ cdef class PyPseudoJet:
             py_child = PyPseudoJet()
             py_child.jet = child
             return py_child
-        else:
-            return None
+        return None
 
     @property
     def parents(self):
@@ -195,12 +198,14 @@ cdef class PyPseudoJet:
             py_p1.jet = p1
             py_p2.jet = p2
             return py_p1, py_p2
-        else:
-            return None
+        return None
 
-    def __repr__(self):
-        return "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})".format(
-            self.pt, self.eta, self.phi, self.mass)
+    @property
+    def area(self):
+        # return jet area and uncertainty
+        if jet_has_area(&self.jet):
+            return jet_area(&self.jet), jet_area_error(&self.jet)
+        return None
 
 
 cdef np.ndarray vector_to_array(vector[PseudoJet]& jets, bool ep=False):

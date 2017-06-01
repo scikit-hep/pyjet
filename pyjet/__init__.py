@@ -1,6 +1,6 @@
 import numpy as np
 from ._libpyjet import (cluster_array, cluster_jet, PyPseudoJet,
-                        DTYPE, DTYPE_PTEPM, DTYPE_EP)
+                        DTYPE, DTYPE_PTEPM, DTYPE_EP, USING_EXTERNAL_FASTJET)
 
 __all__ = [
     'cluster',

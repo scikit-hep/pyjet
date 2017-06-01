@@ -31,6 +31,9 @@ cdef extern from "core.h" namespace "fastjet":
         bool has_child(PseudoJet& child)
         bool has_parents(PseudoJet& parent1, PseudoJet& parent2)
         UserInfoBase* user_info_ptr()
+        bool has_area()
+        double area()
+        double area_error()
 
     vector[PseudoJet] sorted_by_pt(vector[PseudoJet]& jets)
 
@@ -50,5 +53,9 @@ cdef extern from "core.h" namespace "fastjet::PseudoJet":
 
 
 cdef extern from "core.h":
+    cdef bint _USING_EXTERNAL_FASTJET
     void silence()
     ClusterSequence* cluster_genkt(vector[PseudoJet]&, double, int)
+    bool jet_has_area(PseudoJet*)
+    double jet_area(PseudoJet*)
+    double jet_area_error(PseudoJet*)
