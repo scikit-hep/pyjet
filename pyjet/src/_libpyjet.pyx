@@ -28,20 +28,77 @@ USING_EXTERNAL_FASTJET = _USING_EXTERNAL_FASTJET
 # hide the FastJet banner
 silence()
 
+JET_ALGORITHM = {
+    'kt': kt_algorithm,
+    'cambridge': cambridge_algorithm,
+    'antikt': antikt_algorithm,
+    'genkt': genkt_algorithm,
+    'cambridge_for_passive': cambridge_for_passive_algorithm,
+    'genkt_for_passive': genkt_for_passive_algorithm,
+    'ee_kt': ee_kt_algorithm,
+    'ee_genkt': ee_genkt_algorithm,
+    'plugin': plugin_algorithm,
+    'undefined': undefined_jet_algorithm,
+}
+
+JET_AREA = {
+    'active': active_area,
+    'active_explicit_ghosts': active_area_explicit_ghosts,
+    'one_ghost_passive': one_ghost_passive_area,
+    'passive': passive_area,
+    'voronoi': voronoi_area,
+}
+
+
+cdef class PyJetDefinition:
+    cdef JetDefinition* jdef
+
+    def __cinit__(self):
+        self.jdef = NULL
+
+    def __init__(self, algo='undefined', R=None, p=None):
+        if self.jdef != NULL:
+            del self.jdef
+        cdef JetAlgorithm _algo
+        try:
+            _algo = JET_ALGORITHM[algo]
+        except KeyError:
+            raise ValueError("{0:r} is not a valid jet algorithm".format(algo))
+        if R is not None:
+            if p is not None:
+                self.jdef = new JetDefinition(_algo, R, p)
+            else:
+                self.jdef = new JetDefinition(_algo, R)
+        else:
+            self.jdef = new JetDefinition(_algo)
+
+    def __dealloc__(self):
+        del self.jdef
+
 
 cdef class PyClusterSequence:
     """ Python wrapper class for fastjet::ClusterSequence
     """
     cdef ClusterSequence* sequence
+    cdef vector[PseudoJet] pseudojets
+
+    def __cinit__(self):
+        self.sequence = NULL
+
+    def __init__(self, inputs, PyJetDefinition jetdef, bool ep=False):
+        if self.sequence != NULL:
+            del self.sequence
+        if isinstance(inputs, np.ndarray):
+            # convert numpy array into vector of pseudojets
+            array_to_pseudojets(inputs, self.pseudojets, ep)
+        elif isinstance(inputs, PyPseudoJet):
+            self.pseudojets = (<PyPseudoJet> inputs).constits
+        else:
+            raise TypeError("input is not an ndarray or PyPseudoJet")
+        self.sequence = new ClusterSequence(self.pseudojets, deref(jetdef.jdef))
 
     def __dealloc__(self):
         del self.sequence
-
-    @staticmethod
-    cdef inline PyClusterSequence wrap(ClusterSequence* sequence):
-        wrapped_sequence = PyClusterSequence()
-        wrapped_sequence.sequence = sequence
-        return wrapped_sequence
 
     def inclusive_jets(self, double ptmin=0.0, bool sort=True):
         """ return a vector of all jets (in the sense of the inclusive algorithm) with pt >= ptmin.
@@ -58,6 +115,29 @@ cdef class PyClusterSequence:
     def childless_pseudojets(self):
         cdef vector[PseudoJet] jets = self.sequence.childless_pseudojets()
         return vector_to_list(jets)
+
+
+cdef class PyClusterSequenceArea(PyClusterSequence):
+    cdef AreaDefinition areadef
+
+    def __init__(self, inputs, PyJetDefinition jetdef, str areatype, bool ep=False):
+        if self.sequence != NULL:
+            del self.sequence
+        cdef AreaType _area
+        try:
+            _area = JET_AREA[areatype]
+        except KeyError:
+            raise ValueError("{0:r} is not a valid jet area type".format(areatype))
+        if isinstance(inputs, np.ndarray):
+            # convert numpy array into vector of pseudojets
+            array_to_pseudojets(inputs, self.pseudojets, ep)
+        elif isinstance(inputs, PyPseudoJet):
+            self.pseudojets = (<PyPseudoJet> inputs).constits
+        else:
+            raise TypeError("input is not an ndarray or PyPseudoJet")
+        self.areadef = AreaDefinition(_area)
+        self.sequence = new ClusterSequenceArea(self.pseudojets, deref(jetdef.jdef), self.areadef)
+
 
 
 # This class allows us to attach arbitrary info to PseudoJets in python objects
@@ -205,7 +285,7 @@ cdef class PyPseudoJet:
         # return jet area and uncertainty
         if jet_has_area(&self.jet):
             return jet_area(&self.jet), jet_area_error(&self.jet)
-        return None
+        return None, None
 
 
 cdef np.ndarray vector_to_array(vector[PseudoJet]& jets, bool ep=False):
@@ -284,26 +364,3 @@ cdef void array_to_pseudojets(np.ndarray vectors, vector[PseudoJet]& output, boo
             userinfo = new PseudoJetUserInfo(<PyObject*> userinfo_dict)
             pseudojet.set_user_info(userinfo)
         output.push_back(pseudojet)
-
-
-cdef PyClusterSequence cluster_vector(vector[PseudoJet]& pseudojets, float R, int p):
-    cdef ClusterSequence* sequence
-    # cluster and return PyClusterSequence
-    sequence = cluster_genkt(pseudojets, R, p)
-    return PyClusterSequence.wrap(sequence)
-
-
-@cython.boundscheck(False)
-@cython.wraparound(False)
-def cluster_array(np.ndarray vectors, float R, int p, bool ep=False):
-    cdef vector[PseudoJet] pseudojets
-    # convert numpy array into vector of pseudojets
-    array_to_pseudojets(vectors, pseudojets, ep)
-    return cluster_vector(pseudojets, R, p)
-
-
-@cython.boundscheck(False)
-@cython.wraparound(False)
-def cluster_jet(PyPseudoJet jet, float R, int p):
-    cdef vector[PseudoJet] pseudojets = jet.constits
-    return cluster_vector(pseudojets, R, p)

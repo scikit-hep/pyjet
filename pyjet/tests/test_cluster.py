@@ -1,7 +1,8 @@
-from pyjet import cluster
+from pyjet import cluster, USING_EXTERNAL_FASTJET
 from pyjet.testdata import get_event
 from numpy.testing import assert_array_equal
 from nose.tools import assert_true, assert_equal, assert_almost_equal
+from nose.plugins.skip import SkipTest
 from numpy.lib.recfunctions import append_fields
 import numpy as np
 
@@ -37,3 +38,14 @@ def test_userinfo():
     ids.extend([p.id for p in sequence.unclustered_particles()])
     # are all particles accounted for?
     assert_array_equal(sorted(ids), np.arange(len(event)))
+
+
+def test_jet_area():
+    if not USING_EXTERNAL_FASTJET:
+        raise SkipTest("using internal fastjet")
+    sequence = cluster(get_event(), R=0.6, p=-1, ep=True, area='active')
+    jets = sequence.inclusive_jets()
+    for jet in jets:
+        area, error = jet.area
+        if len(jet) > 3:  # TODO: need better way to test this
+            assert_true(area > 0)

@@ -1,5 +1,6 @@
 
 cdef extern from "core.h" namespace "fastjet":
+        
     cdef cppclass PseudoJet:
         PseudoJet(const double, const double, const double, const double)
         PseudoJet()
@@ -38,10 +39,43 @@ cdef extern from "core.h" namespace "fastjet":
     vector[PseudoJet] sorted_by_pt(vector[PseudoJet]& jets)
 
     cdef cppclass ClusterSequence:
+        ClusterSequence(vector[PseudoJet]&, JetDefinition&)
         vector[PseudoJet] inclusive_jets(double ptmin)
         void delete_self_when_unused()
         vector[PseudoJet] unclustered_particles()
         vector[PseudoJet] childless_pseudojets()
+
+    cdef enum JetAlgorithm "fastjet::JetAlgorithm":
+        kt_algorithm,
+        cambridge_algorithm,
+        antikt_algorithm,
+        genkt_algorithm,
+        cambridge_for_passive_algorithm,
+        genkt_for_passive_algorithm,
+        ee_kt_algorithm,
+        ee_genkt_algorithm,
+        plugin_algorithm,
+        undefined_jet_algorithm
+
+    cdef cppclass JetDefinition:
+        JetDefinition(JetAlgorithm)
+        JetDefinition(JetAlgorithm, double R) 
+        JetDefinition(JetAlgorithm, double R, double extra) 
+    
+    cdef enum AreaType "fastjet::AreaType":
+        invalid_area,
+        active_area,
+        active_area_explicit_ghosts,
+        one_ghost_passive_area,
+        passive_area,
+        voronoi_area
+
+    cdef cppclass AreaDefinition:
+        AreaDefinition(AreaType)
+        AreaDefinition()
+    
+    cdef cppclass ClusterSequenceArea(ClusterSequence):
+        ClusterSequenceArea(vector[PseudoJet]&, JetDefinition&, AreaDefinition&)
 
     cdef cppclass SharedPtr[T]:
         pass
@@ -55,7 +89,6 @@ cdef extern from "core.h" namespace "fastjet::PseudoJet":
 cdef extern from "core.h":
     cdef bint _USING_EXTERNAL_FASTJET
     void silence()
-    ClusterSequence* cluster_genkt(vector[PseudoJet]&, double, int)
     bool jet_has_area(PseudoJet*)
     double jet_area(PseudoJet*)
     double jet_area_error(PseudoJet*)

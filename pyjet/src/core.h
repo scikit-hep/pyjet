@@ -7,11 +7,34 @@
 #include "fjcore.h"
 namespace fastjet = fjcore;
 
+namespace fjcore {
+enum  AreaType {
+    invalid_area = -1,
+    active_area = 0,
+    active_area_explicit_ghosts = 1,
+    one_ghost_passive_area = 10,
+    passive_area = 11,
+    voronoi_area = 20
+};
+
+class AreaDefinition {
+    public:
+    AreaDefinition(AreaType type) {}
+    AreaDefinition() {}
+};
+
+class ClusterSequenceArea: public ClusterSequence {
+    public:
+    ClusterSequenceArea(std::vector<PseudoJet>, JetDefinition&, AreaDefinition&) {}
+};
+}
+
 #else
 
 #define _USING_EXTERNAL_FASTJET 1
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/ClusterSequence.hh"
+#include "fastjet/ClusterSequenceArea.hh"
 
 #endif
 
@@ -20,13 +43,6 @@ namespace fastjet = fjcore;
 
 void silence() {
     fastjet::ClusterSequence::set_fastjet_banner_stream(NULL);
-}
-
-
-fastjet::ClusterSequence* cluster_genkt(std::vector<fastjet::PseudoJet>& inputs, double R, int p) {
-    // TODO: cythonize this and wrap JetDefinition
-    fastjet::JetDefinition def(fastjet::JetDefinition(fastjet::genkt_algorithm, R, p));
-    return new fastjet::ClusterSequence(inputs, def);
 }
 
 
