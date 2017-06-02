@@ -21,37 +21,37 @@ ctypedef np.float64_t DTYPE_t
 DTYPE_PTEPM = np.dtype([('pT', DTYPE), ('eta', DTYPE), ('phi', DTYPE), ('mass', DTYPE)])
 DTYPE_EP = np.dtype([('E', DTYPE), ('px', DTYPE), ('py', DTYPE), ('pz', DTYPE)])
 
-include "FastJet.pxi"
+cimport fastjet
 
-USING_EXTERNAL_FASTJET = _USING_EXTERNAL_FASTJET
+USING_EXTERNAL_FASTJET = fastjet._USING_EXTERNAL_FASTJET
 
 # hide the FastJet banner
-silence()
+fastjet.silence()
 
 JET_ALGORITHM = {
-    'kt': kt_algorithm,
-    'cambridge': cambridge_algorithm,
-    'antikt': antikt_algorithm,
-    'genkt': genkt_algorithm,
-    'cambridge_for_passive': cambridge_for_passive_algorithm,
-    'genkt_for_passive': genkt_for_passive_algorithm,
-    'ee_kt': ee_kt_algorithm,
-    'ee_genkt': ee_genkt_algorithm,
-    'plugin': plugin_algorithm,
-    'undefined': undefined_jet_algorithm,
+    'kt': fastjet.kt_algorithm,
+    'cambridge': fastjet.cambridge_algorithm,
+    'antikt': fastjet.antikt_algorithm,
+    'genkt': fastjet.genkt_algorithm,
+    'cambridge_for_passive': fastjet.cambridge_for_passive_algorithm,
+    'genkt_for_passive': fastjet.genkt_for_passive_algorithm,
+    'ee_kt': fastjet.ee_kt_algorithm,
+    'ee_genkt': fastjet.ee_genkt_algorithm,
+    'plugin': fastjet.plugin_algorithm,
+    'undefined': fastjet.undefined_jet_algorithm,
 }
 
 JET_AREA = {
-    'active': active_area,
-    'active_explicit_ghosts': active_area_explicit_ghosts,
-    'one_ghost_passive': one_ghost_passive_area,
-    'passive': passive_area,
-    'voronoi': voronoi_area,
+    'active': fastjet.active_area,
+    'active_explicit_ghosts': fastjet.active_area_explicit_ghosts,
+    'one_ghost_passive': fastjet.one_ghost_passive_area,
+    'passive': fastjet.passive_area,
+    'voronoi': fastjet.voronoi_area,
 }
 
 
-cdef class PyJetDefinition:
-    cdef JetDefinition* jdef
+cdef class JetDefinition:
+    cdef fastjet.JetDefinition* jdef
 
     def __cinit__(self):
         self.jdef = NULL
@@ -59,43 +59,43 @@ cdef class PyJetDefinition:
     def __init__(self, algo='undefined', R=None, p=None):
         if self.jdef != NULL:
             del self.jdef
-        cdef JetAlgorithm _algo
+        cdef fastjet.JetAlgorithm _algo
         try:
             _algo = JET_ALGORITHM[algo]
         except KeyError:
             raise ValueError("{0:r} is not a valid jet algorithm".format(algo))
         if R is not None:
             if p is not None:
-                self.jdef = new JetDefinition(_algo, R, p)
+                self.jdef = new fastjet.JetDefinition(_algo, R, p)
             else:
-                self.jdef = new JetDefinition(_algo, R)
+                self.jdef = new fastjet.JetDefinition(_algo, R)
         else:
-            self.jdef = new JetDefinition(_algo)
+            self.jdef = new fastjet.JetDefinition(_algo)
 
     def __dealloc__(self):
         del self.jdef
 
 
-cdef class PyClusterSequence:
+cdef class ClusterSequence:
     """ Python wrapper class for fastjet::ClusterSequence
     """
-    cdef ClusterSequence* sequence
-    cdef vector[PseudoJet] pseudojets
+    cdef fastjet.ClusterSequence* sequence
+    cdef vector[fastjet.PseudoJet] pseudojets
 
     def __cinit__(self):
         self.sequence = NULL
 
-    def __init__(self, inputs, PyJetDefinition jetdef, bool ep=False):
+    def __init__(self, inputs, JetDefinition jetdef, bool ep=False):
         if self.sequence != NULL:
             del self.sequence
         if isinstance(inputs, np.ndarray):
             # convert numpy array into vector of pseudojets
             array_to_pseudojets(inputs, self.pseudojets, ep)
-        elif isinstance(inputs, PyPseudoJet):
-            self.pseudojets = (<PyPseudoJet> inputs).constits
+        elif isinstance(inputs, PseudoJet):
+            self.pseudojets = (<PseudoJet> inputs).constits
         else:
-            raise TypeError("input is not an ndarray or PyPseudoJet")
-        self.sequence = new ClusterSequence(self.pseudojets, deref(jetdef.jdef))
+            raise TypeError("input is not an ndarray or PseudoJet")
+        self.sequence = new fastjet.ClusterSequence(self.pseudojets, deref(jetdef.jdef))
 
     def __dealloc__(self):
         del self.sequence
@@ -103,27 +103,27 @@ cdef class PyClusterSequence:
     def inclusive_jets(self, double ptmin=0.0, bool sort=True):
         """ return a vector of all jets (in the sense of the inclusive algorithm) with pt >= ptmin.
         """
-        cdef vector[PseudoJet] jets = self.sequence.inclusive_jets(ptmin)
+        cdef vector[fastjet.PseudoJet] jets = self.sequence.inclusive_jets(ptmin)
         if sort:
-            jets = sorted_by_pt(jets)
+            jets = fastjet.sorted_by_pt(jets)
         return vector_to_list(jets)
 
     def unclustered_particles(self):
-        cdef vector[PseudoJet] jets = self.sequence.unclustered_particles()
+        cdef vector[fastjet.PseudoJet] jets = self.sequence.unclustered_particles()
         return vector_to_list(jets)
 
     def childless_pseudojets(self):
-        cdef vector[PseudoJet] jets = self.sequence.childless_pseudojets()
+        cdef vector[fastjet.PseudoJet] jets = self.sequence.childless_pseudojets()
         return vector_to_list(jets)
 
 
-cdef class PyClusterSequenceArea(PyClusterSequence):
-    cdef AreaDefinition areadef
+cdef class ClusterSequenceArea(ClusterSequence):
+    cdef fastjet.AreaDefinition areadef
 
-    def __init__(self, inputs, PyJetDefinition jetdef, str areatype, bool ep=False):
+    def __init__(self, inputs, JetDefinition jetdef, str areatype, bool ep=False):
         if self.sequence != NULL:
             del self.sequence
-        cdef AreaType _area
+        cdef fastjet.AreaType _area
         try:
             _area = JET_AREA[areatype]
         except KeyError:
@@ -131,18 +131,18 @@ cdef class PyClusterSequenceArea(PyClusterSequence):
         if isinstance(inputs, np.ndarray):
             # convert numpy array into vector of pseudojets
             array_to_pseudojets(inputs, self.pseudojets, ep)
-        elif isinstance(inputs, PyPseudoJet):
-            self.pseudojets = (<PyPseudoJet> inputs).constits
+        elif isinstance(inputs, PseudoJet):
+            self.pseudojets = (<PseudoJet> inputs).constits
         else:
-            raise TypeError("input is not an ndarray or PyPseudoJet")
-        self.areadef = AreaDefinition(_area)
-        self.sequence = new ClusterSequenceArea(self.pseudojets, deref(jetdef.jdef), self.areadef)
+            raise TypeError("input is not an ndarray or PseudoJet")
+        self.areadef = fastjet.AreaDefinition(_area)
+        self.sequence = new fastjet.ClusterSequenceArea(self.pseudojets, deref(jetdef.jdef), self.areadef)
 
 
 
 # This class allows us to attach arbitrary info to PseudoJets in python objects
 # (e.g. a dict)
-cdef cppclass PseudoJetUserInfo(UserInfoBase):
+cdef cppclass PseudoJetUserInfo(fastjet.UserInfoBase):
     PyObject* info
 
     __init__(PyObject* info):
@@ -153,16 +153,16 @@ cdef cppclass PseudoJetUserInfo(UserInfoBase):
         Py_XDECREF(this.info)
 
 
-cdef class PyPseudoJet:
+cdef class PseudoJet:
     """ Python wrapper class for fastjet::PseudoJet
     """
-    cdef PseudoJet jet
-    cdef vector[PseudoJet] constits
+    cdef fastjet.PseudoJet jet
+    cdef vector[fastjet.PseudoJet] constits
     cdef PseudoJetUserInfo* userinfo
 
     @staticmethod
-    cdef inline PyPseudoJet wrap(PseudoJet& jet):
-        wrapped_jet = PyPseudoJet()
+    cdef inline PseudoJet wrap(fastjet.PseudoJet& jet):
+        wrapped_jet = PseudoJet()
         wrapped_jet.jet = jet
         if jet.has_valid_cluster_sequence() and jet.has_constituents():
             wrapped_jet.constits = jet.constituents()
@@ -173,10 +173,10 @@ cdef class PyPseudoJet:
         return wrapped_jet
 
     def __repr__(self):
-        return "PyPseudoJet(pt={0:.3f}, eta={1:.3f}, phi={2:.3f}, mass={3:.3f})".format(
-            self.pt, self.eta, self.phi, self.mass)
+        return "{0}(pt={1:.3f}, eta={2:.3f}, phi={3:.3f}, mass={4:.3f})".format(
+            self.__class__.__name__, self.pt, self.eta, self.phi, self.mass)
 
-    def __richcmp__(PyPseudoJet self, PyPseudoJet other, int op):
+    def __richcmp__(PseudoJet self, PseudoJet other, int op):
         # only implement eq (2) and ne (3) ops here
         if op in (2, 3):
             epsilon = 1e-5
@@ -204,18 +204,18 @@ cdef class PyPseudoJet:
                              (self.__class__.__name__, attr))
 
     def __contains__(self, other):
-        cdef PseudoJet* jet = <PseudoJet*> PyCObject_AsVoidPtr(other.jet)
+        cdef fastjet.PseudoJet* jet = <fastjet.PseudoJet*> PyCObject_AsVoidPtr(other.jet)
         if jet == NULL:
-            raise TypeError("object must be of type PyPseudoJet")
+            raise TypeError("object must be of type PseudoJet")
         return self.jet.contains(deref(jet))
 
     def __len__(self):
         return self.constits.size()
 
     def __iter__(self):
-        cdef PseudoJet jet
+        cdef fastjet.PseudoJet jet
         for jet in self.constits:
-            yield PyPseudoJet.wrap(jet)
+            yield PseudoJet.wrap(jet)
 
     def constituents(self):
         return list(self)
@@ -261,20 +261,20 @@ cdef class PyPseudoJet:
 
     @property
     def child(self):
-        cdef PseudoJet child
+        cdef fastjet.PseudoJet child
         if self.jet.has_child(child):
-            py_child = PyPseudoJet()
+            py_child = PseudoJet()
             py_child.jet = child
             return py_child
         return None
 
     @property
     def parents(self):
-        cdef PseudoJet p1
-        cdef PseudoJet p2
+        cdef fastjet.PseudoJet p1
+        cdef fastjet.PseudoJet p2
         if self.jet.has_parents(p1, p2):
-            py_p1 = PyPseudoJet()
-            py_p2 = PyPseudoJet()
+            py_p1 = PseudoJet()
+            py_p2 = PseudoJet()
             py_p1.jet = p1
             py_p2.jet = p2
             return py_p1, py_p2
@@ -283,12 +283,12 @@ cdef class PyPseudoJet:
     @property
     def area(self):
         # return jet area and uncertainty
-        if jet_has_area(&self.jet):
-            return jet_area(&self.jet), jet_area_error(&self.jet)
+        if fastjet.jet_has_area(&self.jet):
+            return fastjet.jet_area(&self.jet), fastjet.jet_area_error(&self.jet)
         return None, None
 
 
-cdef np.ndarray vector_to_array(vector[PseudoJet]& jets, bool ep=False):
+cdef np.ndarray vector_to_array(vector[fastjet.PseudoJet]& jets, bool ep=False):
     # convert vector of pseudojets into numpy array
     cdef np.ndarray np_jets
     if ep:
@@ -296,7 +296,7 @@ cdef np.ndarray vector_to_array(vector[PseudoJet]& jets, bool ep=False):
     else:
         np_jets = np.empty(jets.size(), dtype=DTYPE_PTEPM)
     cdef DTYPE_t* data = <DTYPE_t *> np_jets.data
-    cdef PseudoJet jet
+    cdef fastjet.PseudoJet jet
     cdef unsigned int ijet
     if ep:
         for ijet in range(jets.size()):
@@ -315,14 +315,14 @@ cdef np.ndarray vector_to_array(vector[PseudoJet]& jets, bool ep=False):
     return np_jets
 
 
-cdef list vector_to_list(vector[PseudoJet]& jets):
+cdef list vector_to_list(vector[fastjet.PseudoJet]& jets):
     cdef list py_jets = []
     for jet in jets:
-        py_jets.append(PyPseudoJet.wrap(jet))
+        py_jets.append(PseudoJet.wrap(jet))
     return py_jets
 
 
-cdef void array_to_pseudojets(np.ndarray vectors, vector[PseudoJet]& output, bool ep):
+cdef void array_to_pseudojets(np.ndarray vectors, vector[fastjet.PseudoJet]& output, bool ep):
     """
     The dtype ``vectors`` array can be either::
 
@@ -336,7 +336,7 @@ cdef void array_to_pseudojets(np.ndarray vectors, vector[PseudoJet]& output, boo
     cdef char* array = <char*> vectors.data
     cdef DTYPE_t* fourvect
     cdef DTYPE_t E, px, py, pz
-    cdef PseudoJet pseudojet
+    cdef fastjet.PseudoJet pseudojet
     cdef tuple fields = vectors.dtype.names
     cdef unsigned int num_fields = len(fields)
     cdef unsigned int size = vectors.shape[0], i
@@ -350,13 +350,13 @@ cdef void array_to_pseudojets(np.ndarray vectors, vector[PseudoJet]& output, boo
         fourvect = <DTYPE_t*> &array[i * rowbytes]
         # Note the constructor argument order is px, py, pz, E
         if ep:
-            pseudojet = PseudoJet(fourvect[1], fourvect[2], fourvect[3], fourvect[0])
+            pseudojet = fastjet.PseudoJet(fourvect[1], fourvect[2], fourvect[3], fourvect[0])
         else:
             px = fourvect[0] * cos(fourvect[2]) # pt cos(phi)
             py = fourvect[0] * sin(fourvect[2]) # pt sin(phi)
             pz = fourvect[0] * sinh(fourvect[1]) # pt sinh(eta)
             E = sqrt(px*px + py*py + pz*pz + fourvect[3] * fourvect[3])
-            pseudojet = PseudoJet(px, py, pz, E)
+            pseudojet = fastjet.PseudoJet(px, py, pz, E)
         if handle_userinfo:
             userinfo_dict = {}
             for field in fields[4:]:

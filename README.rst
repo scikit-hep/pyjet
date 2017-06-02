@@ -11,12 +11,12 @@ fjcore release. The interface code is written in Cython that then becomes
 compiled C++, so it's fast.
 
 pyjet provides the ``cluster()`` function that takes a NumPy array as input
-and returns a ``PyClusterSequence`` from which you can access the jets:
+and returns a ``ClusterSequence`` from which you can access the jets:
 
 .. code-block:: python
 
    sequence = cluster(event, R=1.0, p=-1)
-   jets = sequence.inclusive_jets()  # list of PyPseudoJets
+   jets = sequence.inclusive_jets()  # list of PseudoJets
 
 The dtype of the input array can be either:
 
@@ -31,7 +31,7 @@ or if ``cluster(..., ep=True)``:
    np.dtype([('E', 'f8'), ('px', 'f8'), ('py', 'f8'), ('pz', 'f8')])
 
 The input array may have additional fields of any type and this data can be
-accessed as attributes of the ``PyPseudoJet`` objects.
+accessed as attributes of the ``PseudoJet`` objects.
 
 
 Standalone Installation
@@ -56,12 +56,12 @@ Get example.py and run it::
 	6          6.498     -1.828     -2.248      3.309          6
 
 	The 6th jet has the following constituents:
-	PyPseudoJet(pt=0.096, eta=-2.166, phi=-2.271, mass=0.000)
-	PyPseudoJet(pt=2.200, eta=-1.747, phi=-1.972, mass=0.140)
-	PyPseudoJet(pt=1.713, eta=-2.037, phi=-2.469, mass=0.940)
-	PyPseudoJet(pt=0.263, eta=-1.682, phi=-2.564, mass=0.140)
-	PyPseudoJet(pt=1.478, eta=-1.738, phi=-2.343, mass=0.940)
-	PyPseudoJet(pt=0.894, eta=-1.527, phi=-2.250, mass=0.140)
+	PseudoJet(pt=0.096, eta=-2.166, phi=-2.271, mass=0.000)
+	PseudoJet(pt=2.200, eta=-1.747, phi=-1.972, mass=0.140)
+	PseudoJet(pt=1.713, eta=-2.037, phi=-2.469, mass=0.940)
+	PseudoJet(pt=0.263, eta=-1.682, phi=-2.564, mass=0.140)
+	PseudoJet(pt=1.478, eta=-1.738, phi=-2.343, mass=0.940)
+	PseudoJet(pt=0.894, eta=-1.527, phi=-2.250, mass=0.140)
 
 	Get the constituents as an array (pT, eta, phi, mass):
 	[( 0.09551261, -2.16560157, -2.27109083,   4.89091390e-06)

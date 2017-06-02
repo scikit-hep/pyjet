@@ -9,7 +9,7 @@ import numpy as np
 event = get_event()
 
 # You can associate arbitrary additional information to each particle
-# and this information can be accessed as attributes of the PyPseudoJets
+# and this information can be accessed as attributes of the PseudoJets
 event = append_fields(event, 'id', data=np.arange(len(event)))
 
 sequence = cluster(event, R=0.6, p=-1, ep=True)

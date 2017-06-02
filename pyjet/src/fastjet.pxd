@@ -1,3 +1,5 @@
+from libcpp cimport bool
+from libcpp.vector cimport vector
 
 cdef extern from "core.h" namespace "fastjet":
         
