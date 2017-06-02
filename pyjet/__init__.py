@@ -1,4 +1,3 @@
-import numpy as np
 from ._libpyjet import (PyClusterSequence, PyClusterSequenceArea,
                         PyJetDefinition, PyPseudoJet,
                         DTYPE, DTYPE_PTEPM, DTYPE_EP, USING_EXTERNAL_FASTJET)
