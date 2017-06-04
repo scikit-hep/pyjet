@@ -1,5 +1,5 @@
-#ifndef CORE_H
-#define CORE_H
+#ifndef FASTJET_H
+#define FASTJET_H
 
 #ifdef PYJET_STANDALONE
 

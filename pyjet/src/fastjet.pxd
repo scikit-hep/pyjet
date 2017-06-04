@@ -1,7 +1,7 @@
 from libcpp cimport bool
 from libcpp.vector cimport vector
 
-cdef extern from "core.h" namespace "fastjet":
+cdef extern from "fastjet.h" namespace "fastjet":
         
     cdef cppclass PseudoJet:
         PseudoJet(const double, const double, const double, const double)
@@ -83,12 +83,12 @@ cdef extern from "core.h" namespace "fastjet":
         pass
 
 
-cdef extern from "core.h" namespace "fastjet::PseudoJet":
+cdef extern from "fastjet.h" namespace "fastjet::PseudoJet":
     cdef cppclass UserInfoBase:
         pass
 
 
-cdef extern from "core.h":
+cdef extern from "fastjet.h":
     cdef bint _USING_EXTERNAL_FASTJET
     void silence()
     bool jet_has_area(PseudoJet*)

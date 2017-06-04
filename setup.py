@@ -65,7 +65,7 @@ def fastjet_prefix(fastjet_config='fastjet-config'):
 libpyjet = Extension(
     'pyjet._libpyjet',
     sources=['pyjet/src/_libpyjet.cpp'],
-    depends=['pyjet/src/core.h'],
+    depends=['pyjet/src/fastjet.h'],
     language='c++',
     include_dirs=[
         'pyjet/src',
@@ -165,7 +165,10 @@ setup(
         'pyjet.testdata',
     ],
     package_data={
-        'pyjet': ['testdata/*.dat'],
+        'pyjet': [
+            'testdata/*.dat',
+            'src/*.pxd', 'src/*.h', 'src/*.cpp',
+        ],
     },
     ext_modules=[libpyjet],
     cmdclass={

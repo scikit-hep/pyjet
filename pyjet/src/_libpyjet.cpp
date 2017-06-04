@@ -454,7 +454,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "stdexcept"
 #include "typeinfo"
 #include <math.h>
-#include "core.h"
+#include "fastjet.h"
 #include "pythread.h"
 #ifdef _OPENMP
 #include <omp.h>
