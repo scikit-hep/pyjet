@@ -1,5 +1,7 @@
+include MANIFEST.in
 recursive-include pyjet *.h *.cpp *.pyx *.pxi *.pxd *.dat
 recursive-include examples *.py
 include *.py
 include README.rst
 include COPYING
+global-exclude *.pyc *.pyo *.pyd
