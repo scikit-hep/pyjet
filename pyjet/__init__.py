@@ -40,3 +40,8 @@ def cluster(vectors, algo='genkt', area=None, ep=False, **kwargs):
     if area is not None:
         return ClusterSequenceArea(vectors, algo, area, ep=ep)
     return ClusterSequence(vectors, algo, ep=ep)
+
+
+def get_include():
+    from pkg_resources import resource_filename
+    return resource_filename('pyjet', 'src')
