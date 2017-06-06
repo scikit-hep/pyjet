@@ -39,7 +39,7 @@ then become attributes of the ``PseudoJet`` objects.
 See the `examples <https://github.com/ndawe/pyjet/tree/master/examples>`_ to
 get started:
 
-.. image:: examples/jet_areas.png
+.. image:: https://github.com/ndawe/pyjet/raw/master/examples/jet_areas.png
 
 
 Standalone Installation
