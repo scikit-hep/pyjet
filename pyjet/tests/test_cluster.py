@@ -1,7 +1,7 @@
 from pyjet import cluster, USING_EXTERNAL_FASTJET
 from pyjet.testdata import get_event
 from numpy.testing import assert_array_equal
-from nose.tools import assert_true, assert_equal, assert_almost_equal
+from nose.tools import assert_true, assert_equal, assert_almost_equal, raises
 from nose.plugins.skip import SkipTest
 from numpy.lib.recfunctions import append_fields
 import numpy as np
@@ -22,6 +22,23 @@ def test_recluster():
     sequence = cluster(get_event(), R=0.6, p=-1, ep=True)
     jets = sequence.inclusive_jets()
     assert_equal(jets[0].pt, cluster(jets[0], R=0.6, p=-1).inclusive_jets()[0].pt)
+
+
+@raises(ValueError)
+def test_cluster_vectors_not_structured():
+    cluster(np.ones(10), R=0.6, p=-1)
+
+
+@raises(ValueError)
+def test_cluster_vectors_fewer_than_four_fields():
+    vectors = np.zeros(10, dtype=[('a', 'f8'), ('b', 'f8'), ('c', 'f8')])
+    cluster(vectors, R=0.6, p=-1)
+
+
+@raises(ValueError)
+def test_cluster_vectors_wrong_type():
+    vectors = np.zeros(10, dtype=[('a', 'f8'), ('b', 'f8'), ('c', 'f4'), ('d', 'f8')])
+    cluster(vectors, R=0.6, p=-1)
 
 
 def test_userinfo():

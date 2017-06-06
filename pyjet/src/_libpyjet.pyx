@@ -322,7 +322,7 @@ cdef list vector_to_list(vector[fastjet.PseudoJet]& jets):
     return py_jets
 
 
-cdef void array_to_pseudojets(np.ndarray vectors, vector[fastjet.PseudoJet]& output, bool ep):
+cdef int array_to_pseudojets(np.ndarray vectors, vector[fastjet.PseudoJet]& output, bool ep) except -1:
     """
     The dtype ``vectors`` array can be either::
 
@@ -337,8 +337,18 @@ cdef void array_to_pseudojets(np.ndarray vectors, vector[fastjet.PseudoJet]& out
     cdef DTYPE_t* fourvect
     cdef DTYPE_t E, px, py, pz
     cdef fastjet.PseudoJet pseudojet
+    if vectors.dtype.names is None:
+        raise ValueError("vectors must be a structured array where the first four fields are of type float64")
     cdef tuple fields = vectors.dtype.names
     cdef unsigned int num_fields = len(fields)
+    if num_fields < 4:
+        raise ValueError("vectors has {0} fields but at least four are required".format(num_fields))
+    else:
+        # check that first four fields are float64 otherwise the pointer
+        # arithmetic below will fail miserably
+        for field in fields[:4]:
+            if vectors.dtype[field] != DTYPE:
+                raise ValueError("the first four fields of vectors must be of type float64")
     cdef unsigned int size = vectors.shape[0], i
     cdef unsigned int rowbytes = vectors.itemsize
     cdef bool handle_userinfo = num_fields > 4
@@ -348,7 +358,7 @@ cdef void array_to_pseudojets(np.ndarray vectors, vector[fastjet.PseudoJet]& out
     for i in range(size):
         # shift
         fourvect = <DTYPE_t*> &array[i * rowbytes]
-        # Note the constructor argument order is px, py, pz, E
+        # Note the fastjet.PseudoJet constructor argument order is px, py, pz, E
         if ep:
             pseudojet = fastjet.PseudoJet(fourvect[1], fourvect[2], fourvect[3], fourvect[0])
         else:
