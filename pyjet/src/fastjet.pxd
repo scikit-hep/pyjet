@@ -1,6 +1,11 @@
 from libcpp cimport bool
 from libcpp.vector cimport vector
 
+
+cdef extern from "fastjet.h":
+    cdef void raise_py_error()
+
+
 cdef extern from "fastjet.h" namespace "fastjet":
         
     cdef cppclass PseudoJet:
@@ -41,7 +46,7 @@ cdef extern from "fastjet.h" namespace "fastjet":
     vector[PseudoJet] sorted_by_pt(vector[PseudoJet]& jets)
 
     cdef cppclass ClusterSequence:
-        ClusterSequence(vector[PseudoJet]&, JetDefinition&)
+        ClusterSequence(vector[PseudoJet]&, JetDefinition&) except +raise_py_error
         vector[PseudoJet] inclusive_jets(double ptmin)
         void delete_self_when_unused()
         vector[PseudoJet] unclustered_particles()
@@ -60,9 +65,9 @@ cdef extern from "fastjet.h" namespace "fastjet":
         undefined_jet_algorithm
 
     cdef cppclass JetDefinition:
-        JetDefinition(JetAlgorithm)
-        JetDefinition(JetAlgorithm, double R) 
-        JetDefinition(JetAlgorithm, double R, double extra) 
+        JetDefinition(JetAlgorithm) except +raise_py_error
+        JetDefinition(JetAlgorithm, double R) except +raise_py_error
+        JetDefinition(JetAlgorithm, double R, double extra) except +raise_py_error
     
     cdef enum AreaType "fastjet::AreaType":
         invalid_area,
@@ -77,7 +82,7 @@ cdef extern from "fastjet.h" namespace "fastjet":
         AreaDefinition()
     
     cdef cppclass ClusterSequenceArea(ClusterSequence):
-        ClusterSequenceArea(vector[PseudoJet]&, JetDefinition&, AreaDefinition&)
+        ClusterSequenceArea(vector[PseudoJet]&, JetDefinition&, AreaDefinition&) except +raise_py_error
 
     cdef cppclass SharedPtr[T]:
         pass

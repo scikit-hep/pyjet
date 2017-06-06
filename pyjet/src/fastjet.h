@@ -38,13 +38,22 @@ class ClusterSequenceArea: public ClusterSequence {
 
 #endif
 
-#include <vector>
+#include "Python.h"
+#include <exception>
 
+void raise_py_error() {
+    try {
+        throw;
+    } catch (const fastjet::Error& e) {
+        PyErr_SetString(PyExc_RuntimeError, e.message().c_str());
+    } catch (const std::exception& e) {
+    	PyErr_SetString(PyExc_RuntimeError, e.what());
+  	}
+}
 
 void silence() {
     fastjet::ClusterSequence::set_fastjet_banner_stream(NULL);
 }
-
 
 inline bool jet_has_area(fastjet::PseudoJet* jet) {
 #ifdef PYJET_STANDALONE
@@ -54,7 +63,6 @@ inline bool jet_has_area(fastjet::PseudoJet* jet) {
 #endif
 }
 
-
 inline double jet_area(fastjet::PseudoJet* jet) {
 #ifdef PYJET_STANDALONE
     return -1;
@@ -62,7 +70,6 @@ inline double jet_area(fastjet::PseudoJet* jet) {
     return jet->area();
 #endif
 }
-
 
 inline double jet_area_error(fastjet::PseudoJet* jet) {
 #ifdef PYJET_STANDALONE
