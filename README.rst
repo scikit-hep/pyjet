@@ -3,6 +3,9 @@
 pyjet: The interface between FastJet and NumPy
 ==============================================
 
+.. image:: https://img.shields.io/pypi/v/pyjet.svg
+   :target: https://pypi.python.org/pypi/pyjet
+
 pyjet allows you to perform jet clustering with `FastJet <http://fastjet.fr/>`_
 on `NumPy <http://www.numpy.org/>`_ arrays. By default pyjet only depends on
 NumPy and internally uses FastJet's standalone fjcore release. The interface
