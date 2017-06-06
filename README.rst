@@ -16,7 +16,7 @@ and returns a ``ClusterSequence`` from which you can access the jets:
    sequence = cluster(vectors, R=1.0, p=-1)
    jets = sequence.inclusive_jets()  # list of PseudoJets
 
-The first four fields of the input array ``vectors`` can be either:
+The first four fields of the input array ``vectors`` must be either:
 
 .. code-block:: python
 
