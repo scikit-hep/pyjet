@@ -4,21 +4,19 @@ pyjet: The interface between FastJet and NumPy
 ==============================================
 
 pyjet allows you to perform jet clustering with `FastJet <http://fastjet.fr/>`_
-on `NumPy <http://www.numpy.org/>`_ arrays.
-
-By default pyjet only depends on NumPy and internally uses FastJet's standalone
-fjcore release. The interface code is written in Cython that then becomes
-compiled C++, so it's fast.
+on `NumPy <http://www.numpy.org/>`_ arrays. By default pyjet only depends on
+NumPy and internally uses FastJet's standalone fjcore release. The interface
+code is written in Cython that then becomes compiled C++, so it's fast.
 
 pyjet provides the ``cluster()`` function that takes a NumPy array as input
 and returns a ``ClusterSequence`` from which you can access the jets:
 
 .. code-block:: python
 
-   sequence = cluster(event, R=1.0, p=-1)
+   sequence = cluster(vectors, R=1.0, p=-1)
    jets = sequence.inclusive_jets()  # list of PseudoJets
 
-The dtype of the input array ``event`` can be either:
+The first four fields of the input array ``vectors`` can be either:
 
 .. code-block:: python
 
@@ -30,8 +28,8 @@ or if ``cluster(..., ep=True)``:
 
    np.dtype([('E', 'f8'), ('px', 'f8'), ('py', 'f8'), ('pz', 'f8')])
 
-This array may have additional fields of any type. Additional fields will be
-accessible as attributes of the ``PseudoJet`` objects.
+This array may have additional fields of any type. Additional fields will
+then become attributes of the ``PseudoJet`` objects.
 
 See the `examples <https://github.com/ndawe/pyjet/tree/master/examples>`_ to
 get started:
