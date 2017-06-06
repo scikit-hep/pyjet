@@ -1,4 +1,4 @@
-// fjcore -- extracted from FastJet v3.2.1 (http://fastjet.fr)
+// fjcore -- extracted from FastJet v3.2.2 (http://fastjet.fr)
 //
 // fjcore constitutes a digest of the main FastJet functionality.
 // The files fjcore.hh and fjcore.cc are meant to provide easy access to these 
@@ -51,7 +51,7 @@
 //   EPJC72(2012)1896 [arXiv:1111.6097] (FastJet User Manual)
 //   and, optionally, Phys.Lett.B641 (2006) 57 [arXiv:hep-ph/0512210]
 //
-// Copyright (c) 2005-2016, Matteo Cacciari, Gavin P. Salam and Gregory Soyez
+// Copyright (c) 2005-2017, Matteo Cacciari, Gavin P. Salam and Gregory Soyez
 //
 //----------------------------------------------------------------------
 // This file is part of FastJet.
@@ -81,12 +81,14 @@
 #define __FJCORE_DROP_CGAL    // disable CGAL support
 #ifndef _INCLUDE_FJCORE_CONFIG_AUTO_H
 #define _INCLUDE_FJCORE_CONFIG_AUTO_H 1
-#ifndef FJCORE_HAVE_DEMANGLING_SUPPORT 
+#ifndef FJCORE_HAVE_CXX14_DEPRECATED 
 #endif
 #ifndef FJCORE_HAVE_DLFCN_H 
 # define FJCORE_HAVE_DLFCN_H  1 
 #endif
 #ifndef FJCORE_HAVE_EXECINFO_H 
+#endif
+#ifndef FJCORE_HAVE_EXPLICIT_FOR_OPERATORS 
 #endif
 #ifndef FJCORE_HAVE_GNUCXX_DEPRECATED 
 #endif
@@ -98,6 +100,8 @@
 #endif
 #ifndef FJCORE_HAVE_MEMORY_H 
 # define FJCORE_HAVE_MEMORY_H  1 
+#endif
+#ifndef FJCORE_HAVE_OVERRIDE 
 #endif
 #ifndef FJCORE_HAVE_STDINT_H 
 # define FJCORE_HAVE_STDINT_H  1 
@@ -133,7 +137,7 @@
 # define FJCORE_PACKAGE_NAME  "FastJet" 
 #endif
 #ifndef FJCORE_PACKAGE_STRING 
-# define FJCORE_PACKAGE_STRING  "FastJet 3.2.1" 
+# define FJCORE_PACKAGE_STRING  "FastJet 3.2.2" 
 #endif
 #ifndef FJCORE_PACKAGE_TARNAME 
 # define FJCORE_PACKAGE_TARNAME  "fastjet" 
@@ -142,13 +146,13 @@
 # define FJCORE_PACKAGE_URL  "" 
 #endif
 #ifndef FJCORE_PACKAGE_VERSION 
-# define FJCORE_PACKAGE_VERSION  "3.2.1" 
+# define FJCORE_PACKAGE_VERSION  "3.2.2" 
 #endif
 #ifndef FJCORE_STDC_HEADERS 
 # define FJCORE_STDC_HEADERS  1 
 #endif
 #ifndef FJCORE_VERSION 
-# define FJCORE_VERSION  "3.2.1" 
+# define FJCORE_VERSION  "3.2.2" 
 #endif
 #ifndef FJCORE_VERSION_MAJOR 
 # define FJCORE_VERSION_MAJOR  3 
@@ -157,10 +161,10 @@
 # define FJCORE_VERSION_MINOR  2 
 #endif
 #ifndef FJCORE_VERSION_NUMBER 
-# define FJCORE_VERSION_NUMBER  30201 
+# define FJCORE_VERSION_NUMBER  30202 
 #endif
 #ifndef FJCORE_VERSION_PATCHLEVEL 
-# define FJCORE_VERSION_PATCHLEVEL  1 
+# define FJCORE_VERSION_PATCHLEVEL  2 
 #endif
 #endif
 #ifndef __FJCORE_CONFIG_H__
@@ -242,7 +246,7 @@ FJCORE_END_NAMESPACE
 #endif  // __IS_BASE_OF_HH__
 #ifndef __FJCORE_FJCORE_DEPRECATED_HH__
 #define __FJCORE_FJCORE_DEPRECATED_HH__
-#if defined(FJCORE_HAVE_CXX14_DEPRECATED)
+#if defined(FJCORE_HAVE_CXX14_DEPRECATED) and (!defined(__FJCORE__))
 # define FJCORE_DEPRECATED               [[deprecated]]
 # define FJCORE_DEPRECATED_MSG(message)  [[deprecated(message)]]
 #elif defined(FJCORE_HAVE_GNUCXX_DEPRECATED)
@@ -574,10 +578,10 @@ class PseudoJet {
   enum { X=0, Y=1, Z=2, T=3, NUM_COORDINATES=4, SIZE=NUM_COORDINATES };
   PseudoJet & boost(const PseudoJet & prest);
   PseudoJet & unboost(const PseudoJet & prest);
-  void operator*=(double);
-  void operator/=(double);
-  void operator+=(const PseudoJet &);
-  void operator-=(const PseudoJet &);
+  PseudoJet & operator*=(double);
+  PseudoJet & operator/=(double);
+  PseudoJet & operator+=(const PseudoJet &);
+  PseudoJet & operator-=(const PseudoJet &);
   inline void reset(double px, double py, double pz, double E);
   inline void reset(const PseudoJet & psjet) {
     (*this) = psjet;
