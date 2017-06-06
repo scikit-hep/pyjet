@@ -33,6 +33,8 @@ or if ``cluster(..., ep=True)``:
 The input array may have additional fields of any type and this data can be
 accessed as attributes of the ``PseudoJet`` objects.
 
+.. image:: examples/jet_areas.png
+
 
 Standalone Installation
 -----------------------
