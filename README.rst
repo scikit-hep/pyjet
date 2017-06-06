@@ -14,6 +14,10 @@ and returns a ``ClusterSequence`` from which you can access the jets:
 
 .. code-block:: python
 
+   from pyjet import cluster
+   from pyjet.testdata import get_event
+
+   vectors = get_event()
    sequence = cluster(vectors, R=1.0, p=-1)
    jets = sequence.inclusive_jets()  # list of PseudoJets
 

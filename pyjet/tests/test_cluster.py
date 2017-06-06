@@ -8,7 +8,7 @@ import numpy as np
 
 
 def test_cluster():
-    sequence = cluster(get_event(), R=0.6, p=-1, ep=True)
+    sequence = cluster(get_event(), R=0.6, p=-1)
     jets = sequence.inclusive_jets()
     assert_equal(len(jets), 91)
     assert_almost_equal(jets[0].pt, 983.28, 2)
@@ -19,7 +19,7 @@ def test_cluster():
 
 
 def test_recluster():
-    sequence = cluster(get_event(), R=0.6, p=-1, ep=True)
+    sequence = cluster(get_event(), R=0.6, p=-1)
     jets = sequence.inclusive_jets()
     assert_equal(jets[0].pt, cluster(jets[0], R=0.6, p=-1).inclusive_jets()[0].pt)
 
@@ -45,7 +45,7 @@ def test_userinfo():
     event = get_event()
     # add an 'id' field to each particle
     event = append_fields(event, 'id', data=np.arange(len(event)))
-    sequence = cluster(event, R=0.6, p=-1, ep=True)
+    sequence = cluster(event, R=0.6, p=-1)
     jets = sequence.inclusive_jets()
     ids = []
     for jet in jets:
@@ -60,7 +60,7 @@ def test_userinfo():
 def test_jet_area():
     if not USING_EXTERNAL_FASTJET:
         raise SkipTest("using internal fastjet")
-    sequence = cluster(get_event(), R=0.6, p=-1, ep=True, area='active')
+    sequence = cluster(get_event(), R=0.6, p=-1, area='active')
     jets = sequence.inclusive_jets()
     for jet in jets:
         area, error = jet.area

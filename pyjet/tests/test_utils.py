@@ -6,7 +6,7 @@ import numpy as np
 
 
 def test_vector_conversion():
-    event = get_event()
+    event = get_event(ep=True)
     assert_array_almost_equal(
         event.view(DTYPE),
         ptepm2ep(ep2ptepm(event)).view(DTYPE))

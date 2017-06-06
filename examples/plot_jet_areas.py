@@ -1,6 +1,5 @@
 import numpy as np
 from pyjet import cluster, DTYPE_PTEPM
-from pyjet.utils import ep2ptepm
 from pyjet.testdata import get_event
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import cm
@@ -11,7 +10,7 @@ eta_min, eta_max = -4., 4.
 extent = eta_min, eta_max, -np.pi, np.pi
 bins = 200
 
-event = ep2ptepm(get_event())
+event = get_event()
 
 # create regular grid of ghosts
 eta_edges = np.linspace(eta_min, eta_max, bins + 1)
@@ -53,7 +52,7 @@ for p, label in zip((-1, 0, 1), (r'anti-$k_t$', 'Cam/Aachen', '$k_t$')):
               interpolation='none', origin='lower')
 
     # overlay original event
-    particles = ep2ptepm(get_event())
+    particles = get_event()
     ax.scatter(particles['eta'], particles['phi'],
                s=30 * particles['pT'] / particles['pT'].max())
     ax.set_xlim(extent[:2])

@@ -12,7 +12,7 @@ event = get_event()
 # and this information can be accessed as attributes of the PseudoJets
 event = append_fields(event, 'id', data=np.arange(len(event)))
 
-sequence = cluster(event, R=0.6, p=-1, ep=True)
+sequence = cluster(event, R=0.6, p=-1)
 jets = sequence.inclusive_jets()
 
 ids = []
