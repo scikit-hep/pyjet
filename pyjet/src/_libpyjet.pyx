@@ -15,13 +15,16 @@ from cpython cimport PyObject
 from cpython.ref cimport Py_INCREF, Py_XINCREF, Py_DECREF, Py_XDECREF
 from cpython.cobject cimport PyCObject_AsVoidPtr
 
+cimport fastjet
+
+cdef extern from "2to3.h":
+    pass
+
 DTYPE = np.float64
 ctypedef np.float64_t DTYPE_t
 
 DTYPE_PTEPM = np.dtype([('pT', DTYPE), ('eta', DTYPE), ('phi', DTYPE), ('mass', DTYPE)])
 DTYPE_EP = np.dtype([('E', DTYPE), ('px', DTYPE), ('py', DTYPE), ('pz', DTYPE)])
-
-cimport fastjet
 
 USING_EXTERNAL_FASTJET = fastjet._USING_EXTERNAL_FASTJET
 
