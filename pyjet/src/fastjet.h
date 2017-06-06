@@ -52,7 +52,10 @@ void raise_py_error() {
 }
 
 void silence() {
+    // Don't show the banner
     fastjet::ClusterSequence::set_fastjet_banner_stream(NULL);
+    // Don't print errors
+    fastjet::Error::set_print_errors(false);
 }
 
 inline bool jet_has_area(fastjet::PseudoJet* jet) {

@@ -10530,7 +10530,7 @@ PyMODINIT_FUNC PyInit__libpyjet(void)
  * 
  * USING_EXTERNAL_FASTJET = fastjet._USING_EXTERNAL_FASTJET             # <<<<<<<<<<<<<<
  * 
- * # hide the FastJet banner
+ * # hide the FastJet banner and don't print errors
  */
   __pyx_t_3 = __Pyx_PyBool_FromLong(_USING_EXTERNAL_FASTJET); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -10539,7 +10539,7 @@ PyMODINIT_FUNC PyInit__libpyjet(void)
 
   /* "_libpyjet.pyx":32
  * 
- * # hide the FastJet banner
+ * # hide the FastJet banner and don't print errors
  * fastjet.silence()             # <<<<<<<<<<<<<<
  * 
  * JET_ALGORITHM = {

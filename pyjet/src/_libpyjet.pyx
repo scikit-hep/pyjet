@@ -28,7 +28,7 @@ DTYPE_EP = np.dtype([('E', DTYPE), ('px', DTYPE), ('py', DTYPE), ('pz', DTYPE)])
 
 USING_EXTERNAL_FASTJET = fastjet._USING_EXTERNAL_FASTJET
 
-# hide the FastJet banner
+# hide the FastJet banner and don't print errors
 fastjet.silence()
 
 JET_ALGORITHM = {
