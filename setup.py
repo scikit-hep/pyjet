@@ -152,7 +152,7 @@ else:
 
 setup(
     name='pyjet',
-    version='0.5.1',
+    version='1.0.0',
     description='The interface between FastJet and NumPy',
     long_description=''.join(open('README.rst').readlines()),
     maintainer='Noel Dawe',
@@ -189,7 +189,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: C++',
         'Programming Language :: Cython',
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
     ],
     **setuptools_options
 )
