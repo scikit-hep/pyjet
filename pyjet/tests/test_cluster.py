@@ -1,7 +1,8 @@
 from pyjet import cluster, USING_EXTERNAL_FASTJET
 from pyjet.testdata import get_event
 from numpy.testing import assert_array_equal
-from nose.tools import assert_true, assert_equal, assert_almost_equal, raises
+from nose.tools import (assert_true, assert_equal, assert_almost_equal,
+                        raises, assert_raises)
 from nose.plugins.skip import SkipTest
 from numpy.lib.recfunctions import append_fields
 import numpy as np
@@ -16,6 +17,8 @@ def test_cluster():
     assert_equal(len(jets[0].parents), 2)
     assert_equal(jets[0].parents[0].child.pt, jets[0].pt)
     assert_equal(jets[0].parents[0].child, jets[0])
+    # too few parameters specified for jet definition
+    assert_raises(RuntimeError, cluster, get_event())
 
 
 def test_recluster():
