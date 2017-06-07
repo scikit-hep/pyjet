@@ -40,12 +40,28 @@ class ClusterSequenceArea: public ClusterSequence {
 
 #include "Python.h"
 #include <exception>
+#include <algorithm>
+#include <functional>
+#include <cctype>
+#include <locale>
+
+// trim end of std::string (in place)
+static inline void rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+}
+
+// trim end of std::string (with copying)
+static inline std::string rtrimmed(std::string s) {
+    rtrim(s);
+    return s;
+}
 
 void raise_py_error() {
     try {
         throw;
     } catch (const fastjet::Error& e) {
-        PyErr_SetString(PyExc_RuntimeError, e.message().c_str());
+        PyErr_SetString(PyExc_RuntimeError, rtrimmed(e.message()).c_str());
     } catch (const std::exception& e) {
     	PyErr_SetString(PyExc_RuntimeError, e.what());
   	}
