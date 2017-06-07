@@ -35,6 +35,7 @@ import os
 import platform
 import subprocess
 from glob import glob
+from distutils.sysconfig import customize_compiler
 
 # Prevent setup from trying to create hard links
 # which are not allowed on AFS between directories.
@@ -111,6 +112,16 @@ class build_ext(_build_ext):
             libpyjet.sources.append('pyjet/src/fjcore.cpp')
             libpyjet.depends.append('pyjet/src/fjcore.h')
             libpyjet.define_macros = [('PYJET_STANDALONE', None)]
+
+    def build_extensions(self):
+        # Remove the "-Wstrict-prototypes" compiler option, which isn't valid
+        # for C++.
+        customize_compiler(self.compiler)
+        try:
+            self.compiler.compiler_so.remove('-Wstrict-prototypes')
+        except (AttributeError, ValueError):
+            pass
+        _build_ext.build_extensions(self)
 
 
 class install(_install):
