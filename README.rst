@@ -36,7 +36,9 @@ or if ``cluster(..., ep=True)``:
 
    np.dtype([('E', 'f8'), ('px', 'f8'), ('py', 'f8'), ('pz', 'f8')])
 
-This array may have additional fields of any type. Additional fields will
+Note that the field names of the input array need not match 'pT', 'eta', 'phi',
+'mass' etc. pyjet only assumes that the first four fields are those quantities.
+This array may also have additional fields of any type. Additional fields will
 then become attributes of the ``PseudoJet`` objects.
 
 See the `examples <https://github.com/ndawe/pyjet/tree/master/examples>`_ to
