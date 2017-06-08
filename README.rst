@@ -46,6 +46,8 @@ get started:
 
 .. image:: https://github.com/ndawe/pyjet/raw/master/examples/jet_areas.png
 
+Remember that if you use pyjet then you are using FastJet and should cite the
+papers listed `here <http://fastjet.fr/about.html>`_.
 
 Standalone Installation
 -----------------------
