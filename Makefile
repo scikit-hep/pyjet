@@ -39,3 +39,7 @@ test: inplace
 
 sdist: clean
 	@$(PYTHON) setup.py sdist
+
+valgrind: inplace
+	valgrind --log-file=valgrind.log --tool=memcheck --leak-check=full \
+		 --suppressions=etc/valgrind-python.supp $(NOSETESTS) -s -v pyjet
