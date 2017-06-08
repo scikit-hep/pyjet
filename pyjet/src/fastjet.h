@@ -63,8 +63,8 @@ void raise_py_error() {
     } catch (const fastjet::Error& e) {
         PyErr_SetString(PyExc_RuntimeError, rtrimmed(e.message()).c_str());
     } catch (const std::exception& e) {
-    	PyErr_SetString(PyExc_RuntimeError, e.what());
-  	}
+        PyErr_SetString(PyExc_RuntimeError, e.what());
+    }
 }
 
 void silence() {
