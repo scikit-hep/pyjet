@@ -10,7 +10,8 @@ pyjet allows you to perform jet clustering with `FastJet <http://fastjet.fr/>`_
 on `NumPy <http://www.numpy.org/>`_ arrays. By default pyjet only depends on
 NumPy and internally uses FastJet's standalone fjcore release. The interface
 code is written in `Cython <http://cython.org/>`_ that then becomes compiled
-C++, so it's fast.
+C++, so it's fast. Remember that if you use pyjet then you are using FastJet
+and should cite the papers listed `here <http://fastjet.fr/about.html>`_.
 
 pyjet provides the ``cluster()`` function that takes a NumPy array as input
 and returns a ``ClusterSequence`` from which you can access the jets:
@@ -46,8 +47,6 @@ get started:
 
 .. image:: https://github.com/ndawe/pyjet/raw/master/examples/jet_areas.png
 
-Remember that if you use pyjet then you are using FastJet and should cite the
-papers listed `here <http://fastjet.fr/about.html>`_.
 
 Standalone Installation
 -----------------------
