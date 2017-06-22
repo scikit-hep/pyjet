@@ -3605,12 +3605,12 @@ static int __pyx_pf_9_libpyjet_19ClusterSequenceArea___init__(struct __pyx_obj_9
  * 
  *     @staticmethod
  *     cdef inline PseudoJet wrap(fastjet.PseudoJet& jet):             # <<<<<<<<<<<<<<
- *         wrapped_jet = PseudoJet()
+ *         cdef PseudoJet wrapped_jet = PseudoJet()
  *         wrapped_jet.jet = jet
  */
 
 static CYTHON_INLINE struct __pyx_obj_9_libpyjet_PseudoJet *__pyx_f_9_libpyjet_9PseudoJet_wrap(fastjet::PseudoJet &__pyx_v_jet) {
-  struct __pyx_obj_9_libpyjet_PseudoJet *__pyx_v_wrapped_jet = NULL;
+  struct __pyx_obj_9_libpyjet_PseudoJet *__pyx_v_wrapped_jet = 0;
   struct __pyx_obj_9_libpyjet_PseudoJet *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3621,7 +3621,7 @@ static CYTHON_INLINE struct __pyx_obj_9_libpyjet_PseudoJet *__pyx_f_9_libpyjet_9
   /* "_libpyjet.pyx":168
  *     @staticmethod
  *     cdef inline PseudoJet wrap(fastjet.PseudoJet& jet):
- *         wrapped_jet = PseudoJet()             # <<<<<<<<<<<<<<
+ *         cdef PseudoJet wrapped_jet = PseudoJet()             # <<<<<<<<<<<<<<
  *         wrapped_jet.jet = jet
  *         if jet.has_valid_cluster_sequence() and jet.has_constituents():
  */
@@ -3632,7 +3632,7 @@ static CYTHON_INLINE struct __pyx_obj_9_libpyjet_PseudoJet *__pyx_f_9_libpyjet_9
 
   /* "_libpyjet.pyx":169
  *     cdef inline PseudoJet wrap(fastjet.PseudoJet& jet):
- *         wrapped_jet = PseudoJet()
+ *         cdef PseudoJet wrapped_jet = PseudoJet()
  *         wrapped_jet.jet = jet             # <<<<<<<<<<<<<<
  *         if jet.has_valid_cluster_sequence() and jet.has_constituents():
  *             wrapped_jet.constits = jet.constituents()
@@ -3640,7 +3640,7 @@ static CYTHON_INLINE struct __pyx_obj_9_libpyjet_PseudoJet *__pyx_f_9_libpyjet_9
   __pyx_v_wrapped_jet->jet = __pyx_v_jet;
 
   /* "_libpyjet.pyx":170
- *         wrapped_jet = PseudoJet()
+ *         cdef PseudoJet wrapped_jet = PseudoJet()
  *         wrapped_jet.jet = jet
  *         if jet.has_valid_cluster_sequence() and jet.has_constituents():             # <<<<<<<<<<<<<<
  *             wrapped_jet.constits = jet.constituents()
@@ -3667,7 +3667,7 @@ static CYTHON_INLINE struct __pyx_obj_9_libpyjet_PseudoJet *__pyx_f_9_libpyjet_9
     __pyx_v_wrapped_jet->constits = __pyx_v_jet.constituents();
 
     /* "_libpyjet.pyx":170
- *         wrapped_jet = PseudoJet()
+ *         cdef PseudoJet wrapped_jet = PseudoJet()
  *         wrapped_jet.jet = jet
  *         if jet.has_valid_cluster_sequence() and jet.has_constituents():             # <<<<<<<<<<<<<<
  *             wrapped_jet.constits = jet.constituents()
@@ -3732,7 +3732,7 @@ static CYTHON_INLINE struct __pyx_obj_9_libpyjet_PseudoJet *__pyx_f_9_libpyjet_9
  * 
  *     @staticmethod
  *     cdef inline PseudoJet wrap(fastjet.PseudoJet& jet):             # <<<<<<<<<<<<<<
- *         wrapped_jet = PseudoJet()
+ *         cdef PseudoJet wrapped_jet = PseudoJet()
  *         wrapped_jet.jet = jet
  */
 

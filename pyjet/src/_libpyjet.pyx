@@ -165,7 +165,7 @@ cdef class PseudoJet:
 
     @staticmethod
     cdef inline PseudoJet wrap(fastjet.PseudoJet& jet):
-        wrapped_jet = PseudoJet()
+        cdef PseudoJet wrapped_jet = PseudoJet()
         wrapped_jet.jet = jet
         if jet.has_valid_cluster_sequence() and jet.has_constituents():
             wrapped_jet.constits = jet.constituents()
