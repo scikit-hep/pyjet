@@ -20,6 +20,9 @@ cimport fastjet
 cdef extern from "2to3.h":
     pass
 
+cdef extern from "Python.h":
+    long _Py_HashPointer(void*)
+
 DTYPE = np.float64
 ctypedef np.float64_t DTYPE_t
 
@@ -189,6 +192,9 @@ cdef class PseudoJet:
                     abs(self.pz - other.pz) < epsilon
             return equal if op == 2 else not equal
         raise NotImplementedError("rich comparison operator %i not implemented" % op)
+
+    def __hash__(self):
+        return _Py_HashPointer(<void*>self)
 
     @property
     def info(self):

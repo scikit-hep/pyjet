@@ -19,6 +19,9 @@ def test_cluster():
     assert_equal(jets[0].parents[0].child, jets[0])
     # too few parameters specified for jet definition
     assert_raises(RuntimeError, cluster, get_event())
+    # hashable
+    hash(sequence)
+    hash(jets[0])
 
 
 def test_recluster():
