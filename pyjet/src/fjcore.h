@@ -1,4 +1,4 @@
-// fjcore -- extracted from FastJet v3.2.2 (http://fastjet.fr)
+// fjcore -- extracted from FastJet v3.3.0 (http://fastjet.fr)
 //
 // fjcore constitutes a digest of the main FastJet functionality.
 // The files fjcore.hh and fjcore.cc are meant to provide easy access to these 
@@ -83,6 +83,8 @@
 #define _INCLUDE_FJCORE_CONFIG_AUTO_H 1
 #ifndef FJCORE_HAVE_CXX14_DEPRECATED 
 #endif
+#ifndef FJCORE_HAVE_DEMANGLING_SUPPORT 
+#endif
 #ifndef FJCORE_HAVE_DLFCN_H 
 # define FJCORE_HAVE_DLFCN_H  1 
 #endif
@@ -137,34 +139,31 @@
 # define FJCORE_PACKAGE_NAME  "FastJet" 
 #endif
 #ifndef FJCORE_PACKAGE_STRING 
-# define FJCORE_PACKAGE_STRING  "FastJet 3.2.2" 
+# define FJCORE_PACKAGE_STRING  "FastJet 3.3.0" 
 #endif
 #ifndef FJCORE_PACKAGE_TARNAME 
 # define FJCORE_PACKAGE_TARNAME  "fastjet" 
 #endif
-#ifndef FJCORE_PACKAGE_URL 
-# define FJCORE_PACKAGE_URL  "" 
-#endif
 #ifndef FJCORE_PACKAGE_VERSION 
-# define FJCORE_PACKAGE_VERSION  "3.2.2" 
+# define FJCORE_PACKAGE_VERSION  "3.3.0" 
 #endif
 #ifndef FJCORE_STDC_HEADERS 
 # define FJCORE_STDC_HEADERS  1 
 #endif
 #ifndef FJCORE_VERSION 
-# define FJCORE_VERSION  "3.2.2" 
+# define FJCORE_VERSION  "3.3.0" 
 #endif
 #ifndef FJCORE_VERSION_MAJOR 
 # define FJCORE_VERSION_MAJOR  3 
 #endif
 #ifndef FJCORE_VERSION_MINOR 
-# define FJCORE_VERSION_MINOR  2 
+# define FJCORE_VERSION_MINOR  3 
 #endif
 #ifndef FJCORE_VERSION_NUMBER 
-# define FJCORE_VERSION_NUMBER  30202 
+# define FJCORE_VERSION_NUMBER  30300 
 #endif
 #ifndef FJCORE_VERSION_PATCHLEVEL 
-# define FJCORE_VERSION_PATCHLEVEL  2 
+# define FJCORE_VERSION_PATCHLEVEL  0 
 #endif
 #endif
 #ifndef __FJCORE_CONFIG_H__
@@ -246,6 +245,7 @@ FJCORE_END_NAMESPACE
 #endif  // __IS_BASE_OF_HH__
 #ifndef __FJCORE_FJCORE_DEPRECATED_HH__
 #define __FJCORE_FJCORE_DEPRECATED_HH__
+#ifndef SWIG
 #if defined(FJCORE_HAVE_CXX14_DEPRECATED) and (!defined(__FJCORE__))
 # define FJCORE_DEPRECATED               [[deprecated]]
 # define FJCORE_DEPRECATED_MSG(message)  [[deprecated(message)]]
@@ -256,6 +256,10 @@ FJCORE_END_NAMESPACE
 # define FJCORE_DEPRECATED               
 # define FJCORE_DEPRECATED_MSG(message) 
 #endif
+#else  // SIWG
+# define FJCORE_DEPRECATED               
+# define FJCORE_DEPRECATED_MSG(message) 
+#endif // SWIG
 #endif // __FJCORE_FJCORE_DEPRECATED_HH__
 #ifndef __FJCORE_SHARED_PTR_HH__
 #define __FJCORE_SHARED_PTR_HH__
@@ -455,6 +459,7 @@ public:
   Error(const std::string & message);
   virtual ~Error() {}
   std::string message() const {return _message;}
+  std::string description() const {return message();}
   static void set_print_errors(bool print_errors) {_print_errors = print_errors;}
   static void set_print_backtrace(bool enabled);
   static void set_default_stream(std::ostream * ostr) {
@@ -525,7 +530,9 @@ class PseudoJet {
  public:
   PseudoJet() : _px(0), _py(0), _pz(0), _E(0) {_finish_init(); _reset_indices();}
   PseudoJet(const double px, const double py, const double pz, const double E);
+  #ifndef SWIG
   template <class L> PseudoJet(const L & some_four_vector);
+  #endif
   PseudoJet(bool /* dummy */) {}
   virtual ~PseudoJet(){};
   inline double E()   const {return _E;}
@@ -586,6 +593,7 @@ class PseudoJet {
   inline void reset(const PseudoJet & psjet) {
     (*this) = psjet;
   }
+#ifndef SWIG
   template <class L> inline void reset(const L & some_four_vector) {
     const PseudoJet * pj = fjcore::cast_if_derived<const PseudoJet>(&some_four_vector);
     if (pj){
@@ -595,6 +603,7 @@ class PseudoJet {
 	    some_four_vector[2], some_four_vector[3]);
     }
   }
+#endif // SWIG
   inline void reset_PtYPhiM(double pt_in, double y_in, double phi_in, double m_in=0.0) {
     reset_momentum_PtYPhiM(pt_in, y_in, phi_in, m_in);
     _reset_indices();
@@ -750,9 +759,11 @@ public:
 private:
   const std::vector<double> * _ref_values;
 };
+#ifndef SWIG
 template <class L> inline  PseudoJet::PseudoJet(const L & some_four_vector) {
   reset(some_four_vector);
 }
+#endif
 inline void PseudoJet::_reset_indices() { 
   set_cluster_hist_index(-1);
   set_user_index(-1);
@@ -1430,12 +1441,14 @@ class ClusterSequence {
   inline void plugin_associate_extras(Extras * extras_in) {
     _extras.reset(extras_in);
   }
+#ifndef SWIG
 #ifdef FJCORE_HAVE_AUTO_PTR_INTERFACE
   FJCORE_DEPRECATED_MSG("Please use ClusterSequence::plugin_associate_extras(Extras * extras_in)) instead")
   inline void plugin_associate_extras(std::auto_ptr<Extras> extras_in){
     _extras.reset(extras_in.release());
   }
 #endif
+#endif //SWIG
   inline bool plugin_activated() const {return _plugin_activated;}
   const Extras * extras() const {return _extras.get();}
   template<class GBJ> void plugin_simple_N2_cluster () {
