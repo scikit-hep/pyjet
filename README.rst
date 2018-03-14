@@ -1,6 +1,6 @@
 .. -*- mode: rst -*-
 
-pyjet: The interface between FastJet and NumPy
+pyjet: the interface between FastJet and NumPy
 ==============================================
 
 .. image:: https://img.shields.io/pypi/v/pyjet.svg
@@ -42,10 +42,10 @@ Note that the field names of the input array need not match 'pT', 'eta', 'phi',
 This array may also have additional fields of any type. Additional fields will
 then become attributes of the ``PseudoJet`` objects.
 
-See the `examples <https://github.com/ndawe/pyjet/tree/master/examples>`_ to
+See the `examples <https://github.com/scikit-hep/pyjet/tree/master/examples>`_ to
 get started:
 
-.. image:: https://github.com/ndawe/pyjet/raw/master/examples/jet_areas.png
+.. image:: https://github.com/scikit-hep/pyjet/raw/master/examples/jet_areas.png
 
 
 Standalone Installation
@@ -59,7 +59,7 @@ And you're good to go!
 
 Get example.py and run it::
 
-	curl -O https://raw.githubusercontent.com/ndawe/pyjet/master/examples/example.py
+	curl -O https://raw.githubusercontent.com/scikit-hep/pyjet/master/examples/example.py
 	python example.py
 	jet#          pT        eta        phi       mass  #constit.
 	1        983.280     -0.868      2.905     36.457         34
@@ -126,3 +126,14 @@ Now install pyjet like::
    pip install --user pyjet --install-option="--external-fastjet"
 
 pyjet will now use the external FastJet installation on your system.
+
+
+Note on units
+-------------
+
+The package is indifferent to particular units, which are merely "propagated"
+through the code. We do recommend that the HEP units be used, as defined
+in the `units` module of the `scikit-hep package <https://github.com/scikit-hep/scikit-hep>`_.
+
+It is worth noting that the azimuthal angle :math:`$\phi$` is expressed in radians
+and varies from :math:`$-\pi$` to :math:`$\pi$`.
