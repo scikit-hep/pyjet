@@ -166,6 +166,8 @@ setup(
     version='1.0.1',
     description='The interface between FastJet and NumPy',
     long_description=''.join(open('README.rst').readlines()),
+    author='Noel Dawe',
+    author_email='noel@dawe.me',
     maintainer='Noel Dawe',
     maintainer_email='noel@dawe.me',
     license='GPLv3',
