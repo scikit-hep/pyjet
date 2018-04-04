@@ -20,9 +20,13 @@ addons:
 install:
   - pip install --upgrade pip
 
+script:
+  - echo "No tests to be run."
+
 notifications:
   slack: scikit-hep:b6cgBXwccPoaCNLn5VKFJFVy
 
+before_deploy: "echo 'At status before_deploy.'"
 deploy:
   provider: pypi
   user: eduardorodrigues
@@ -32,3 +36,4 @@ deploy:
     tags: true
     branch: master
     python: 2.7
+after_deploy: "echo 'At status after_deploy.'"
