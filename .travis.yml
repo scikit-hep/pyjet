@@ -19,9 +19,13 @@ addons:
 
 install:
   - pip install --upgrade pip
+  - pip install coveralls
 
 script:
   - echo "No tests to be run."
+
+after_success:
+  coveralls
 
 notifications:
   slack: scikit-hep:b6cgBXwccPoaCNLn5VKFJFVy
