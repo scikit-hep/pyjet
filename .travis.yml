@@ -22,7 +22,7 @@ install:
   - pip install coveralls
 
 script:
-  - echo "No tests to be run."
+  coverage run --source=pyjet setup.py test
 
 after_success:
   coveralls
