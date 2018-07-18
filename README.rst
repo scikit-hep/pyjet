@@ -133,7 +133,7 @@ On Mac OS::
 
 Then run pyjet's ``install-fastjet.sh`` script::
 
-   curl -O https://raw.githubusercontent.com/ndawe/pyjet/master/install-fastjet.sh
+   curl -O https://raw.githubusercontent.com/scikit-hep/pyjet/master/install-fastjet.sh
    chmod +x install-fastjet.sh
    sudo ./install-fastjet.sh
 
