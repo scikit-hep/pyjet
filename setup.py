@@ -109,7 +109,7 @@ class build_ext(_build_ext):
                 libpyjet.extra_link_args.append(
                     '-Wl,-rpath,' + os.path.join(prefix, 'lib'))
         else:
-            if 'pyjet/src/fjcore.h' not in libpyjet.sources:
+            if 'pyjet/src/fjcore.cpp' not in libpyjet.sources:
                 libpyjet.sources.append('pyjet/src/fjcore.cpp')
                 libpyjet.depends.append('pyjet/src/fjcore.h')
                 libpyjet.define_macros = [('PYJET_STANDALONE', None)]
