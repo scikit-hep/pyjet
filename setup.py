@@ -164,7 +164,7 @@ else:
 
 setup(
     name='pyjet',
-    version='1.1.1',
+    version='1.2.0',
     description='The interface between FastJet and NumPy',
     long_description=''.join(open('README.rst').readlines()),
     author='Noel Dawe',
