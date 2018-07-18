@@ -109,9 +109,10 @@ class build_ext(_build_ext):
                 libpyjet.extra_link_args.append(
                     '-Wl,-rpath,' + os.path.join(prefix, 'lib'))
         else:
-            libpyjet.sources.append('pyjet/src/fjcore.cpp')
-            libpyjet.depends.append('pyjet/src/fjcore.h')
-            libpyjet.define_macros = [('PYJET_STANDALONE', None)]
+            if 'pyjet/src/fjcore.cpp' not in libpyjet.sources:
+                libpyjet.sources.append('pyjet/src/fjcore.cpp')
+                libpyjet.depends.append('pyjet/src/fjcore.h')
+                libpyjet.define_macros = [('PYJET_STANDALONE', None)]
 
     def build_extensions(self):
         # Remove the "-Wstrict-prototypes" compiler option, which isn't valid
