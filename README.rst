@@ -1,5 +1,3 @@
-.. -*- mode: rst -*-
-
 pyjet: the interface between FastJet and NumPy
 ==============================================
 
@@ -21,6 +19,15 @@ NumPy and internally uses FastJet's standalone fjcore release. The interface
 code is written in `Cython <http://cython.org/>`_ that then becomes compiled
 C++, so it's fast. Remember that if you use pyjet then you are using FastJet
 and should cite the papers listed `here <http://fastjet.fr/about.html>`_.
+
+Strict dependencies
+-------------------
+
+- `Python <http://docs.python-guide.org/en/latest/starting/installation/>`__ (2.7+, 3.4+)
+- `Numpy <https://scipy.org/install.html>`__
+
+Getting started
+---------------
 
 pyjet provides the ``cluster()`` function that takes a NumPy array as input
 and returns a ``ClusterSequence`` from which you can access the jets:
