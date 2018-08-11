@@ -2,10 +2,6 @@
 
 import sys
 
-# Check Python version
-if sys.version_info < (2, 6):
-    sys.exit("pyjet only supports python 2.6 and above")
-
 if sys.version_info[0] < 3:
     import __builtin__ as builtins
 else:
@@ -164,7 +160,7 @@ else:
 
 setup(
     name='pyjet',
-    version='1.2.0',
+    version='1.3.0',
     description='The interface between FastJet and NumPy',
     long_description=''.join(open('README.rst').readlines()),
     author='Noel Dawe',
