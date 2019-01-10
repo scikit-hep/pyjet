@@ -4,8 +4,8 @@ pyjet: the interface between FastJet and NumPy
 .. image:: https://img.shields.io/pypi/v/pyjet.svg
    :target: https://pypi.python.org/pypi/pyjet
 
-.. image:: https://zenodo.org/badge/92137504.svg
-   :target: https://zenodo.org/badge/latestdoi/92137504
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.1197493.svg
+   :target: https://doi.org/10.5281/zenodo.1197493
 
 .. image:: https://travis-ci.org/scikit-hep/pyjet.svg
    :target: https://travis-ci.org/scikit-hep/pyjet
