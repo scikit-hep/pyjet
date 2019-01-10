@@ -8,6 +8,7 @@ python:
   - 3.4
   - 3.5
   - 3.6
+  - 3.7-dev # travis need to catch up with python releases https://github.com/travis-ci/travis-ci/issues/9552
 
 addons:
   apt:
