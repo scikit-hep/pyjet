@@ -1,8 +1,8 @@
 #!/bin/bash
 
 prefix=/usr/local
-fastjet_version=3.3.0
-fjcontrib_version=1.029
+fastjet_version=3.3.2
+fjcontrib_version=1.041
 
 mkdir -p $prefix/src
 cd $prefix/src

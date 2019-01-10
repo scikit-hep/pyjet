@@ -1,4 +1,4 @@
-// fjcore -- extracted from FastJet v3.3.0 (http://fastjet.fr)
+// fjcore -- extracted from FastJet v3.3.2 (http://fastjet.fr)
 //
 // fjcore constitutes a digest of the main FastJet functionality.
 // The files fjcore.hh and fjcore.cc are meant to provide easy access to these 
@@ -51,10 +51,13 @@
 //   EPJC72(2012)1896 [arXiv:1111.6097] (FastJet User Manual)
 //   and, optionally, Phys.Lett.B641 (2006) 57 [arXiv:hep-ph/0512210]
 //
-// Copyright (c) 2005-2017, Matteo Cacciari, Gavin P. Salam and Gregory Soyez
+//FJSTARTHEADER
+// $Id$
+//
+// Copyright (c) 2005-2018, Matteo Cacciari, Gavin P. Salam and Gregory Soyez
 //
 //----------------------------------------------------------------------
-// This file is part of FastJet.
+// This file is part of FastJet (fjcore).
 //
 //  FastJet is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -62,9 +65,11 @@
 //  (at your option) any later version.
 //
 //  The algorithms that underlie FastJet have required considerable
-//  development and are described in hep-ph/0512210. If you use
+//  development. They are described in the original FastJet paper,
+//  hep-ph/0512210 and in the manual, arXiv:1111.6097. If you use
 //  FastJet as part of work towards a scientific publication, please
-//  include a citation to the FastJet paper.
+//  quote the version you use and include a citation to the manual and
+//  optionally also to hep-ph/0512210.
 //
 //  FastJet is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -74,7 +79,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with FastJet. If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
-//
+//FJENDHEADER
 #ifndef __FJCORE_HH__
 #define __FJCORE_HH__
 #define __FJCORE__   // remove all the non-core code (a safekeeper)
@@ -82,8 +87,6 @@
 #ifndef _INCLUDE_FJCORE_CONFIG_AUTO_H
 #define _INCLUDE_FJCORE_CONFIG_AUTO_H 1
 #ifndef FJCORE_HAVE_CXX14_DEPRECATED 
-#endif
-#ifndef FJCORE_HAVE_DEMANGLING_SUPPORT 
 #endif
 #ifndef FJCORE_HAVE_DLFCN_H 
 # define FJCORE_HAVE_DLFCN_H  1 
@@ -139,19 +142,22 @@
 # define FJCORE_PACKAGE_NAME  "FastJet" 
 #endif
 #ifndef FJCORE_PACKAGE_STRING 
-# define FJCORE_PACKAGE_STRING  "FastJet 3.3.0" 
+# define FJCORE_PACKAGE_STRING  "FastJet 3.3.2" 
 #endif
 #ifndef FJCORE_PACKAGE_TARNAME 
 # define FJCORE_PACKAGE_TARNAME  "fastjet" 
 #endif
+#ifndef FJCORE_PACKAGE_URL 
+# define FJCORE_PACKAGE_URL  "" 
+#endif
 #ifndef FJCORE_PACKAGE_VERSION 
-# define FJCORE_PACKAGE_VERSION  "3.3.0" 
+# define FJCORE_PACKAGE_VERSION  "3.3.2" 
 #endif
 #ifndef FJCORE_STDC_HEADERS 
 # define FJCORE_STDC_HEADERS  1 
 #endif
 #ifndef FJCORE_VERSION 
-# define FJCORE_VERSION  "3.3.0" 
+# define FJCORE_VERSION  "3.3.2" 
 #endif
 #ifndef FJCORE_VERSION_MAJOR 
 # define FJCORE_VERSION_MAJOR  3 
@@ -160,10 +166,10 @@
 # define FJCORE_VERSION_MINOR  3 
 #endif
 #ifndef FJCORE_VERSION_NUMBER 
-# define FJCORE_VERSION_NUMBER  30300 
+# define FJCORE_VERSION_NUMBER  30302 
 #endif
 #ifndef FJCORE_VERSION_PATCHLEVEL 
-# define FJCORE_VERSION_PATCHLEVEL  0 
+# define FJCORE_VERSION_PATCHLEVEL  2 
 #endif
 #endif
 #ifndef __FJCORE_CONFIG_H__
@@ -570,6 +576,10 @@ class PseudoJet {
   inline double modp() const {return sqrt(_kt2+_pz*_pz);}
   inline double Et() const {return (_kt2==0) ? 0.0 : _E/sqrt(1.0+_pz*_pz/_kt2);}
   inline double Et2() const {return (_kt2==0) ? 0.0 : _E*_E/(1.0+_pz*_pz/_kt2);}
+  inline double cos_theta() const {
+    return std::min(1.0, std::max(-1.0, _pz/sqrt(modp2())));
+  }
+  inline double theta() const { return acos(cos_theta()); }
   double operator () (int i) const ; 
   inline double operator [] (int i) const { return (*this)(i); }; // this too
   double kt_distance(const PseudoJet & other) const;
@@ -725,6 +735,13 @@ inline bool operator!=(const PseudoJet & a, const double val)  {return !(a==val)
 inline bool operator!=( const double val, const PseudoJet & a) {return !(a==val);}
 inline double dot_product(const PseudoJet & a, const PseudoJet & b) {
   return a.E()*b.E() - a.px()*b.px() - a.py()*b.py() - a.pz()*b.pz();
+}
+inline double cos_theta(const PseudoJet & a, const PseudoJet & b) {
+  double dot_3d = a.px()*b.px() + a.py()*b.py() + a.pz()*b.pz();
+  return std::min(1.0, std::max(-1.0, dot_3d/sqrt(a.modp2()*b.modp2())));
+}
+inline double theta(const PseudoJet & a, const PseudoJet & b) {
+  return acos(cos_theta(a,b));
 }
 bool have_same_momentum(const PseudoJet &, const PseudoJet &);
 PseudoJet PtYPhiM(double pt, double y, double phi, double m = 0.0);
