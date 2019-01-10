@@ -160,15 +160,15 @@ else:
 
 setup(
     name='pyjet',
-    version='1.3.0',
+    version='1.4.0',
     description='The interface between FastJet and NumPy',
     long_description=''.join(open('README.rst').readlines()),
     author='Noel Dawe',
     author_email='noel@dawe.me',
-    maintainer='Noel Dawe',
-    maintainer_email='noel@dawe.me',
+    maintainer='the Scikit-HEP admins',
+    maintainer_email='scikit-hep-admins@googlegroups.com',
     license='GPLv3',
-    url='http://github.com/ndawe/pyjet',
+    url='http://github.com/scikit-hep/pyjet',
     packages=[
         'pyjet',
         'pyjet.tests',
@@ -196,6 +196,7 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: C++',
         'Programming Language :: Cython',
