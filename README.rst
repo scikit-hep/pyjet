@@ -149,7 +149,7 @@ Note on units
 
 The package is indifferent to particular units, which are merely "propagated"
 through the code. We do recommend that the HEP units be used, as defined
-in the `units` module of the `scikit-hep package <https://github.com/scikit-hep/scikit-hep>`_.
+in the `units` module of the `hepunits package <https://github.com/scikit-hep/hepunits>`_.
 
 It is worth noting that the azimuthal angle phi is expressed in radians
 and varies from pi to pi.
