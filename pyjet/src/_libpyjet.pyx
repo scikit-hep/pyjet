@@ -114,6 +114,16 @@ cdef class ClusterSequence:
             jets = fastjet.sorted_by_pt(jets)
         return vector_to_list(jets)
 
+    def exclusive_jets(self, int njets, bool sort=True):
+        """ return a vector of all jets when the event is clustered (in the exclusive sense) to exactly njets.
+        """
+        if self.pseudojets.size() < njets:
+            raise ValueError("Requested {0} jets but there are only {1} particles".format(njets, self.pseudojets.size()))
+        cdef vector[fastjet.PseudoJet] jets = self.sequence.exclusive_jets(njets)
+        if sort:
+            jets = fastjet.sorted_by_pt(jets)
+        return vector_to_list(jets)
+
     def unclustered_particles(self):
         cdef vector[fastjet.PseudoJet] jets = self.sequence.unclustered_particles()
         return vector_to_list(jets)
