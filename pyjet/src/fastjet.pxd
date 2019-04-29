@@ -49,6 +49,8 @@ cdef extern from "fastjet.h" namespace "fastjet":
         ClusterSequence(vector[PseudoJet]&, JetDefinition&) except +raise_py_error
         vector[PseudoJet] inclusive_jets(double ptmin)
         vector[PseudoJet] exclusive_jets(int njets)
+        vector[PseudoJet] exclusive_jets_dcut(double dcut)
+        int n_exclusive_jets(double dcut)
         void delete_self_when_unused()
         vector[PseudoJet] unclustered_particles()
         vector[PseudoJet] childless_pseudojets()

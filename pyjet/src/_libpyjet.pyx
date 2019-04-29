@@ -114,11 +114,28 @@ cdef class ClusterSequence:
             jets = fastjet.sorted_by_pt(jets)
         return vector_to_list(jets)
 
+    def n_exclusive_jets(self, double dcut):
+        """ return the number of jets (in the sense of the exclusive algorithm)
+        that would be obtained when running the algorithm with the given dcut.
+        """
+        return self.sequence.n_exclusive_jets(dcut)
+
     def exclusive_jets(self, int njets, bool sort=True):
-        """ return a vector of all jets when the event is clustered (in the exclusive sense) to exactly njets.
+        """ return a vector of all jets when the event is clustered
+        (in the exclusive sense) to exactly njets.
         """
         if self.pseudojets.size() < njets:
             raise ValueError("Requested {0} jets but there are only {1} particles".format(njets, self.pseudojets.size()))
+        cdef vector[fastjet.PseudoJet] jets = self.sequence.exclusive_jets(njets)
+        if sort:
+            jets = fastjet.sorted_by_pt(jets)
+        return vector_to_list(jets)
+
+    def exclusive_jets_dcut(self, double dcut, bool sort=True):
+        """  return a vector of all jets (in the sense of the exclusive algorithm)
+        that would be obtained when running the algorithm with the given dcut.
+        """
+        njets = self.sequence.n_exclusive_jets(dcut)
         cdef vector[fastjet.PseudoJet] jets = self.sequence.exclusive_jets(njets)
         if sort:
             jets = fastjet.sorted_by_pt(jets)
