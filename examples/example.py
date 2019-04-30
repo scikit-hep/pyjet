@@ -37,3 +37,19 @@ print("\nGet the constituents as an array (pT, eta, phi, mass):")
 print(jets[5].constituents_array())
 print("\nor (E, px, py, pz):")
 print(jets[5].constituents_array(ep=True))
+
+# Look at substructure with exclusive jets
+print("\n\nReclustering the constituents of the hardest jet with the kt algorithm")
+cs2 = cluster(jets[0].constituents_array(), R=0.6, p=1)
+print(cs2.inclusive_jets())
+print("\nGo back in the clustering sequence to when there were two jets")
+for subj in cs2.exclusive_jets(2):
+    print(subj)
+print("\nAsk how many jets there are with a given dcut")
+dcut = 0.5
+njets = cs2.n_exclusive_jets(dcut)
+print("There are {0} jets with a dcut of {1}".format(njets, dcut))
+print("\nGet the jets with the given dcut")
+ejets_dcut = cs2.exclusive_jets_dcut(dcut)
+for i, jet in enumerate(ejets_dcut):
+    print(i + 1, jet)

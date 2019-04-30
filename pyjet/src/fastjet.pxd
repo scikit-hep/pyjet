@@ -7,7 +7,7 @@ cdef extern from "fastjet.h":
 
 
 cdef extern from "fastjet.h" namespace "fastjet":
-        
+
     cdef cppclass PseudoJet:
         PseudoJet(const double, const double, const double, const double)
         PseudoJet()
@@ -48,6 +48,9 @@ cdef extern from "fastjet.h" namespace "fastjet":
     cdef cppclass ClusterSequence:
         ClusterSequence(vector[PseudoJet]&, JetDefinition&) except +raise_py_error
         vector[PseudoJet] inclusive_jets(double ptmin)
+        vector[PseudoJet] exclusive_jets(int njets)
+        vector[PseudoJet] exclusive_jets_dcut(double dcut)
+        int n_exclusive_jets(double dcut)
         void delete_self_when_unused()
         vector[PseudoJet] unclustered_particles()
         vector[PseudoJet] childless_pseudojets()
@@ -68,7 +71,7 @@ cdef extern from "fastjet.h" namespace "fastjet":
         JetDefinition(JetAlgorithm) except +raise_py_error
         JetDefinition(JetAlgorithm, double R) except +raise_py_error
         JetDefinition(JetAlgorithm, double R, double extra) except +raise_py_error
-    
+
     cdef enum AreaType "fastjet::AreaType":
         invalid_area,
         active_area,
@@ -80,7 +83,7 @@ cdef extern from "fastjet.h" namespace "fastjet":
     cdef cppclass AreaDefinition:
         AreaDefinition(AreaType)
         AreaDefinition()
-    
+
     cdef cppclass ClusterSequenceArea(ClusterSequence):
         ClusterSequenceArea(vector[PseudoJet]&, JetDefinition&, AreaDefinition&) except +raise_py_error
 
