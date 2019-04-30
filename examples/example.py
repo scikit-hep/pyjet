@@ -39,7 +39,7 @@ print("\nor (E, px, py, pz):")
 print(jets[5].constituents_array(ep=True))
 
 # Look at substructure with exclusive jets
-print("\n\nReclustering the constiuents of the hardest jet with the kt algorithm")
+print("\n\nReclustering the constituents of the hardest jet with the kt algorithm")
 cs2 = cluster(jets[0].constituents_array(), R=0.6, p=1)
 print(cs2.inclusive_jets())
 print("\nGo back in the clustering sequence to when there were two jets")

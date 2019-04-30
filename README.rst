@@ -110,26 +110,26 @@ Get example.py and run it::
 	 ( 4.43164941, -1.0311407 , -1.05862485, -4.07096881)
 	 ( 2.15920027, -0.56111108, -0.69538886, -1.96067711)]
 
-     Reclustering the constiuents of the hardest jet with the kt algorithm
-     [PseudoJet(pt=983.280, eta=-0.868, phi=2.905, mass=36.457)]
+    Reclustering the constituents of the hardest jet with the kt algorithm
+    [PseudoJet(pt=983.280, eta=-0.868, phi=2.905, mass=36.457)]
 
-     Go back in the clustering sequence to when there were two jets
-     PseudoJet(pt=946.493, eta=-0.870, phi=2.908, mass=20.117)
-     PseudoJet(pt=36.921, eta=-0.800, phi=2.821, mass=4.119)
+    Go back in the clustering sequence to when there were two jets
+    PseudoJet(pt=946.493, eta=-0.870, phi=2.908, mass=20.117)
+    PseudoJet(pt=36.921, eta=-0.800, phi=2.821, mass=4.119)
 
-     Ask how many jets there are with a given dcut
-     There are 9 jets with a dcut of 0.5
+    Ask how many jets there are with a given dcut
+    There are 9 jets with a dcut of 0.5
 
-     Get the jets with the given dcut
-     1 PseudoJet(pt=308.478, eta=-0.865, phi=2.908, mass=2.119)
-     2 PseudoJet(pt=256.731, eta=-0.868, phi=2.906, mass=0.140)
-     3 PseudoJet(pt=142.326, eta=-0.886, phi=2.912, mass=0.829)
-     4 PseudoJet(pt=135.971, eta=-0.870, phi=2.910, mass=0.140)
-     5 PseudoJet(pt=91.084, eta=-0.864, phi=2.899, mass=1.530)
-     6 PseudoJet(pt=30.970, eta=-0.831, phi=2.822, mass=2.124)
-     7 PseudoJet(pt=7.123, eta=-0.954, phi=2.939, mass=1.017)
-     8 PseudoJet(pt=5.951, eta=-0.626, phi=2.818, mass=0.748)
-     9 PseudoJet(pt=4.829, eta=-0.812, phi=3.037, mass=0.384)
+    Get the jets with the given dcut
+    1 PseudoJet(pt=308.478, eta=-0.865, phi=2.908, mass=2.119)
+    2 PseudoJet(pt=256.731, eta=-0.868, phi=2.906, mass=0.140)
+    3 PseudoJet(pt=142.326, eta=-0.886, phi=2.912, mass=0.829)
+    4 PseudoJet(pt=135.971, eta=-0.870, phi=2.910, mass=0.140)
+    5 PseudoJet(pt=91.084, eta=-0.864, phi=2.899, mass=1.530)
+    6 PseudoJet(pt=30.970, eta=-0.831, phi=2.822, mass=2.124)
+    7 PseudoJet(pt=7.123, eta=-0.954, phi=2.939, mass=1.017)
+    8 PseudoJet(pt=5.951, eta=-0.626, phi=2.818, mass=0.748)
+    9 PseudoJet(pt=4.829, eta=-0.812, phi=3.037, mass=0.384)
 
 
 Using an External FastJet Installation
