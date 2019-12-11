@@ -42,7 +42,7 @@ and returns a ``ClusterSequence`` from which you can access the jets:
    jets = sequence.inclusive_jets()  # list of PseudoJets
    exclusivejets = sequence.exclusive_jets(3)  # Find the cluster history when there are 3 jets
 
-The input is given in the form of a `structure array <https://docs.scipy.org/doc/numpy/user/basics.rec.html>`_ in numpy. The first four fields of the input array ``vectors`` must be either:
+The input is given in the form of a `structured array <https://docs.scipy.org/doc/numpy/user/basics.rec.html>`_ in numpy. The first four fields of the input array ``vectors`` must be either:
 
 .. code-block:: python
 
