@@ -1,0 +1,4 @@
+numpy
+wheel
+cython
+setuptools>=18

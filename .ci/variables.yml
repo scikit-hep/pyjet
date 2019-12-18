@@ -1,0 +1,5 @@
+variables:
+  package_name: pyjet
+  many_linux_base: quay.io/pypa/manylinux1_
+  dev_requirements_file: .ci/dev-requirements.txt
+  test_requirements_file: .ci/test-requirements.txt

@@ -4,4 +4,5 @@ recursive-include examples *.py
 include *.py
 include README.rst
 include COPYING
+include pyproject.toml
 global-exclude *.pyc *.pyo *.pyd

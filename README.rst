@@ -72,7 +72,7 @@ To simply use the built-in FastJet source::
 
    pip install --user pyjet
 
-And you're good to go!
+And you're good to go! If you have a old version of pip (<10), you will need to have Cython and Numpy already installed to build from source.
 
 Get example.py and run it::
 
