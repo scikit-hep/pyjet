@@ -1,42 +1,15 @@
 #!/usr/bin/env python
 
-import sys
-
-if sys.version_info[0] < 3:
-    import __builtin__ as builtins
-else:
-    import builtins
-
-try:
-    # Try to use setuptools if installed
-    from setuptools import setup, Extension
-    from pkg_resources import parse_version, get_distribution
-
-    if get_distribution('setuptools').parsed_version < parse_version('0.7'):
-        # setuptools is too old (before merge with distribute)
-        raise ImportError
-
-    from setuptools.command.build_ext import build_ext as _build_ext
-    from setuptools.command.install import install as _install
-    use_setuptools = True
-
-except ImportError:
-    # Use distutils instead
-    from distutils.core import setup, Extension
-    from distutils.command.build_ext import build_ext as _build_ext
-    from distutils.command.install import install as _install
-    use_setuptools = False
-
 import os
+import sys
 import platform
 import subprocess
-from glob import glob
-from distutils.sysconfig import customize_compiler
+
+from setuptools import setup, Extension, find_packages
+from setuptools.command.build_ext import build_ext as _build_ext
+from setuptools.command.install import install as _install
 
 local_path = os.path.dirname(os.path.abspath(__file__))
-# setup.py can be called from outside the source directory
-os.chdir(local_path)
-sys.path.insert(0, local_path)
 
 
 def fastjet_prefix(fastjet_config='fastjet-config'):
@@ -53,8 +26,12 @@ def fastjet_prefix(fastjet_config='fastjet-config'):
 
 libpyjet = Extension(
     'pyjet._libpyjet',
-    sources=['pyjet/src/_libpyjet.cpp'],
-    depends=['pyjet/src/fastjet.h'],
+    sources=['pyjet/src/_libpyjet.pyx'],
+    depends=[
+        'pyjet/src/fastjet.h',
+        'pyjet/src/2to3.h',
+        'pyjet/src/fastjet.pxd',
+        ],
     language='c++',
     include_dirs=[
         'pyjet/src',
@@ -80,11 +57,6 @@ class build_ext(_build_ext):
         global libpyjet
         global external_fastjet
         _build_ext.finalize_options(self)
-        # Prevent numpy from thinking it is still in its setup process
-        try:
-            del builtins.__NUMPY_SETUP__
-        except AttributeError:
-            pass
         import numpy
         libpyjet.include_dirs.append(numpy.get_include())
         if external_fastjet or self.external_fastjet:
@@ -96,20 +68,12 @@ class build_ext(_build_ext):
             if platform.system() == 'Darwin':
                 libpyjet.extra_link_args.append(
                     '-Wl,-rpath,' + os.path.join(prefix, 'lib'))
-        else:
-            if 'pyjet/src/fjcore.cpp' not in libpyjet.sources:
-                libpyjet.sources.append('pyjet/src/fjcore.cpp')
-                libpyjet.depends.append('pyjet/src/fjcore.h')
-                libpyjet.define_macros = [('PYJET_STANDALONE', None)]
+        elif 'pyjet/src/fjcore.cpp' not in libpyjet.sources:
+            libpyjet.sources.append('pyjet/src/fjcore.cpp')
+            libpyjet.depends.append('pyjet/src/fjcore.h')
+            libpyjet.define_macros = [('PYJET_STANDALONE', None)]
 
     def build_extensions(self):
-        # Remove the "-Wstrict-prototypes" compiler option, which isn't valid
-        # for C++.
-        customize_compiler(self.compiler)
-        try:
-            self.compiler.compiler_so.remove('-Wstrict-prototypes')
-        except (AttributeError, ValueError):
-            pass
         _build_ext.build_extensions(self)
 
 
@@ -128,44 +92,18 @@ class install(_install):
             external_fastjet = True
         _install.finalize_options(self)
 
-
-# Only add numpy to *_requires lists if not already installed to prevent
-# pip from trying to upgrade an existing numpy and failing.
-try:
-    import numpy
-except ImportError:
-    build_requires = ['numpy']
-else:
-    build_requires = []
-
-if use_setuptools:
-    setuptools_options = dict(
-        setup_requires=build_requires,
-        install_requires=build_requires,
-        extras_require={
-            'with-numpy': ('numpy',),
-        },
-        zip_safe=False,
-    )
-else:
-    setuptools_options = dict()
-
 setup(
     name='pyjet',
     version='1.5.0',
     description='The interface between FastJet and NumPy',
-    long_description=''.join(open('README.rst').readlines()),
+    long_description=''.join(open(os.path.join(local_path, 'README.rst')).readlines()),
     author='Noel Dawe',
     author_email='noel@dawe.me',
     maintainer='the Scikit-HEP admins',
     maintainer_email='scikit-hep-admins@googlegroups.com',
     license='GPLv3',
     url='http://github.com/scikit-hep/pyjet',
-    packages=[
-        'pyjet',
-        'pyjet.tests',
-        'pyjet.testdata',
-    ],
+    packages=find_packages(exclude='tests'),
     package_data={
         'pyjet': [
             'testdata/*.dat',
@@ -194,5 +132,9 @@ setup(
         'Programming Language :: Cython',
         'Development Status :: 5 - Production/Stable',
     ],
-    **setuptools_options
+    test_suite="nose.collector",
+    tests_require=["nose"],
+    install_requires=['numpy'],
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
+    zip_safe=False,
 )

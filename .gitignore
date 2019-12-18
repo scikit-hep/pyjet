@@ -1,4 +1,6 @@
 MANIFEST
+*.eggs
+pyjet/src/_libpyjet.cpp
 build
 dist
 *.pyc

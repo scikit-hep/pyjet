@@ -12,6 +12,7 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install coveralls
+  - pip install coveralls cython
 
 script:
   coverage run --source=pyjet setup.py test
