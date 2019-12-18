@@ -1,0 +1,5 @@
+variables:
+  package_name:     
+  many_linux_base: quay.io/pypa/manylinux1_
+  dev_requirements_file: .ci/azure-wheel-helpers/empty-requirements.txt
+  test_requirements_file: .ci/azure-wheel-helpers/empty-requirements.txt
