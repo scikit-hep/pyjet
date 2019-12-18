@@ -9,15 +9,11 @@
 
 # Triggers can be overridden in the GUI. Suggested use follows:
 trigger:
-  tags:
+  branches:
     include:
-    - v*
+      - 'refs/tags/*'
 
-# For a master-develop workflow:
-# pr:
-#   - master
-# trigger:
-#   - master
+pr: none
 
 
 
