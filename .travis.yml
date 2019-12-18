@@ -1,24 +1,16 @@
-language: python
+branches:
+  only:
+    - master
 
-os:
-  - linux
+language: python
 
 python:
   - 2.7
-  - 3.4
   - 3.5
-  - 3.6
-  - 3.7-dev # travis need to catch up with python releases https://github.com/travis-ci/travis-ci/issues/9552
-
-addons:
-  apt:
-    packages:
-      - python-numpy
-      - python3-numpy
-      - python-setuptools
+  - 3.8
 
 install:
-  - pip install --upgrade pip
+  - pip install -r requirements.txt
   - pip install coveralls
 
 script:
