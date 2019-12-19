@@ -15,18 +15,11 @@ trigger:
 
 pr: none
 
-
-
-# If you make a copy, uncomment and set these values here
-# variables:
-#   package_name:     # This is the output name, - is replaced by _
-#   many_linux_base:  # Should be quay.io/pypa/manylinux1_ or skhep/manylinuxgcc-
-#   dev_requirements_file: dev-requirements.txt
-#   test_requirements_file: test-requirements.txt
-
-# If you symlink, then make a file called .ci/variables.yml with the above content
 variables:
-  - template: variables.yml
+  package_name: pyjet
+  many_linux_base: quay.io/pypa/manylinux1_
+  dev_requirements_file: .ci/build-requirements.txt
+  test_requirements_file: .ci/test-requirements.txt
 
 
 jobs:

@@ -9,16 +9,9 @@ python:
   - 3.5
   - 3.8
 
-install:
-  - pip install -r requirements.txt
-  - pip install coveralls
-  - pip install coveralls cython
+install: pip install .[dev]
 
-script:
-  coverage run --source=pyjet setup.py test
-
-after_success:
-  coveralls
+script: pytest
 
 notifications:
   slack: scikit-hep:b6cgBXwccPoaCNLn5VKFJFVy

@@ -1,4 +1,6 @@
 MANIFEST
+.pytest_cache/*
+pip-wheel-metadata/*
 *.eggs
 pyjet/src/_libpyjet.cpp
 build
@@ -6,9 +8,11 @@ dist
 *.pyc
 *.tar.gz
 *.egg
+*.eggs
 *.egg-info
 *.so
 *.o
 *.d
 *.png
 *.log
+*.env

@@ -1,4 +1,8 @@
-# cython: experimental_cpp_class_def=True, c_string_type=str, c_string_encoding=ascii
+# distutils: language = c++
+# cython: language_level=2
+# cython: c_string_type=str
+# cython: c_string_encoding=ascii
+# cython: embedsignature = True
 
 import numpy as np
 cimport numpy as np
@@ -124,7 +128,7 @@ cdef class ClusterSequence:
         """ return a vector of all jets when the event is clustered
         (in the exclusive sense) to exactly njets.
         """
-        if self.pseudojets.size() < njets:
+        if int(self.pseudojets.size()) < njets:
             raise ValueError("Requested {0} jets but there are only {1} particles".format(njets, self.pseudojets.size()))
         cdef vector[fastjet.PseudoJet] jets = self.sequence.exclusive_jets(njets)
         if sort:
@@ -186,12 +190,12 @@ cdef cppclass PseudoJetUserInfo(fastjet.UserInfoBase):
         Py_XDECREF(this.info)
 
 
+
 cdef class PseudoJet:
     """ Python wrapper class for fastjet::PseudoJet
     """
     cdef fastjet.PseudoJet jet
     cdef vector[fastjet.PseudoJet] constits
-    cdef PseudoJetUserInfo* userinfo
 
     @staticmethod
     cdef inline PseudoJet wrap(fastjet.PseudoJet& jet):
@@ -199,10 +203,6 @@ cdef class PseudoJet:
         wrapped_jet.jet = jet
         if jet.has_valid_cluster_sequence() and jet.has_constituents():
             wrapped_jet.constits = jet.constituents()
-        if jet.has_user_info():
-            wrapped_jet.userinfo = <PseudoJetUserInfo*> jet.user_info_ptr()
-        else:
-            wrapped_jet.userinfo = NULL
         return wrapped_jet
 
     def __repr__(self):
@@ -225,9 +225,15 @@ cdef class PseudoJet:
 
     @property
     def info(self):
-        if self.userinfo != NULL:
-            return <object> self.userinfo.info
+        if self.jet.has_user_info():
+            jet = <PseudoJetUserInfo*> self.jet.user_info_ptr()
+            return <object> jet.info
         return None
+
+    @info.setter
+    def info(self, item):
+        self.jet.set_user_info(new PseudoJetUserInfo(<PyObject*> item))
+
 
     def __getattr__(self, attr):
         userinfo_dict = self.info
