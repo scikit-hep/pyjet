@@ -1,3 +1,2 @@
-numpy
-nose
+numpy>=1.16.1
 pytest

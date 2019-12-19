@@ -175,3 +175,13 @@ in the `units` module of the `hepunits package <https://github.com/scikit-hep/he
 
 It is worth noting that the azimuthal angle phi is expressed in radians
 and varies from pi to pi.
+
+Developing
+----------
+
+If you want to setup for development::
+
+   python3 -m venv .env
+   source .env/bin/activate
+   pip install -e .[dev]
+   pytest

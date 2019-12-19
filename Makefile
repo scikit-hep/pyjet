@@ -2,7 +2,7 @@
 
 PYTHON := $(shell which python)
 CYTHON := $(shell which cython)
-NOSETESTS := $(shell which nosetests)
+NOSETESTS := $(shell which pytest)
 
 CYTHON_PYX := pyjet/src/_libpyjet.pyx
 CYTHON_CPP := $(CYTHON_PYX:.pyx=.cpp)
@@ -35,7 +35,7 @@ inplace:
 	@$(PYTHON) setup.py build_ext -i
 
 test: inplace
-	@$(NOSETESTS) -s -v pyjet
+	@$(NOSETESTS) -v pyjet
 
 sdist: clean
 	@$(PYTHON) setup.py sdist

@@ -92,6 +92,8 @@ class install(_install):
             external_fastjet = True
         _install.finalize_options(self)
 
+extras_require = {"dev": ["pytest"]}
+
 setup(
     name='pyjet',
     version='1.5.0',
@@ -128,13 +130,17 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: C++',
         'Programming Language :: Cython',
         'Development Status :: 5 - Production/Stable',
     ],
-    test_suite="nose.collector",
-    tests_require=["nose"],
-    install_requires=['numpy'],
+    tests_require=extras_require["dev"],
+    extras_require=extras_require,
+    install_requires=['numpy>=1.13.3'],
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
     zip_safe=False,
 )
