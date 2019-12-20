@@ -24,3 +24,17 @@ jobs:
       run: pip install .[dev]
     - name: Test
       run: pytest
+
+  preexisting:
+    name: External FastJet
+    runs-on: ubuntu-latest
+    container: python:3.8
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install FastJet
+      run: apt-get update && apt-get install -y libfastjet-dev libfastjetplugins-dev libfastjettools-dev
+    - name: Build and get requirements
+      run: pip install --build-option="--external-fastjet" .[dev]
+    - name: Test
+      run: pytest
