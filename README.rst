@@ -3,15 +3,19 @@ pyjet: the interface between FastJet and NumPy
 
 .. image:: https://img.shields.io/pypi/v/pyjet.svg
    :target: https://pypi.python.org/pypi/pyjet
+   :alt: PyPI version
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.1197493.svg
    :target: https://doi.org/10.5281/zenodo.1197493
+   :alt: Zenodo link
 
-.. image:: https://travis-ci.org/scikit-hep/pyjet.svg
-   :target: https://travis-ci.org/scikit-hep/pyjet
+.. image:: https://github.com/scikit-hep/pyjet/workflows/Main/badge.svg?branch=master
+   :target: https://github.com/scikit-hep/pyjet/actions
+   :alt: Test status
 
-.. image:: https://coveralls.io/repos/github/scikit-hep/pyjet/badge.svg?branch=master
-   :target: https://coveralls.io/github/scikit-hep/pyjet?branch=master
+.. image:: https://dev.azure.com/scikit-hep/pyjet/_apis/build/status/scikit-hep.pyjet?branchName=master
+   :target: https://dev.azure.com/scikit-hep/pyjet/_build/latest?definitionId=8&branchName=master
+   :alt: Wheel builds
 
 pyjet allows you to perform jet clustering with `FastJet <http://fastjet.fr/>`_
 on `NumPy <http://www.numpy.org/>`_ arrays. By default pyjet only depends on
