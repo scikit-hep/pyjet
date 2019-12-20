@@ -72,11 +72,11 @@ get started:
 Standalone Installation
 -----------------------
 
-To simply use the built-in FastJet source::
+To simply use the built-in FastJet source, from your virtual environment, run::
 
-   pip install --user pyjet
+   python -m pip install pyjet
 
-And you're good to go! If you have a old version of pip (<10), you will need to have Cython and Numpy already installed to build from source.
+And you're good to go! If you have a old version of pip (<10), you will need to have Cython and Numpy already installed to build from source - however on most systems, you should get a binary wheel.
 
 Get example.py and run it::
 
@@ -165,7 +165,8 @@ Then run pyjet's ``install-fastjet.sh`` script::
 
 Now install pyjet like::
 
-   pip install --user pyjet --install-option="--external-fastjet"
+   python -m pip install numpy Cython
+   python setup.py install --external-fastjet
 
 pyjet will now use the external FastJet installation on your system.
 
