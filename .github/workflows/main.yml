@@ -33,8 +33,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install FastJet
-      run: apt-get update && apt-get install -y libfastjet-dev libfastjetplugins-dev libfastjettools-dev
-    - name: Build and get requirements
-      run: pip install --build-option="--external-fastjet" .[dev]
+      run: apt-get update && apt-get install -y libfastjet-dev libfastjetplugins-dev libfastjettools-dev libcgal-dev
+    - name: Get requirements
+      run: pip install pytest numpy Cython 
+    - name: Build
+      run: python setup.py install --external-fastjet
     - name: Test
       run: pytest
