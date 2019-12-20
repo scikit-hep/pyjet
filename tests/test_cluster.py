@@ -57,15 +57,15 @@ def test_userinfo():
     for jet in jets:
         for constit in jet:
             ids.append(constit.id)
-            assert constit.id == constit.info['id']
+            assert constit.id == constit.userinfo['id']
     ids.extend([p.id for p in sequence.unclustered_particles()])
     # are all particles accounted for?
     assert_array_equal(sorted(ids), np.arange(len(event)))
 
     for jet in jets:
         for constit in jet:
-            constit.info = "wow"
-            assert constit.info == "wow"
+            constit.userinfo = "wow"
+            assert constit.userinfo == "wow"
 
 @pytest.mark.skipif(not USING_EXTERNAL_FASTJET, reason="using internal fastjet")
 def test_jet_area():

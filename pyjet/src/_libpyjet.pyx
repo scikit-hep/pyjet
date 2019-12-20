@@ -224,19 +224,19 @@ cdef class PseudoJet:
         return _Py_HashPointer(<void*>self)
 
     @property
-    def info(self):
+    def userinfo(self):
         if self.jet.has_user_info():
             jet = <PseudoJetUserInfo*> self.jet.user_info_ptr()
             return <object> jet.info
         return None
 
-    @info.setter
-    def info(self, item):
+    @userinfo.setter
+    def userinfo(self, item):
         self.jet.set_user_info(new PseudoJetUserInfo(<PyObject*> item))
 
 
     def __getattr__(self, attr):
-        userinfo_dict = self.info
+        userinfo_dict = self.userinfo
         if userinfo_dict:
             try:
                 return userinfo_dict[attr]
