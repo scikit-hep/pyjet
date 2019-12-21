@@ -6,7 +6,7 @@ __all__ = [
     'cluster',
 ]
 
-FASTJET_VERSION = '3.3.2'
+FASTJET_VERSION = '3.3.3'
 
 
 def cluster(vectors, algo='genkt', area=None, ep=False, **kwargs):
