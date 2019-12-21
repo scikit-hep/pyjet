@@ -96,7 +96,7 @@ extras_require = {"dev": ["pytest"]}
 
 setup(
     name='pyjet',
-    version='1.5.0',
+    version='1.6.0',
     description='The interface between FastJet and NumPy',
     long_description=''.join(open(os.path.join(local_path, 'README.rst')).readlines()),
     author='Noel Dawe',
