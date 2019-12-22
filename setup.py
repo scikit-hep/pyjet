@@ -12,6 +12,12 @@ from setuptools.command.install import install as _install
 local_path = os.path.dirname(os.path.abspath(__file__))
 
 
+def get_version():
+    g = {}
+    exec(open(os.path.join("pyjet", "_version.py")).read(), g)
+    return g["__version__"]
+
+
 def fastjet_prefix(fastjet_config='fastjet-config'):
     try:
         prefix = subprocess.Popen(
@@ -96,7 +102,7 @@ extras_require = {"dev": ["pytest"]}
 
 setup(
     name='pyjet',
-    version='1.6.0',
+    version=get_version(),
     description='The interface between FastJet and NumPy',
     long_description=''.join(open(os.path.join(local_path, 'README.rst')).readlines()),
     author='Noel Dawe',

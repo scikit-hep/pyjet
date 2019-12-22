@@ -2,11 +2,16 @@ from ._libpyjet import (ClusterSequence, ClusterSequenceArea,
                         JetDefinition, PseudoJet,
                         DTYPE, DTYPE_PTEPM, DTYPE_EP, USING_EXTERNAL_FASTJET)
 
+from ._version import __version__
+from ._version import FASTJET_VERSION, FJCONTRIB_VERSION
+
 __all__ = [
     'cluster',
+    DTYPE_PTEPM,
+    DTYPE_EP,
+    FASTJET_VERSION,
+    FJCONTRIB_VERSION
 ]
-
-FASTJET_VERSION = '3.3.3'
 
 
 def cluster(vectors, algo='genkt', area=None, ep=False, **kwargs):
