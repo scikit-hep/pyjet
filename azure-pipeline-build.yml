@@ -7,11 +7,13 @@
 # Packages usually will have a little custom code in here, and
 # can override any of the templates from here, as well
 
-# Triggers can be overridden in the GUI. Suggested use follows:
+# Builds can always be triggered in the GUI.
 trigger:
-  tags:
+  branches:
     include:
-    - v*
+      - 'refs/tags/*'
+
+pr: none
 
 # For a master-develop workflow:
 # pr:
@@ -21,16 +23,12 @@ trigger:
 
 
 
-# If you make a copy, uncomment and set these values here
-# variables:
-#   package_name:     # This is the output name, - is replaced by _
-#   many_linux_base:  # Should be quay.io/pypa/manylinux1_ or skhep/manylinuxgcc-
-#   dev_requirements_file: dev-requirements.txt
-#   test_requirements_file: test-requirements.txt
-
-# If you symlink, then make a file called .ci/variables.yml with the above content
+# You must set the package name here. Optionally change the other variables.
 variables:
-  - template: variables.yml
+  package_name:
+  many_linux_base: quay.io/pypa/manylinux1_
+  dev_requirements_file: .ci/azure-wheel-helpers/empty-requirements.txt
+  test_requirements_file: .ci/azure-wheel-helpers/empty-requirements.txt
 
 
 jobs:
@@ -125,7 +123,7 @@ jobs:
         python.version: '3.8'
         python.architecture: 'x86'
   pool:
-    vmImage: 'windows-latest'
+    vmImage: 'vs2017-win2016'
   steps:
     - template: azure-wheel-helpers/azure-setup.yml
     - template: azure-wheel-helpers/azure-steps.yml
