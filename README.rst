@@ -17,6 +17,10 @@ pyjet: the interface between FastJet and NumPy
    :target: https://dev.azure.com/scikit-hep/pyjet/_build/latest?definitionId=8&branchName=master
    :alt: Wheel builds
 
+.. image:: https://mybinder.org/badge_logo.svg
+   :target: https://mybinder.org/v2/gh/scikit-hep/pyjet/master?urlpath=lab/tree/notebooks/PyjetDemo.ipynb
+   :alt: Binder
+
 pyjet allows you to perform jet clustering with `FastJet <http://fastjet.fr/>`_
 on `NumPy <http://www.numpy.org/>`_ arrays. By default pyjet only depends on
 NumPy and internally uses FastJet's standalone fjcore release. The interface
