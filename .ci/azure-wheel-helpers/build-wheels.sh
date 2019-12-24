@@ -36,8 +36,8 @@ done
 
 # Install packages and test
 for PYBIN in "${pys[@]}"; do
-    "${PYBIN}/python" -m pip install $package_name --no-index -f /io/wheelhouse
     "${PYBIN}/pip" install -r /io/$test_requirements_file
+    "${PYBIN}/pip" install $package_name --no-index -f /io/wheelhouse
     if [ -d "/io/tests" ]; then
         "${PYBIN}/pytest" /io/tests
     else
