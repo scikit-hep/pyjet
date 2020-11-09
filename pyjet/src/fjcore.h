@@ -1,4 +1,4 @@
-// fjcore -- extracted from FastJet v3.3.3 (http://fastjet.fr)
+// fjcore -- extracted from FastJet v3.3.4 (http://fastjet.fr)
 //
 // fjcore constitutes a digest of the main FastJet functionality.
 // The files fjcore.hh and fjcore.cc are meant to provide easy access to these 
@@ -54,7 +54,7 @@
 //FJSTARTHEADER
 // $Id$
 //
-// Copyright (c) 2005-2019, Matteo Cacciari, Gavin P. Salam and Gregory Soyez
+// Copyright (c) 2005-2020, Matteo Cacciari, Gavin P. Salam and Gregory Soyez
 //
 //----------------------------------------------------------------------
 // This file is part of FastJet (fjcore).
@@ -87,6 +87,8 @@
 #ifndef _INCLUDE_FJCORE_CONFIG_AUTO_H
 #define _INCLUDE_FJCORE_CONFIG_AUTO_H 1
 #ifndef FJCORE_HAVE_CXX14_DEPRECATED 
+#endif
+#ifndef FJCORE_HAVE_DEMANGLING_SUPPORT 
 #endif
 #ifndef FJCORE_HAVE_DLFCN_H 
 # define FJCORE_HAVE_DLFCN_H  1 
@@ -142,7 +144,7 @@
 # define FJCORE_PACKAGE_NAME  "FastJet" 
 #endif
 #ifndef FJCORE_PACKAGE_STRING 
-# define FJCORE_PACKAGE_STRING  "FastJet 3.3.3" 
+# define FJCORE_PACKAGE_STRING  "FastJet 3.3.4" 
 #endif
 #ifndef FJCORE_PACKAGE_TARNAME 
 # define FJCORE_PACKAGE_TARNAME  "fastjet" 
@@ -151,13 +153,13 @@
 # define FJCORE_PACKAGE_URL  "" 
 #endif
 #ifndef FJCORE_PACKAGE_VERSION 
-# define FJCORE_PACKAGE_VERSION  "3.3.3" 
+# define FJCORE_PACKAGE_VERSION  "3.3.4" 
 #endif
 #ifndef FJCORE_STDC_HEADERS 
 # define FJCORE_STDC_HEADERS  1 
 #endif
 #ifndef FJCORE_VERSION 
-# define FJCORE_VERSION  "3.3.3" 
+# define FJCORE_VERSION  "3.3.4" 
 #endif
 #ifndef FJCORE_VERSION_MAJOR 
 # define FJCORE_VERSION_MAJOR  3 
@@ -166,10 +168,10 @@
 # define FJCORE_VERSION_MINOR  3 
 #endif
 #ifndef FJCORE_VERSION_NUMBER 
-# define FJCORE_VERSION_NUMBER  30303 
+# define FJCORE_VERSION_NUMBER  30304 
 #endif
 #ifndef FJCORE_VERSION_PATCHLEVEL 
-# define FJCORE_VERSION_PATCHLEVEL  3 
+# define FJCORE_VERSION_PATCHLEVEL  4 
 #endif
 #endif
 #ifndef __FJCORE_CONFIG_H__
@@ -252,7 +254,7 @@ FJCORE_END_NAMESPACE
 #ifndef __FJCORE_FJCORE_DEPRECATED_HH__
 #define __FJCORE_FJCORE_DEPRECATED_HH__
 #ifndef SWIG
-#if defined(FJCORE_HAVE_CXX14_DEPRECATED) and (!defined(__FJCORE__))
+#if defined(FJCORE_HAVE_CXX14_DEPRECATED) && (!defined(__FJCORE__))
 # define FJCORE_DEPRECATED               [[deprecated]]
 # define FJCORE_DEPRECATED_MSG(message)  [[deprecated(message)]]
 #elif defined(FJCORE_HAVE_GNUCXX_DEPRECATED)
