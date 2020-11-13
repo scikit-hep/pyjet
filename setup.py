@@ -98,7 +98,7 @@ class install(_install):
             external_fastjet = True
         _install.finalize_options(self)
 
-extras_require = {"dev": ["pytest"]}
+extras_require = {"dev": ["pytest"], "test": ["pytest"]}
 
 setup(
     name='pyjet',
