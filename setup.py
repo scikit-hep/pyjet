@@ -5,17 +5,9 @@ import sys
 import platform
 import subprocess
 
-from setuptools import setup, Extension, find_packages
+from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext as _build_ext
 from setuptools.command.install import install as _install
-
-local_path = os.path.dirname(os.path.abspath(__file__))
-
-
-def get_version():
-    g = {}
-    exec(open(os.path.join("pyjet", "_version.py")).read(), g)
-    return g["__version__"]
 
 
 def fastjet_prefix(fastjet_config='fastjet-config'):
@@ -98,55 +90,20 @@ class install(_install):
             external_fastjet = True
         _install.finalize_options(self)
 
-extras_require = {"dev": ["pytest"], "test": ["pytest"]}
+extras = {"dev": ["pytest"], "test": ["pytest"]}
+extras["all"] = sum(extras.values(), [])
 
 setup(
-    name='pyjet',
-    version=get_version(),
-    description='The interface between FastJet and NumPy',
-    long_description=''.join(open(os.path.join(local_path, 'README.rst')).readlines()),
-    author='Noel Dawe',
-    author_email='noel@dawe.me',
-    maintainer='the Scikit-HEP admins',
-    maintainer_email='scikit-hep-admins@googlegroups.com',
-    license='GPLv3',
-    url='http://github.com/scikit-hep/pyjet',
-    packages=find_packages(exclude='tests'),
-    package_data={
-        'pyjet': [
-            'testdata/*.dat',
-            'src/*.pxd', 'src/*.h', 'src/*.cpp',
-        ],
-    },
+    #package_data={
+    #    'pyjet': [
+    #        'testdata/*.dat',
+    #        'src/*.pxd', 'src/*.h', 'src/*.cpp',
+    #    ],
+    #},
     ext_modules=[libpyjet],
     cmdclass={
         'build_ext': build_ext,
         'install': install,
     },
-    classifiers=[
-        'Intended Audience :: Science/Research',
-        'Intended Audience :: Developers',
-        'Topic :: Software Development',
-        'Topic :: Scientific/Engineering',
-        'Operating System :: POSIX',
-        'Operating System :: Unix',
-        'Operating System :: MacOS',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: C++',
-        'Programming Language :: Cython',
-        'Development Status :: 5 - Production/Stable',
-    ],
-    tests_require=extras_require["dev"],
-    extras_require=extras_require,
-    install_requires=['numpy>=1.13.3'],
-    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
-    zip_safe=False,
+    extras_require=extras,
 )
