@@ -1,5 +1,9 @@
 // fjcore -- extracted from FastJet v3.3.4 (http://fastjet.fr)
 //
+// Patch: must be first to support Windows
+#include <algorithm>
+#include <iterator>
+//
 // fjcore constitutes a digest of the main FastJet functionality.
 // The files fjcore.hh and fjcore.cc are meant to provide easy access to these 
 // core functions, in the form of single files and without the need of a full 
