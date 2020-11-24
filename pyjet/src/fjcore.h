@@ -1,6 +1,6 @@
 // fjcore -- extracted from FastJet v3.3.4 (http://fastjet.fr)
 //
-// Patch: must be first to support Windows
+// Patch: must be here to support Windows
 #include <algorithm>
 #include <iterator>
 //
