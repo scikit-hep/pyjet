@@ -5,4 +5,5 @@ include *.py
 include README.rst
 include COPYING
 include pyproject.toml
+include pyjet/VERSION.txt
 global-exclude *.pyc *.pyo *.pyd

@@ -4,6 +4,7 @@
 #ifdef PYJET_STANDALONE
 
 #define _USING_EXTERNAL_FASTJET 0
+
 #include "fjcore.h"
 namespace fastjet = fjcore;
 
