@@ -73,7 +73,7 @@ class build_ext(_build_ext):
             libpyjet.library_dirs = [os.path.join(prefix, "lib")]
             libpyjet.runtime_library_dirs = libpyjet.library_dirs
             libpyjet.libraries = "fastjettools", "fastjet", "CGAL", "gmp"
-            if os.platform.startswith("darwin"):
+            if sys.platform.startswith("darwin"):
                 libpyjet.extra_link_args.append(
                     "-Wl,-rpath," + os.path.join(prefix, "lib")
                 )
