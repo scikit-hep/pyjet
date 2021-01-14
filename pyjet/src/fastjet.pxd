@@ -66,11 +66,24 @@ cdef extern from "fastjet.h" namespace "fastjet":
         ee_genkt_algorithm,
         plugin_algorithm,
         undefined_jet_algorithm
+           
+    cdef enum RecombinationScheme "fastjet::RecombinationScheme":
+         E_scheme, 
+         pt_scheme,        
+         pt2_scheme,
+         Et_scheme,
+         Et2_scheme, 
+         BIpt_scheme,      
+         BIpt2_scheme, 
+         WTA_pt_scheme, 
+         WTA_modp_scheme, 
+         external_scheme 
 
     cdef cppclass JetDefinition:
         JetDefinition(JetAlgorithm) except +raise_py_error
         JetDefinition(JetAlgorithm, double R) except +raise_py_error
         JetDefinition(JetAlgorithm, double R, double extra) except +raise_py_error
+        void set_recombination_scheme(RecombinationScheme recomb_scheme)
 
     cdef enum AreaType "fastjet::AreaType":
         invalid_area,
