@@ -76,8 +76,7 @@ cdef extern from "fastjet.h" namespace "fastjet":
          BIpt_scheme,      
          BIpt2_scheme, 
          WTA_pt_scheme, 
-         WTA_modp_scheme, 
-         external_scheme 
+         WTA_modp_scheme
 
     cdef cppclass JetDefinition:
         JetDefinition(JetAlgorithm) except +raise_py_error

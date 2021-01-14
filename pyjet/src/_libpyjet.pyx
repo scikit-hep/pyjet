@@ -68,8 +68,7 @@ RECOMB_SCHEME = {
   'BIpt_scheme': 5,
   'BIpt2_scheme': 6,
   'WTA_pt_scheme': 7,
-  'WTA_modp_scheme': 8,
-  'external_scheme ':  99
+  'WTA_modp_scheme': 8
 }
 
 cdef class JetDefinition:
