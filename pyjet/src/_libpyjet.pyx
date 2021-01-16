@@ -60,15 +60,15 @@ JET_AREA = {
 }
 
 RECOMB_SCHEME = {
-  'E_scheme': 0,
-  'pt_scheme': 1,
-  'pt2_scheme': 2,
-  'Et_scheme': 3,
-  'Et2_scheme': 4,
-  'BIpt_scheme': 5,
-  'BIpt2_scheme': 6,
-  'WTA_pt_scheme': 7,
-  'WTA_modp_scheme': 8
+  'E_scheme': fastjet.E_scheme,
+  'pt_scheme': fastjet.pt_scheme,
+  'pt2_scheme': fastjet.pt2_scheme,
+  'Et_scheme': fastjet.Et_scheme,
+  'Et2_scheme': fastjet.Et2_scheme,
+  'BIpt_scheme': fastjet.BIpt_scheme,
+  'BIpt2_scheme': fastjet.BIpt2_scheme,
+  'WTA_pt_scheme': fastjet.WTA_pt_scheme,
+  'WTA_modp_scheme': fastjet.WTA_modp_scheme
 }
 
 cdef class JetDefinition:
