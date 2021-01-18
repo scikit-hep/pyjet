@@ -59,6 +59,17 @@ JET_AREA = {
     'voronoi': fastjet.voronoi_area,
 }
 
+RECOMB_SCHEME = {
+  'E_scheme': fastjet.E_scheme,
+  'pt_scheme': fastjet.pt_scheme,
+  'pt2_scheme': fastjet.pt2_scheme,
+  'Et_scheme': fastjet.Et_scheme,
+  'Et2_scheme': fastjet.Et2_scheme,
+  'BIpt_scheme': fastjet.BIpt_scheme,
+  'BIpt2_scheme': fastjet.BIpt2_scheme,
+  'WTA_pt_scheme': fastjet.WTA_pt_scheme,
+  'WTA_modp_scheme': fastjet.WTA_modp_scheme
+}
 
 cdef class JetDefinition:
     cdef fastjet.JetDefinition* jdef
@@ -66,10 +77,11 @@ cdef class JetDefinition:
     def __cinit__(self):
         self.jdef = NULL
 
-    def __init__(self, algo='undefined', R=None, p=None):
+    def __init__(self, algo='undefined', R=None, p=None, recomb_scheme=None):
         if self.jdef != NULL:
             del self.jdef
         cdef fastjet.JetAlgorithm _algo
+        cdef fastjet.RecombinationScheme _recomb_scheme
         try:
             _algo = JET_ALGORITHM[algo]
         except KeyError:
@@ -82,6 +94,14 @@ cdef class JetDefinition:
         else:
             self.jdef = new fastjet.JetDefinition(_algo)
 
+        if recomb_scheme is not None:
+            try:
+                _recomb_scheme = RECOMB_SCHEME[recomb_scheme]
+            except KeyError:
+                raise ValueError("{} is not a valid recombination scheme".format(recomb_scheme))
+                
+            self.jdef.set_recombination_scheme(_recomb_scheme)
+            
     def __dealloc__(self):
         del self.jdef
 
