@@ -43,17 +43,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install Visual C++ for Python 2.7
-      if: runner.os == 'Windows'
-      run:  choco install vcpython27 -f -y
-
     - uses: pypa/cibuildwheel@v1.11.0
       env:
         CIBW_TEST_EXTRAS: test
         CIBW_TEST_COMMAND: "pytest {project}/tests"
         CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
         CIBW_MANYLINUX_I686_IMAGE: manylinux1
-        CIBW_SKIP: pp*
+        CIBW_SKIP: pp* cp27-*-win*
 
     - name: Show files
       run: ls -lh wheelhouse
