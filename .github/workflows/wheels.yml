@@ -47,7 +47,7 @@ jobs:
       if: runner.os == 'Windows'
       run:  choco install vcpython27 -f -y
 
-    - uses: pypa/cibuildwheel@v1.10.0
+    - uses: pypa/cibuildwheel@v1.11.0
       env:
         CIBW_TEST_EXTRAS: test
         CIBW_TEST_COMMAND: "pytest {project}/tests"
@@ -79,7 +79,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: pypa/cibuildwheel@v1.10.0
+    - uses: pypa/cibuildwheel@v1.11.0
       env:
         CIBW_SKIP: cp*
 
