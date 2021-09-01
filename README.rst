@@ -1,13 +1,10 @@
-.. -*- mode: rst -*-
-****************************************************
-:warning:pyjet is deprecated and superseded:warning:
-****************************************************
+.. warning:: **pyjet is deprecated and superseded**
 
-``pyjet`` has been maintained minimalistically over the past couple of years.
-In the meantime a new project started, to provide a modern Pythonic jet-finding package in the Scikit-HEP ecosystem.
+   * **pyjet** has been maintained minimalistically over the past couple of years.
+     In the meantime a new project started, to provide a modern Pythonic jet-finding package in the Scikit-HEP ecosystem.
 
-* **fastjet** provides official FastJet bindings to Python and Awkward Array.
-  `Refer to the GitHub repository for details. <https://github.com/scikit-hep/fastjet>`_
+   * **fastjet** provides official FastJet bindings to Python and Awkward Array.
+     `Refer to the GitHub repository for details. <https://github.com/scikit-hep/fastjet>`_
 
 pyjet: the interface between FastJet and NumPy
 ==============================================
