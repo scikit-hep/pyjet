@@ -43,7 +43,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: pypa/cibuildwheel@v1.11.0
+    - uses: pypa/cibuildwheel@v2.4.0
       env:
         CIBW_TEST_EXTRAS: test
         CIBW_TEST_COMMAND: "pytest {project}/tests"
@@ -75,7 +75,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: pypa/cibuildwheel@v1.11.0
+    - uses: pypa/cibuildwheel@v2.4.0
       env:
         CIBW_SKIP: cp*
 
