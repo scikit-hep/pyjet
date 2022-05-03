@@ -39,7 +39,7 @@ and should cite the papers listed `here <http://fastjet.fr/about.html>`_.
 Strict dependencies
 -------------------
 
-- `Python <http://docs.python-guide.org/en/latest/starting/installation/>`__ (2.7+, 3.6+)
+- `Python <http://docs.python-guide.org/en/latest/starting/installation/>`__ (2.7+, 3.7+)
 - `Numpy <https://scipy.org/install.html>`__
 
 Getting started
