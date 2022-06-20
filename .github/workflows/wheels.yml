@@ -49,7 +49,7 @@ jobs:
         CIBW_TEST_COMMAND: "pytest {project}/tests"
         CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
         CIBW_MANYLINUX_I686_IMAGE: manylinux1
-        CIBW_SKIP: pp* cp27-*-win*
+        CIBW_SKIP: pp* cp27-*-win* cp36-*
 
     - name: Show files
       run: ls -lh wheelhouse
