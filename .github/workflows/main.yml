@@ -20,7 +20,7 @@ jobs:
     name: Dev ${{ matrix.python-version }} • ${{ matrix.runs-on }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Setup python
       uses: actions/setup-python@v3
       with:
@@ -36,7 +36,7 @@ jobs:
     container: python:3.8
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Install FastJet
       run: apt-get update && apt-get install -y libfastjet-dev libfastjetplugins-dev libfastjettools-dev libcgal-dev
       # Build dependencies get --global-option! So install any that have to build first here.
