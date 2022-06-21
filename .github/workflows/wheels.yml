@@ -12,6 +12,10 @@ on:
     types:
       - published
 
+concurrency:
+  group: wheels-${{ github.ref }}
+  cancel-in-progress: true
+
 
 jobs:
   build_sdist:
@@ -45,11 +49,7 @@ jobs:
 
     - uses: pypa/cibuildwheel@2.7.0
       env:
-        CIBW_TEST_EXTRAS: test
-        CIBW_TEST_COMMAND: "pytest {project}/tests"
-        CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
-        CIBW_MANYLINUX_I686_IMAGE: manylinux1
-        CIBW_SKIP: pp* cp36-*
+        CIBW_BUILD: cp*
 
     - name: Show files
       run: ls -lh wheelhouse
@@ -77,7 +77,7 @@ jobs:
 
     - uses: pypa/cibuildwheel@2.7.0
       env:
-        CIBW_SKIP: pp* cp27-* cp36-*
+        CIBW_BUILD: pp*
 
     - name: Show files
       run: ls -lh wheelhouse

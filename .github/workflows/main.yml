@@ -1,6 +1,17 @@
 name: Main
 
-on: [push]
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -9,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "pypy-3.7"]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "pypy-3.7"]
         runs-on: [ubuntu-latest]
         include:
           - python-version: 3.7

@@ -5,3 +5,18 @@ requires = [
     "oldest-supported-numpy; python_version>='3.7'",
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+skip = "*musllinux*"
+test-extras = "test"
+test-command = "pytest {project}/tests"
+
+[[tool.cibuildwheel.overrides]]
+select = "cp37-"
+manylinux-x86_64-image = "manylinux1"
+manylinux-i686-image = "manylinux1"
+
+[[tool.cibuildwheel.overrides]]
+select = "cp3{8,9}-"
+manylinux-x86_64-image = "manylinux2010"
+manylinux-i686-image = "manylinux2010"
