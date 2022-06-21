@@ -12,13 +12,17 @@ on:
     types:
       - published
 
+concurrency:
+  group: wheels-${{ github.ref }}
+  cancel-in-progress: true
+
 
 jobs:
   build_sdist:
     name: Build SDist
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Build SDist
       run: pipx run --spec build pyproject-build --sdist
@@ -26,7 +30,7 @@ jobs:
     - name: Check metadata
       run: pipx run twine check dist/*
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         path: dist/*.tar.gz
 
@@ -41,15 +45,11 @@ jobs:
 
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - uses: pypa/cibuildwheel@2.7.0
       env:
-        CIBW_TEST_EXTRAS: test
-        CIBW_TEST_COMMAND: "pytest {project}/tests"
-        CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
-        CIBW_MANYLINUX_I686_IMAGE: manylinux1
-        CIBW_SKIP: pp* cp27-*-win* cp36-*
+        CIBW_BUILD: cp*
 
     - name: Show files
       run: ls -lh wheelhouse
@@ -60,7 +60,7 @@ jobs:
       shell: bash
 
     - name: Upload wheels
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         path: wheelhouse/*.whl
 
@@ -73,11 +73,11 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - uses: pypa/cibuildwheel@2.7.0
       env:
-        CIBW_SKIP: cp*
+        CIBW_BUILD: pp*
 
     - name: Show files
       run: ls -lh wheelhouse
@@ -88,7 +88,7 @@ jobs:
       shell: bash
 
     - name: Upload wheels
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         path: wheelhouse/*.whl
 
@@ -100,14 +100,14 @@ jobs:
     if: github.event_name == 'release' && github.event.action == 'published'
 
     steps:
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v3
 
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v3
       with:
         name: artifact
         path: dist
 
-    - uses: pypa/gh-action-pypi-publish@v1.4.1
+    - uses: pypa/gh-action-pypi-publish@v1.5.0
       with:
         user: __token__
         password: ${{ secrets.pypi_password }}
