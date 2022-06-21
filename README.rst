@@ -1,4 +1,7 @@
-.. warning:: **pyjet is deprecated and superseded**
+.. -*- mode: rst -*-
+***************************************************************************
+:warning:pyjet is deprecated, largely unmaintained, and superseded:warning:
+***************************************************************************
 
    * **pyjet** has been maintained minimalistically over the past couple of years.
      In the meantime a new project started, to provide a modern Pythonic jet-finding package in the Scikit-HEP ecosystem.
