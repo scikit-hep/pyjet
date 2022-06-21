@@ -77,7 +77,7 @@ jobs:
 
     - uses: pypa/cibuildwheel@2.7.0
       env:
-        CIBW_SKIP: cp*
+        CIBW_SKIP: pp* cp27-*-win* cp36-*
 
     - name: Show files
       run: ls -lh wheelhouse
